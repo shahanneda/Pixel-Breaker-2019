@@ -61,7 +61,21 @@ public class TileManager : MonoBehaviour
         return new Vector2(transform.position.x + x * tileSpaceX, transform.position.y + y * tileSpaceY);
     }
     public void HandleTileClick(Tile tile){ // Here is where we decide what we should do wheter that a rotate or somethin like that;
-        tile.gameObject.SetActive(false);
+        //tile.gameObject.SetActive(false);
+        RotateTilesAround3x3(tile.X,tile.Y);
+    }
+
+    public void RotateTilesAround3x3(int x, int y){//TODO: find programgbe way to this if we want to do more than 3x3
+        Tile tempTile = tiles[x-1,y-1];
+        tiles[x - 1, y - 1] = tiles[x, y-1];
+        tiles[x, y] = tiles[x + 1, y-1];
+        tiles[x + 1, y - 1] = tiles[x + 1, y];
+        tiles[x + 1, y] = tiles[x + 1, y + 1];
+        tiles[x + 1, y + 1] = tiles[x, y + 1];
+        tiles[x, y + 1] = tiles[x - 1, y + 1];
+        tiles[x - 1, y + 1] = tiles[x - 1, y - 1];
+        tiles[x - 1, y] = tempTile;
+        RedrawTilesFromLocal();
     }
 
 

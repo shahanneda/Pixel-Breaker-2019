@@ -15,7 +15,7 @@ public class Tile : MonoBehaviour
     public void Start()
     {
         //<TESTING>
-        GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+        GetComponent<SpriteRenderer>().color = new Color(Random.Range(0.2f, 0.7f), Random.Range(0.2f, 0.8f), 0.5f);
          
 
         //</testing>
