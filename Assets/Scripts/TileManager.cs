@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class TileManager : MonoBehaviour
 {
-	//List<Tile> tiles = new ArrayList<Tile>();
+    List<Tile> tiles = new List<Tile>();
     // Start is called before the first frame update
     void Start()
     {
 		foreach(Transform t in transform){
-			//tiles.add(t.<Tile>());
-
+            tiles.Add(t.GetComponent<Tile>());
 		}
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
