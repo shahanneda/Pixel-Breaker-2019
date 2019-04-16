@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-       
+    public static TileManager manager;
+    public int X; // TODO: mayber rethink this
+    public int Y;
+    //THIS CLASS IS HERE JUST FOR THE BUTTON CLICKS, BUT TILES THEMSELVES SHOULD NOT HANDLE ANY ACTIONS, ISNTEAD
+    //THEY SHOULD REPORT THAT MESSAGE TO THEIR MANAGER!
+    void OnMouseDown(){
+        manager.HandleTileClick(this);
     }
-
-    // Update is called once per frame
-    void Update()
+    public void Start()
     {
-        
+        //<TESTING>
+        GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+         
+
+        //</testing>
     }
 }
