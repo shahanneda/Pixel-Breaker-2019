@@ -52,6 +52,8 @@ public class TileManager : MonoBehaviour
             for (int y = 0; y < tiles.GetLength(1); y++)
             {
                 tiles[x, y].transform.position = tileGamePosVec(x, y);//Update pos from local
+                tiles[x, y].X = x;
+                tiles[x, y].Y = y;
             }
         }
 
@@ -67,8 +69,8 @@ public class TileManager : MonoBehaviour
 
     public void RotateTilesAround3x3(int x, int y){//TODO: find programgbe way to this if we want to do more than 3x3
         Tile tempTile = tiles[x-1,y-1];
-        tiles[x - 1, y - 1] = tiles[x, y-1];
-        tiles[x, y] = tiles[x + 1, y-1];
+        tiles[x - 1, y - 1] = tiles[x, y - 1];
+        tiles[x, y - 1] = tiles[x + 1, y-1];
         tiles[x + 1, y - 1] = tiles[x + 1, y];
         tiles[x + 1, y] = tiles[x + 1, y + 1];
         tiles[x + 1, y + 1] = tiles[x, y + 1];
