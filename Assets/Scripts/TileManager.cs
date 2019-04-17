@@ -91,10 +91,7 @@ public class TileManager : MonoBehaviour
                 break;
             case Options.DestroyWithColors:
                 DestroyAllTilesOfSameColorAround(tile.X, tile.Y);
-                foreach(Tile t in destructionQueue.ToArray()){
-                    DestroyTile(t.X, t.Y);
-                    destructionQueue.Remove(t);
-                }
+
                 break;
         }
        
@@ -121,84 +118,43 @@ public class TileManager : MonoBehaviour
     }
     List<Tile> destructionQueue = new List<Tile>();
 
-    private void DestroyAllTilesOfSameColorAround(int x, int y){//TODO: get this fully working, right now its only checking in a 3x3, it was meant to be a recursive function but it keeps giving stack overflows when i do that
+    private void DestroyAllTilesOfSameColorAround(int x, int y){
+        CheckNearbyTileColors(x,y);
+        ApplyDestructionQueue();
+
+    }
+    private void ApplyDestructionQueue(){
+        foreach (Tile t in destructionQueue.ToArray())
+        {
+            DestroyTile(t.X, t.Y);
+            destructionQueue.Remove(t);
+        }
+    }
+    private void CheckNearbyTileColors(int x, int y){
         Color color = tiles[x, y].color;
         destructionQueue.Add(tiles[x, y]);
-
-        if(x+1 < tiles.GetLength(0) && tiles[x+1,y].color == color && destructionQueue.IndexOf(tiles[x + 1, y]) == -1)
-        {//right
-
-            DestroyAllTilesOfSameColorAround(x+1,y);
-        }
-
-        if (x - 1 >0 && tiles[x - 1, y].color == color && destructionQueue.IndexOf(tiles[x - 1, y]) == -1)//left
+        if (x + 1 < tiles.GetLength(0) && tiles[x + 1, y].color == color && destructionQueue.IndexOf(tiles[x + 1, y]) == -1)//right
         {
-            DestroyAllTilesOfSameColorAround(x - 1, y);
+
+            CheckNearbyTileColors(x + 1, y);
         }
 
-        if (y+1 < tiles.GetLength(1) && tiles[x , y + 1].color == color && destructionQueue.IndexOf(tiles[x , y + 1]) == -1)//top
+        if (x - 1 > 0 && tiles[x - 1, y].color == color && destructionQueue.IndexOf(tiles[x - 1, y]) == -1)//left
         {
-            DestroyAllTilesOfSameColorAround(x, y + 1);
+            CheckNearbyTileColors(x - 1, y);
         }
 
-        if (y-1 > 0 && tiles[x, y - 1].color == color && destructionQueue.IndexOf(tiles[x, y - 1]) == -1)//bottom
+        if (y + 1 < tiles.GetLength(1) && tiles[x, y + 1].color == color && destructionQueue.IndexOf(tiles[x, y + 1]) == -1)//top
         {
-            DestroyAllTilesOfSameColorAround(x, y - 1);
+            CheckNearbyTileColors(x, y + 1);
         }
 
-
-    }
-    private void DestroyAllTilesaaOfSameColorAround(int x, int y,int direction)//0 = norht 1 = east 3 = south  4 = east
-    {//TODO: get this fully working, right now its only checking in a 3x3, it was meant to be a recursive function but it keeps giving stack overflows when i do that
-        Color color = tiles[x, y].color;
-        DestroyTile(x, y);
-
-        if (tiles[x + 1, y].color == color)
-        {//right
-            DestroyTile(x + 1, y);
-        }
-
-        if (tiles[x - 1, y].color == color)//left
+        if (y - 1 > 0 && tiles[x, y - 1].color == color && destructionQueue.IndexOf(tiles[x, y - 1]) == -1)//bottom
         {
-            DestroyTile(x - 1, y);
+            CheckNearbyTileColors(x, y - 1);
         }
-
-        if (tiles[x, y + 1].color == color)//top
-        {
-            DestroyTile(x, y + 1);
-        }
-
-        if (tiles[x, y - 1].color == color)//bottom
-        {
-            DestroyTile(x, y + 1);
-        }
-
-
-        //if (tiles[x + 1, y - 1].color == color)//bottom right
-        //{
-        //    DestroyTile(x, y + 1);
-        //}
-
-        //if (tiles[x - 1, y - 1].color == color)//bottom left
-        //{
-        //    DestroyTile(x, y + 1);
-        //}
-
-        //if (tiles[x + 1, y + 1].color == color)//top right
-        //{
-        //    DestroyTile(x, y + 1);
-        //}
-
-        //if (tiles[x -1, y + 1].color == color)//top left
-        //{
-        //    DestroyTile(x, y + 1);
-        //}
-
     }
     private void DestroyTile(int x, int y){
-        //Destroy(tiles[x, y].gameObject);
-       
-
         Destroy(tiles[x, y].gameObject);
         //THIS IS SO ALL BLOCK ABOVE FALL DOWN
         for (int scalingY = 0; scalingY < tiles.GetLength(1)-y-1; scalingY++){
