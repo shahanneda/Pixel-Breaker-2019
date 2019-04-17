@@ -77,16 +77,15 @@ public class TileManager : MonoBehaviour
     }
 
     public void RotateTilesAround3x3(int x, int y){//TODO: find programgbe way to this if we want to do more than 3x3
-       
+        if (y > tiles.GetLength(1) || y - 1 < 0 || x > tiles.GetLength(0) || x-1 < 0)//TODO: FIX THIS FOR DETECTING EDGE
+            return;
+
         Tile tempTile = tiles[x-1,y-1];
         tiles[x - 1, y - 1] = tiles[x, y - 1];
         tiles[x, y - 1] = tiles[x + 1, y-1];
         tiles[x + 1, y - 1] = tiles[x + 1, y];
         tiles[x + 1, y] = tiles[x + 1, y + 1];
         tiles[x + 1, y + 1] = tiles[x, y + 1];
-
-
-
         tiles[x, y + 1] = tiles[x -1, y + 1];
         tiles[x - 1, y + 1] = tiles[x -1, y];
         tiles[x - 1, y] = tempTile;
