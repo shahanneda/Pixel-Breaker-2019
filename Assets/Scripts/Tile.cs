@@ -18,6 +18,9 @@ public class Tile : MonoBehaviour
 
     [HideInInspector]
     public Vector2 shouldMoveTo = Vector2.positiveInfinity;
+    [HideInInspector]
+    public Color color;
+
     //THIS CLASS IS HERE JUST FOR THE BUTTON CLICKS, BUT TILES THEMSELVES SHOULD NOT HANDLE ANY ACTIONS, ISNTEAD
     //THEY SHOULD REPORT THAT MESSAGE TO THEIR MANAGER!
     void OnMouseDown(){
@@ -28,6 +31,7 @@ public class Tile : MonoBehaviour
 
         if(!isDead){
             GetComponent<SpriteRenderer>().color = manager.colors[Random.Range(0, manager.colors.Length - 1)];
+            this.color = GetComponent<SpriteRenderer>().color;
         }
 
          

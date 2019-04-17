@@ -14,7 +14,7 @@ public class TileManager : MonoBehaviour
 
     public Color[] colors;
 
-    enum Options {RotateClockWise, RotateCounterClockwise, Destroy};
+    enum Options {RotateClockWise, RotateCounterClockwise, Destroy,DestroyWithColors};
 
     Options optionSelected;
 
@@ -89,6 +89,9 @@ public class TileManager : MonoBehaviour
             case Options.Destroy:
                 DestroyTile(tile.X, tile.Y);
                 break;
+            case Options.DestroyWithColors:
+                DestroyAllTilesOfSameColorAround(tile.X, tile.Y);
+                break;
         }
        
     }
@@ -112,7 +115,50 @@ public class TileManager : MonoBehaviour
     public void SetOption(int opt){
         optionSelected = (Options)opt;
     }
+    private void DestroyAllTilesOfSameColorAround(int x, int y){//TODO: get this fully working, right now its only checking in a 3x3, it was meant to be a recursive function but it keeps giving stack overflows when i do that
+        Color color = tiles[x, y].color;
+        DestroyTile(x, y);
 
+        if(tiles[x+1,y].color == color){//right
+            DestroyTile(x+1,y);
+        }
+
+        if (tiles[x - 1, y].color == color)//left
+        {
+            DestroyTile(x - 1, y);
+        }
+
+        if (tiles[x , y + 1].color == color)//top
+        {
+            DestroyTile(x, y + 1);
+        }
+
+        if (tiles[x, y - 1].color == color)//bottom
+        {
+            DestroyTile(x, y + 1);
+        }
+
+        if (tiles[x + 1, y - 1].color == color)//bottom right
+        {
+            DestroyTile(x, y + 1);
+        }
+
+        if (tiles[x - 1, y - 1].color == color)//bottom left
+        {
+            DestroyTile(x, y + 1);
+        }
+
+        if (tiles[x + 1, y + 1].color == color)//top right
+        {
+            DestroyTile(x, y + 1);
+        }
+
+        if (tiles[x -1, y + 1].color == color)//top left
+        {
+            DestroyTile(x, y + 1);
+        }
+
+    }
     private void DestroyTile(int x, int y){
         //Destroy(tiles[x, y].gameObject);
        
