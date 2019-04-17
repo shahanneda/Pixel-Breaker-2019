@@ -14,6 +14,7 @@ public class Tile : MonoBehaviour
     public float speed = 1f;
 
     public bool inAnimation = false;
+    private bool isDead = false;
 
     [HideInInspector]
     public Vector2 shouldMoveTo = Vector2.positiveInfinity;
@@ -22,18 +23,27 @@ public class Tile : MonoBehaviour
     void OnMouseDown(){
         manager.HandleTileClick(this);
     }
-    public void Start()
+    public void OnEnable()
     {
-        //<TESTING>
-        GetComponent<SpriteRenderer>().color = manager.colors[Random.Range(0,manager.colors.Length-1)];
+
+        if(!isDead){
+            GetComponent<SpriteRenderer>().color = manager.colors[Random.Range(0, manager.colors.Length - 1)];
+        }
+
          
 
-        //</testing>
     }
     public void Update()
     {
         if(inAnimation){
             transform.position = Vector2.Lerp(transform.position, shouldMoveTo, speed * Time.deltaTime);
         }
+        if(Vector2.Distance(transform.position, shouldMoveTo) < 0.01f){
+            inAnimation = false;
+        }
+    }
+    public void setIsDead(){
+        isDead = true;
+        GetComponent<SpriteRenderer>().enabled = false;
     }
 }

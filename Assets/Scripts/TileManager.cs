@@ -14,6 +14,10 @@ public class TileManager : MonoBehaviour
 
     public Color[] colors;
 
+    enum Options {RotateClockWise, RotateCounterClockwise, Destroy};
+
+    Options optionSelected;
+
     Tile[,] tiles;
     /*
      * @ADAM, whenever we want to move the tiles, if we just move the items of this array, and call RedrawTilesFromLocal(), everything should be handeld
@@ -49,12 +53,13 @@ public class TileManager : MonoBehaviour
 
     }
     /**
-     * summary this method is suppsued to move all of the tiles to their correct position in the game world after
+     * summary: this method is suppsued to move all of the tiles to their correct position in the game world after
      * we rotate the local grid or something  
      * CALL THIS WHENEVER YOU CHANGE THE BOARD
 
      */
     private void RedrawTilesFromLocal(){
+        //Note to self If proframce becomes issue think about not doing this every time;
         for (int x = 0; x < tiles.GetLength(0); x++)
         {
             for (int y = 0; y < tiles.GetLength(1); y++)
@@ -75,7 +80,17 @@ public class TileManager : MonoBehaviour
     }
     public void HandleTileClick(Tile tile){ // Here is where we decide what we should do wheter that a rotate or somethin like that;
         //tile.gameObject.SetActive(false);
-        RotateTilesAround3x3(tile.X,tile.Y);
+        switch(optionSelected){
+            case Options.RotateClockWise:
+                RotateTilesAround3x3(tile.X, tile.Y);
+                break;
+            case Options.RotateCounterClockwise:
+                break;
+            case Options.Destroy:
+                DestroyTile(tile.X, tile.Y);
+                break;
+        }
+       
     }
 
     public void RotateTilesAround3x3(int x, int y){//TODO: find programgbe way to this if we want to do more than 3x3
@@ -94,5 +109,24 @@ public class TileManager : MonoBehaviour
         RedrawTilesFromLocal();
     }
 
+    public void SetOption(int opt){
+        optionSelected = (Options)opt;
+    }
+
+    private void DestroyTile(int x, int y){
+        //Destroy(tiles[x, y].gameObject);
+       
+
+        Destroy(tiles[x, y].gameObject);
+        //THIS IS SO ALL BLOCK ABOVE FALL DOWN
+        for (int scalingY = 0; scalingY < tiles.GetLength(1)-y-1; scalingY++){
+            Tile empty = Instantiate(tilePrefab, this.transform).GetComponent<Tile>();
+            empty.setIsDead();
+            tiles[x, y+ scalingY] = tiles[x, y + 1 + scalingY];
+            tiles[x, y + 1 + scalingY] = empty;
+        }
+        RedrawTilesFromLocal();
+
+    }
 
 }
