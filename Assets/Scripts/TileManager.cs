@@ -12,6 +12,8 @@ public class TileManager : MonoBehaviour
 
     public GameObject tilePrefab;
 
+    public Color[] colors;
+
     Tile[,] tiles;
     /*
      * @ADAM, whenever we want to move the tiles, if we just move the items of this array, and call RedrawTilesFromLocal(), everything should be handeld

@@ -5,10 +5,17 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     public static TileManager manager;
-    public int X; // TODO: mayber rethink this
+
+    [HideInInspector]
+    public int X; 
+    [HideInInspector]
     public int Y;
+
     public float speed = 1f;
+
     public bool inAnimation = false;
+
+    [HideInInspector]
     public Vector2 shouldMoveTo = Vector2.positiveInfinity;
     //THIS CLASS IS HERE JUST FOR THE BUTTON CLICKS, BUT TILES THEMSELVES SHOULD NOT HANDLE ANY ACTIONS, ISNTEAD
     //THEY SHOULD REPORT THAT MESSAGE TO THEIR MANAGER!
@@ -18,7 +25,7 @@ public class Tile : MonoBehaviour
     public void Start()
     {
         //<TESTING>
-        GetComponent<SpriteRenderer>().color = new Color(Random.Range(0.2f, 0.7f), Random.Range(0.2f, 0.8f), Random.Range(0.2f, 0.8f));
+        GetComponent<SpriteRenderer>().color = manager.colors[Random.Range(0,manager.colors.Length-1)];
          
 
         //</testing>

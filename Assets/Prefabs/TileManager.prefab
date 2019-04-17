@@ -98,3 +98,10 @@ MonoBehaviour:
   tileSpaceY: 1
   tilePrefab: {fileID: 7295061791919763040, guid: c9b3c3349c9584ba9bc9cb56edbe0c9c,
     type: 3}
+  colors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0.9837978, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0.3940722, b: 0, a: 1}
+  - {r: 0, g: 0.93359566, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0.1465373, a: 1}
+  - {r: 1, g: 0, b: 0.58885527, a: 1}
