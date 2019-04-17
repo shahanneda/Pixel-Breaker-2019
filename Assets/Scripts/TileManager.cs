@@ -13,6 +13,10 @@ public class TileManager : MonoBehaviour
     public GameObject tilePrefab;
 
     Tile[,] tiles;
+    /*
+     * @ADAM, whenever we want to move the tiles, if we just move the items of this array, and call RedrawTilesFromLocal(), everything should be handeld
+     * 
+     */
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +48,9 @@ public class TileManager : MonoBehaviour
     }
     /**
      * summary this method is suppsued to move all of the tiles to their correct position in the game world after
-     * we rotate the local grid or something                
+     * we rotate the local grid or something  
+     * CALL THIS WHENEVER YOU CHANGE THE BOARD
+
      */
     private void RedrawTilesFromLocal(){
         for (int x = 0; x < tiles.GetLength(0); x++)
@@ -52,7 +58,9 @@ public class TileManager : MonoBehaviour
             for (int y = 0; y < tiles.GetLength(1); y++)
             {
                 tiles[x, y].shouldMoveTo = tileGamePosVec(x, y);//Update pos from local
+
                 tiles[x, y].inAnimation = true;
+
                 tiles[x, y].X = x;
                 tiles[x, y].Y = y;
             }
@@ -69,15 +77,18 @@ public class TileManager : MonoBehaviour
     }
 
     public void RotateTilesAround3x3(int x, int y){//TODO: find programgbe way to this if we want to do more than 3x3
-        //TODO: think about how to maybe animate this in the future?
+       
         Tile tempTile = tiles[x-1,y-1];
         tiles[x - 1, y - 1] = tiles[x, y - 1];
         tiles[x, y - 1] = tiles[x + 1, y-1];
         tiles[x + 1, y - 1] = tiles[x + 1, y];
         tiles[x + 1, y] = tiles[x + 1, y + 1];
         tiles[x + 1, y + 1] = tiles[x, y + 1];
-        tiles[x, y + 1] = tiles[x - 1, y + 1];
-        tiles[x - 1, y + 1] = tiles[x - 1, y - 1];
+
+
+
+        tiles[x, y + 1] = tiles[x -1, y + 1];
+        tiles[x - 1, y + 1] = tiles[x -1, y];
         tiles[x - 1, y] = tempTile;
         RedrawTilesFromLocal();
     }

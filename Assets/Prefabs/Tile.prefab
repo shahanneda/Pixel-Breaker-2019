@@ -95,6 +95,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   X: 0
   Y: 0
+  speed: 10
+  inAnimation: 0
+  shouldMoveTo: {x: 0, y: 0}
 --- !u!61 &7850211347651931055
 BoxCollider2D:
   m_ObjectHideFlags: 0
