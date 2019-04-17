@@ -91,6 +91,10 @@ public class TileManager : MonoBehaviour
                 break;
             case Options.DestroyWithColors:
                 DestroyAllTilesOfSameColorAround(tile.X, tile.Y);
+                foreach(Tile t in destructionQueue.ToArray()){
+                    DestroyTile(t.X, t.Y);
+                    destructionQueue.Remove(t);
+                }
                 break;
         }
        
@@ -115,12 +119,63 @@ public class TileManager : MonoBehaviour
     public void SetOption(int opt){
         optionSelected = (Options)opt;
     }
+    List<Tile> destructionQueue = new List<Tile>();
+
     private void DestroyAllTilesOfSameColorAround(int x, int y){//TODO: get this fully working, right now its only checking in a 3x3, it was meant to be a recursive function but it keeps giving stack overflows when i do that
+        Color color = tiles[x, y].color;
+        destructionQueue.Add(tiles[x, y]);
+
+        if(tiles[x+1,y].color == color && destructionQueue.IndexOf(tiles[x + 1, y]) == -1)
+        {//right
+
+            DestroyAllTilesOfSameColorAround(x+1,y);
+        }
+
+        if (tiles[x - 1, y].color == color && destructionQueue.IndexOf(tiles[x - 1, y]) == -1)//left
+        {
+            DestroyAllTilesOfSameColorAround(x - 1, y);
+        }
+
+        if (tiles[x , y + 1].color == color && destructionQueue.IndexOf(tiles[x , y + 1]) == -1)//top
+        {
+            DestroyAllTilesOfSameColorAround(x, y + 1);
+        }
+
+        if (tiles[x, y - 1].color == color && destructionQueue.IndexOf(tiles[x, y - 1]) == -1)//bottom
+        {
+            DestroyAllTilesOfSameColorAround(x, y - 1);
+        }
+
+
+        //if (tiles[x + 1, y - 1].color == color)//bottom right
+        //{
+        //    DestroyTile(x, y + 1);
+        //}
+
+        //if (tiles[x - 1, y - 1].color == color)//bottom left
+        //{
+        //    DestroyTile(x, y + 1);
+        //}
+
+        //if (tiles[x + 1, y + 1].color == color)//top right
+        //{
+        //    DestroyTile(x, y + 1);
+        //}
+
+        //if (tiles[x -1, y + 1].color == color)//top left
+        //{
+        //    DestroyTile(x, y + 1);
+        //}
+
+    }
+    private void DestroyAllTilesaaOfSameColorAround(int x, int y,int direction)//0 = norht 1 = east 3 = south  4 = east
+    {//TODO: get this fully working, right now its only checking in a 3x3, it was meant to be a recursive function but it keeps giving stack overflows when i do that
         Color color = tiles[x, y].color;
         DestroyTile(x, y);
 
-        if(tiles[x+1,y].color == color){//right
-            DestroyTile(x+1,y);
+        if (tiles[x + 1, y].color == color)
+        {//right
+            DestroyTile(x + 1, y);
         }
 
         if (tiles[x - 1, y].color == color)//left
@@ -128,7 +183,7 @@ public class TileManager : MonoBehaviour
             DestroyTile(x - 1, y);
         }
 
-        if (tiles[x , y + 1].color == color)//top
+        if (tiles[x, y + 1].color == color)//top
         {
             DestroyTile(x, y + 1);
         }
@@ -138,25 +193,26 @@ public class TileManager : MonoBehaviour
             DestroyTile(x, y + 1);
         }
 
-        if (tiles[x + 1, y - 1].color == color)//bottom right
-        {
-            DestroyTile(x, y + 1);
-        }
 
-        if (tiles[x - 1, y - 1].color == color)//bottom left
-        {
-            DestroyTile(x, y + 1);
-        }
+        //if (tiles[x + 1, y - 1].color == color)//bottom right
+        //{
+        //    DestroyTile(x, y + 1);
+        //}
 
-        if (tiles[x + 1, y + 1].color == color)//top right
-        {
-            DestroyTile(x, y + 1);
-        }
+        //if (tiles[x - 1, y - 1].color == color)//bottom left
+        //{
+        //    DestroyTile(x, y + 1);
+        //}
 
-        if (tiles[x -1, y + 1].color == color)//top left
-        {
-            DestroyTile(x, y + 1);
-        }
+        //if (tiles[x + 1, y + 1].color == color)//top right
+        //{
+        //    DestroyTile(x, y + 1);
+        //}
+
+        //if (tiles[x -1, y + 1].color == color)//top left
+        //{
+        //    DestroyTile(x, y + 1);
+        //}
 
     }
     private void DestroyTile(int x, int y){

@@ -26,7 +26,7 @@ public class Tile : MonoBehaviour
     void OnMouseDown(){
         manager.HandleTileClick(this);
     }
-    public void OnEnable()
+    public void Start()
     {
 
         if(!isDead){
