@@ -14,7 +14,7 @@ public class Tile : MonoBehaviour
     public float speed = 1f;
 
     public bool inAnimation = false;
-    private bool isDead = false;
+    public bool isDead = false;
 
     [HideInInspector]
     public Vector2 shouldMoveTo = Vector2.positiveInfinity;

@@ -86,13 +86,14 @@ public class TileManager : MonoBehaviour
                 break;
             case Options.RotateCounterClockwise:
                 AntiRotateTilesAround3x3(tile.X, tile.Y);
+              
                 break;
             case Options.Destroy:
                 DestroyTile(tile.X, tile.Y);
                 break;
             case Options.DestroyWithColors:
                 DestroyAllTilesOfSameColorAround(tile.X, tile.Y);
-
+                ;
                 break;
         }
        
@@ -125,6 +126,11 @@ public class TileManager : MonoBehaviour
         tiles[x, y - 1] = tiles[x + 1, y - 1];
         tiles[x + 1, y - 1] = tiles[x + 1, y];
         tiles[x + 1, y] = tempTile;
+
+        gravityQueue.AddRange(new List<Tile> { tiles[x,y],tiles[x + 1, y + 1], tiles[x, y + 1], tiles[x - 1, y + 1], tiles[x - 1, y], tiles[x - 1, y - 1], tiles[x, y - 1],
+        tiles[x + 1, y - 1],tiles[x + 1, y]
+        });
+        CheckForGravity();
         RedrawTilesFromLocal();
     }
 
@@ -132,12 +138,39 @@ public class TileManager : MonoBehaviour
         optionSelected = (Options)opt;
     }
     List<Tile> destructionQueue = new List<Tile>();
+    List<Tile> gravityQueue = new List<Tile>();
 
+    private void CheckForGravity(int count = 0){
+        
+        print(gravityQueue.ToArray().Length);
+
+        foreach(Tile tile in gravityQueue.ToArray()){
+            if(!tiles[tile.X, tile.Y+1].isDead){
+                gravityQueue.Add(tiles[tile.X, tile.Y + 1]);
+            }
+
+            for (int scalingY = tile.Y; tiles[tile.X, scalingY-1].isDead; scalingY--){
+
+                Tile temp = tiles[tile.X, scalingY];
+                tiles[tile.X, scalingY] = tiles[tile.X, scalingY - 1];
+                tiles[tile.X, scalingY - 1] = temp;
+            }
+           
+            if(count >= 3){
+                gravityQueue.Remove(tile);
+            }
+        }
+        if(count < 3){
+            CheckForGravity(count+1);
+        }
+
+    }
     private void DestroyAllTilesOfSameColorAround(int x, int y){
         CheckNearbyTileColors(x,y);
         ApplyDestructionQueue();
 
     }
+
     private void ApplyDestructionQueue(){
         foreach (Tile t in destructionQueue.ToArray())
         {
