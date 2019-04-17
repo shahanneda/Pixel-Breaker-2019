@@ -7,6 +7,9 @@ public class Tile : MonoBehaviour
     public static TileManager manager;
     public int X; // TODO: mayber rethink this
     public int Y;
+    public float speed = 1f;
+    public bool inAnimation = false;
+    public Vector2 shouldMoveTo = Vector2.positiveInfinity;
     //THIS CLASS IS HERE JUST FOR THE BUTTON CLICKS, BUT TILES THEMSELVES SHOULD NOT HANDLE ANY ACTIONS, ISNTEAD
     //THEY SHOULD REPORT THAT MESSAGE TO THEIR MANAGER!
     void OnMouseDown(){
@@ -19,5 +22,11 @@ public class Tile : MonoBehaviour
          
 
         //</testing>
+    }
+    public void Update()
+    {
+        if(inAnimation){
+            transform.position = Vector2.Lerp(transform.position, shouldMoveTo, speed * Time.deltaTime);
+        }
     }
 }
