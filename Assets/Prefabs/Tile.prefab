@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6411799542384568615}
   - component: {fileID: 7700369739888855001}
   - component: {fileID: 7850211347651931055}
+  - component: {fileID: -4859496784391259934}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -98,6 +99,7 @@ MonoBehaviour:
   speed: 10
   inAnimation: 0
   shouldMoveTo: {x: 0, y: 0}
+  color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!61 &7850211347651931055
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -124,3 +126,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.024, y: 1.024}
   m_EdgeRadius: 0
+--- !u!95 &-4859496784391259934
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7295061791919763040}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bc9090170c8084765b54b96d2c951638, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

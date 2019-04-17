@@ -21,6 +21,8 @@ public class Tile : MonoBehaviour
     [HideInInspector]
     public Color color;
 
+    private Animator anim;
+    private SpriteRenderer renderer;
     //THIS CLASS IS HERE JUST FOR THE BUTTON CLICKS, BUT TILES THEMSELVES SHOULD NOT HANDLE ANY ACTIONS, ISNTEAD
     //THEY SHOULD REPORT THAT MESSAGE TO THEIR MANAGER!
     void OnMouseDown(){
@@ -31,7 +33,9 @@ public class Tile : MonoBehaviour
 
         if(!isDead){
             GetComponent<SpriteRenderer>().color = manager.colors[Random.Range(0, manager.colors.Length - 1)];
-            this.color = GetComponent<SpriteRenderer>().color;
+            renderer = GetComponent<SpriteRenderer>();
+            this.color = renderer.color;
+            anim = GetComponent<Animator>();
         }
 
          
@@ -49,5 +53,21 @@ public class Tile : MonoBehaviour
     public void setIsDead(){
         isDead = true;
         GetComponent<SpriteRenderer>().enabled = false;
+    }
+    public void OnMouseOver()
+    {
+        if (isDead)
+            return;
+        anim.SetBool("isHover", true);
+        renderer.sortingOrder = 999;
+
+    }
+    public void OnMouseExit()
+    {
+        if (isDead)
+            return;
+
+        anim.SetBool("isHover", false);
+        renderer.sortingOrder = 0;
     }
 }
