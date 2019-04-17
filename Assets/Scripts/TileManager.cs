@@ -85,6 +85,7 @@ public class TileManager : MonoBehaviour
                 RotateTilesAround3x3(tile.X, tile.Y);
                 break;
             case Options.RotateCounterClockwise:
+                AntiRotateTilesAround3x3(tile.X, tile.Y);
                 break;
             case Options.Destroy:
                 DestroyTile(tile.X, tile.Y);
@@ -96,11 +97,10 @@ public class TileManager : MonoBehaviour
         }
        
     }
-
-    public void RotateTilesAround3x3(int x, int y){//TODO: find programgbe way to this if we want to do more than 3x3
-        if (y > tiles.GetLength(1) || y - 1 < 0 || x > tiles.GetLength(0) || x-1 < 0)//TODO: FIX THIS FOR DETECTING EDGE
+    //@ADAM, create the other ones of these from the design doc, draw it out on paper to help you lundersd which one is which, and be ready to be frustrated 
+    public void RotateTilesAround3x3(int x, int y){
+        if (x-1 < 0 || x+1 > tiles.GetLength(0)-1 || y-1 < 0 || y+1 > tiles.GetLength(1)-1 )//for checking
             return;
-
         Tile tempTile = tiles[x-1,y-1];
         tiles[x - 1, y - 1] = tiles[x, y - 1];
         tiles[x, y - 1] = tiles[x + 1, y-1];
@@ -110,6 +110,21 @@ public class TileManager : MonoBehaviour
         tiles[x, y + 1] = tiles[x -1, y + 1];
         tiles[x - 1, y + 1] = tiles[x -1, y];
         tiles[x - 1, y] = tempTile;
+        RedrawTilesFromLocal();
+    }
+    public void AntiRotateTilesAround3x3(int x, int y)//TODO: make this rotate left
+    {
+        if (x - 1 < 0 || x + 1 > tiles.GetLength(0) - 1 || y - 1 < 0 || y + 1 > tiles.GetLength(1) - 1)
+            return;
+        Tile tempTile = tiles[x + 1, y + 1];
+        tiles[x + 1, y + 1] = tiles[x, y + 1];
+        tiles[x, y + 1] = tiles[x - 1, y + 1];
+        tiles[x - 1, y + 1] = tiles[x - 1, y];
+        tiles[x - 1, y] = tiles[x - 1, y - 1];
+        tiles[x - 1, y - 1] = tiles[x, y - 1];
+        tiles[x, y - 1] = tiles[x + 1, y - 1];
+        tiles[x + 1, y - 1] = tiles[x + 1, y];
+        tiles[x + 1, y] = tempTile;
         RedrawTilesFromLocal();
     }
 
