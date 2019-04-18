@@ -23,6 +23,24 @@ public class Tile : MonoBehaviour
 
     private Animator anim;
     private SpriteRenderer renderer;
+
+    private bool _isFalling;
+    public bool isFalling{
+
+        get{
+            return _isFalling;
+        }
+        set{
+            _isFalling = value;
+            //if(_isFalling)
+            //{
+            //    speed = 1f;
+            //}else{
+            //    speed = 1f;
+            //}
+        }
+
+    }
     //THIS CLASS IS HERE JUST FOR THE BUTTON CLICKS, BUT TILES THEMSELVES SHOULD NOT HANDLE ANY ACTIONS, ISNTEAD
     //THEY SHOULD REPORT THAT MESSAGE TO THEIR MANAGER!
     void OnMouseDown(){
@@ -48,6 +66,7 @@ public class Tile : MonoBehaviour
         }
         if(Vector2.Distance(transform.position, shouldMoveTo) < 0.01f){
             inAnimation = false;
+            isFalling = false;
         }
     }
     public void setIsDead(){

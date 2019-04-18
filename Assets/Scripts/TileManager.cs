@@ -9,7 +9,7 @@ public class TileManager : MonoBehaviour
 
     public float tileSpaceX = 1;//TODO: maybe make this  auto generated for optimal setting maybe?
     public float tileSpaceY = 1;
-
+    public float gravityCheckFloat = 0.1f;
     public GameObject tilePrefab;
 
     public Color[] colors;
@@ -130,7 +130,7 @@ public class TileManager : MonoBehaviour
         gravityQueue.AddRange(new List<Tile> { tiles[x,y],tiles[x + 1, y + 1], tiles[x, y + 1], tiles[x - 1, y + 1], tiles[x - 1, y], tiles[x - 1, y - 1], tiles[x, y - 1],
         tiles[x + 1, y - 1],tiles[x + 1, y]
         });
-        CheckForGravity();
+        Invoke("GravityInvoke",gravityCheckFloat);
         RedrawTilesFromLocal();
     }
 
@@ -140,6 +140,9 @@ public class TileManager : MonoBehaviour
     List<Tile> destructionQueue = new List<Tile>();
     List<Tile> gravityQueue = new List<Tile>();
 
+    private void GravityInvoke(){
+        CheckForGravity();
+    }
     private void CheckForGravity(int count = 0){
         
         print(gravityQueue.ToArray().Length);
@@ -154,6 +157,8 @@ public class TileManager : MonoBehaviour
                 Tile temp = tiles[tile.X, scalingY];
                 tiles[tile.X, scalingY] = tiles[tile.X, scalingY - 1];
                 tiles[tile.X, scalingY - 1] = temp;
+                tiles[tile.X, scalingY].isFalling = true;
+                tiles[tile.X, scalingY -1 ].isFalling = true;
             }
            
             if(count >= 3){
@@ -162,7 +167,10 @@ public class TileManager : MonoBehaviour
         }
         if(count <= 3){
             CheckForGravity(count+1);
+        }else{
+            RedrawTilesFromLocal();
         }
+        
 
     }
     private void DestroyAllTilesOfSameColorAround(int x, int y){
