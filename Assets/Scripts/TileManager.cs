@@ -111,6 +111,11 @@ public class TileManager : MonoBehaviour
         tiles[x, y + 1] = tiles[x -1, y + 1];
         tiles[x - 1, y + 1] = tiles[x -1, y];
         tiles[x - 1, y] = tempTile;
+       
+        gravityQueue.AddRange(new List<Tile> { tiles[x,y],tiles[x + 1, y + 1], tiles[x, y + 1], tiles[x - 1, y + 1], tiles[x - 1, y], tiles[x - 1, y - 1], tiles[x, y - 1],
+        tiles[x + 1, y - 1],tiles[x + 1, y]
+        });
+        Invoke("GravityInvoke", gravityCheckFloat);
         RedrawTilesFromLocal();
     }
     public void AntiRotateTilesAround3x3(int x, int y)//TODO: make this rotate left
