@@ -14,7 +14,7 @@ public class TileManager : MonoBehaviour
 
     public Color[] colors;
 
-    enum Options {RotateClockWise, RotateCounterClockwise, Destroy,DestroyWithColors};
+    enum Options {RotateClockWise, RotateCounterClockwise, Destroy,DestroyWithColors,Rotate3x3Right};
 
     Options optionSelected;
 
@@ -95,9 +95,44 @@ public class TileManager : MonoBehaviour
                 DestroyAllTilesOfSameColorAround(tile.X, tile.Y);
                 ;
                 break;
+            case Options.Rotate3x3Right:
+                Rotate3x3Tiles(tile.X,tile.Y);
+                break;
         }
        
     }
+    public void Rotate3x3Tiles(int x, int y){
+        if (x - 1 < 0 || x + 1 > tiles.GetLength(0) - 1 || y - 1 < 0 || y + 1 > tiles.GetLength(1) - 1)//for checking
+            return;
+        print("Test");
+        Tile bottomLeft   = tiles[x - 1,y - 1];
+        Tile bottomMiddle = tiles[x, y - 1];
+        Tile bottomRight  = tiles[x + 1, y - 1];
+        Tile topLeft = tiles[x + 1, y + 1];
+
+        tiles[x + 1, y - 1] = tiles[x + 1, y + 1]; // bottom right = top right
+        tiles[x, y - 1] = tiles[x + 1, y];
+        tiles[x - 1, y - 1] = bottomRight;
+
+        tiles[x + 1, y + 1] = tiles[x - 1, y + 1];
+        tiles[x + 1, y]     = tiles[x    , y + 1];
+        tiles[x + 1, y - 1] = topLeft;
+
+        tiles[x + 1, y + 1] = tiles[x - 1, y + 1];
+        tiles[x,     y + 1] = tiles[x - 1, y];
+        tiles[x - 1, y + 1] = bottomLeft;
+
+        tiles[x - 1, y + 1] = bottomLeft;
+        tiles[x - 1, y]     = bottomMiddle;
+        tiles[x - 1, y - 1] = bottomRight;
+
+        //gravityQueue.AddRange(new List<Tile> { tiles[x,y],tiles[x + 1, y + 1], tiles[x, y + 1], tiles[x - 1, y + 1], tiles[x - 1, y], tiles[x - 1, y - 1], tiles[x, y - 1],
+        //tiles[x + 1, y - 1],tiles[x + 1, y]
+        //});
+        //Invoke("GravityInvoke", gravityCheckFloat);
+        RedrawTilesFromLocal();
+    }
+
     //@ADAM, create the other ones of these from the design doc, draw it out on paper to help you lundersd which one is which, and be ready to be frustrated 
     public void RotateTilesAround3x3(int x, int y){
         if (x-1 < 0 || x+1 > tiles.GetLength(0)-1 || y-1 < 0 || y+1 > tiles.GetLength(1)-1 )//for checking
