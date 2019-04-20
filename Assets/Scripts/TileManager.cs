@@ -19,10 +19,9 @@ public class TileManager : MonoBehaviour
      * @ADAM, whenever we want to move the tiles, if we just move the items of this array, and call RedrawTilesFromLocal(), everything should be handeld
      * 
      */
-    // Start is called before the first frame update
     void Start()
     {
-        Tile.manager = this;//sets this as the manager for all the tiel
+        Tile.manager = this;
         TileGrid.manager = this;
         TileActions.manager = this;
 
@@ -33,22 +32,17 @@ public class TileManager : MonoBehaviour
 
 
 
-    /**
-     * summary: this method is suppsued to move all of the tiles to their correct position in the game world after
-     * we rotate the local grid or something  
-     * CALL THIS WHENEVER YOU CHANGE THE BOARD
-
-     */
+    /// <summary>
+    /// summary: this method is suppsued to move all of the tiles to their correct position in the game world after
+    /// we rotate the local grid or something
+    /// CALL THIS WHENEVER YOU CHANGE THE BOARD
+    /// </summary>
     public void RedrawTilesFromLocal(){
         //Note to self If proframce becomes issue think about not doing this every time;
-        for (int x = 0; x < tiles.GetLength(0); x++)
-        {
-            for (int y = 0; y < tiles.GetLength(1); y++)
-            {
+        for (int x = 0; x < tiles.GetLength(0); x++){
+            for (int y = 0; y < tiles.GetLength(1); y++){
                 tiles[x, y].shouldMoveTo = grid.tileGamePosVec(x, y);//Update pos from local
-
                 tiles[x, y].inAnimation = true;
-
                 tiles[x, y].X = x;
                 tiles[x, y].Y = y;
             }
@@ -56,9 +50,14 @@ public class TileManager : MonoBehaviour
 
     }
 
-
+    /// <summary>
+    /// Decides what to do when a tile is click
+    /// 
+    /// called from tile.cs
+    /// <paramref name="tile"/>. 
+    /// </summary>
+    /// <param name="tile">The tile clicked</param>
     public void HandleTileClick(Tile tile){ // Here is where we decide what we should do wheter that a rotate or somethin like that;
-        //tile.gameObject.SetActive(false);
         switch(optionSelected){
             case Options.RotateClockWise:
                 tileActions.RotateTilesAround3x3(tile.X, tile.Y);
@@ -72,7 +71,6 @@ public class TileManager : MonoBehaviour
                 break;
             case Options.DestroyWithColors:
                 DestroyAllTilesOfSameColorAround(tile.X, tile.Y);
-                ;
                 break;
             case Options.Rotate3x3Right:
                 tileActions.Rotate3x3Tiles(tile.X,tile.Y);
@@ -81,7 +79,11 @@ public class TileManager : MonoBehaviour
        
     }
 
-
+    /// <summary>
+    /// Sets the option.
+    /// Used from Unity UI Buttons
+    /// </summary>
+    /// <param name="opt">Opt.</param>
     public void SetOption(int opt){
         optionSelected = (Options)opt;
         switch(optionSelected){
@@ -98,12 +100,22 @@ public class TileManager : MonoBehaviour
         }
 
     }
+    /// <summary>
+    /// Queue of objects that need to be destroyed
+    /// </summary>
     public List<Tile> destructionQueue = new List<Tile>();
-   public List<Tile> gravityQueue = new List<Tile>();
+    /// <summary>
+    /// Queue of objects that need to be checked for gravity updates.
+    /// </summary>
+    public List<Tile> gravityQueue = new List<Tile>();
 
+    /// <summary>
+    /// Metheod called by invoke
+    /// </summary>
     public void GravityInvoke(){
         CheckForGravity();
     }
+
     private void CheckForGravity(int count = 0){
         
         print(gravityQueue.ToArray().Length);
@@ -123,8 +135,6 @@ public class TileManager : MonoBehaviour
                     tiles[tile.X, scalingY - 1].isFalling = true;
                 }
             }
-
-           
             if(count >= 3){
                 gravityQueue.Remove(tile);
             }
@@ -140,12 +150,10 @@ public class TileManager : MonoBehaviour
     private void DestroyAllTilesOfSameColorAround(int x, int y){
         CheckNearbyTileColors(x,y);
         ApplyDestructionQueue();
-
     }
 
     private void ApplyDestructionQueue(){
-        foreach (Tile t in destructionQueue.ToArray())
-        {
+        foreach (Tile t in destructionQueue.ToArray()) {
             DestroyTile(t.X, t.Y);
             destructionQueue.Remove(t);
         }
@@ -153,24 +161,20 @@ public class TileManager : MonoBehaviour
     private void CheckNearbyTileColors(int x, int y){
         Color color = tiles[x, y].color;
         destructionQueue.Add(tiles[x, y]);
-        if (x + 1 < tiles.GetLength(0) && tiles[x + 1, y].color == color && destructionQueue.IndexOf(tiles[x + 1, y]) == -1)//right
-        {
+        if (x + 1 < tiles.GetLength(0) && tiles[x + 1, y].color == color && destructionQueue.IndexOf(tiles[x + 1, y]) == -1){//right
 
             CheckNearbyTileColors(x + 1, y);
         }
-
-        if (x - 1 > 0 && tiles[x - 1, y].color == color && destructionQueue.IndexOf(tiles[x - 1, y]) == -1)//left
-        {
+        if (x - 1 > 0 && tiles[x - 1, y].color == color && destructionQueue.IndexOf(tiles[x - 1, y]) == -1){//left
+        
             CheckNearbyTileColors(x - 1, y);
         }
-
-        if (y + 1 < tiles.GetLength(1) && tiles[x, y + 1].color == color && destructionQueue.IndexOf(tiles[x, y + 1]) == -1)//top
-        {
+        if (y + 1 < tiles.GetLength(1) && tiles[x, y + 1].color == color && destructionQueue.IndexOf(tiles[x, y + 1]) == -1){//top
+        
             CheckNearbyTileColors(x, y + 1);
         }
-
-        if (y - 1 > 0 && tiles[x, y - 1].color == color && destructionQueue.IndexOf(tiles[x, y - 1]) == -1)//bottom
-        {
+        if (y - 1 > 0 && tiles[x, y - 1].color == color && destructionQueue.IndexOf(tiles[x, y - 1]) == -1){//bottom
+        
             CheckNearbyTileColors(x, y - 1);
         }
     }
@@ -186,7 +190,11 @@ public class TileManager : MonoBehaviour
         RedrawTilesFromLocal();
 
     }
-
+    /// <summary>
+    /// Handles the tile mouse over. 
+    /// Called form tile
+    /// </summary>
+    /// <param name="tile">Tile.</param>
     public void HandleTileMouseOver(Tile tile){
         switch (currentSelectionMode){
             case SelectionMode.Single:
@@ -200,10 +208,12 @@ public class TileManager : MonoBehaviour
         }
        
     }
-    public void HandleTileMouseExit(Tile tile)
-    {
-        switch (currentSelectionMode)
-        {
+    /// <summary>
+    /// Handles the tile mouse exit.
+    /// </summary>
+    /// <param name="tile">Tile.</param>
+    public void HandleTileMouseExit(Tile tile){
+        switch (currentSelectionMode){
             case SelectionMode.Single:
                 tile.setSelect(false);
                 break;
