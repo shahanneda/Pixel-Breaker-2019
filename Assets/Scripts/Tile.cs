@@ -22,7 +22,8 @@ public class Tile : MonoBehaviour
     public Color color;
 
     private Animator anim;
-    private SpriteRenderer renderer;
+    public SpriteRenderer spriteRenderer;
+
 
     private bool _isFalling;
     public bool isFalling{
@@ -51,8 +52,8 @@ public class Tile : MonoBehaviour
 
         if(!isDead){
             GetComponent<SpriteRenderer>().color = manager.colors[Random.Range(0, manager.colors.Length - 1)];
-            renderer = GetComponent<SpriteRenderer>();
-            this.color = renderer.color;
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            this.color = spriteRenderer.color;
             anim = GetComponent<Animator>();
         }
 
@@ -73,20 +74,23 @@ public class Tile : MonoBehaviour
         isDead = true;
         GetComponent<SpriteRenderer>().enabled = false;
     }
-    public void OnMouseOver()
-    {
+
+    public void OnMouseOver(){
+        setSelect(true);
+    }
+
+    public void OnMouseExit(){
+        setSelect(false);       
+    }
+
+    public void setSelect(bool state){
         if (isDead)
             return;
-        anim.SetBool("isHover", true);
-        renderer.sortingOrder = 999;
-
+        anim.SetBool("isHover",state);
     }
-    public void OnMouseExit()
-    {
-        if (isDead)
-            return;
 
-        anim.SetBool("isHover", false);
-        renderer.sortingOrder = 0;
+    public bool getInSelect(){
+        return !isDead && anim.GetBool("isHover");
     }
+
 }
