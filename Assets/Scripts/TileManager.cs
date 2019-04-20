@@ -14,9 +14,12 @@ public class TileManager : MonoBehaviour
 
     public Color[] colors;
 
-    enum Options {RotateClockWise, RotateCounterClockwise, Destroy,DestroyWithColors,Rotate3x3Right};
+    enum Options { RotateClockWise, RotateCounterClockwise, Destroy,DestroyWithColors,Rotate3x3Right};
+
+    enum SelectionMode { ThreeByThree, Single };
 
     Options optionSelected;
+    SelectionMode currentSelectionMode;
 
     Tile[,] tiles;
     /*
@@ -176,6 +179,19 @@ public class TileManager : MonoBehaviour
 
     public void SetOption(int opt){
         optionSelected = (Options)opt;
+        switch(optionSelected){
+            case Options.Destroy:
+            case Options.DestroyWithColors:
+                currentSelectionMode = SelectionMode.Single;
+                break;
+
+            case Options.Rotate3x3Right:
+            case Options.RotateClockWise:
+            case Options.RotateCounterClockwise:
+                currentSelectionMode = SelectionMode.ThreeByThree;
+                break;
+        }
+
     }
     List<Tile> destructionQueue = new List<Tile>();
     List<Tile> gravityQueue = new List<Tile>();
@@ -267,10 +283,46 @@ public class TileManager : MonoBehaviour
     }
 
     public void HandleTileMouseOver(Tile tile){
-        tile.setSelect(true);
+        switch (currentSelectionMode){
+            case SelectionMode.Single:
+                tile.setSelect(true);
+                break;
+            case SelectionMode.ThreeByThree:
+                foreach (Tile t in GetTilesIn3x3(tile)){
+                    t.setSelect(true);
+                }
+                break;
+        }
+       
     }
     public void HandleTileMouseExit(Tile tile)
     {
-        tile.setSelect(false);
+        switch (currentSelectionMode)
+        {
+            case SelectionMode.Single:
+                tile.setSelect(false);
+                break;
+            case SelectionMode.ThreeByThree:
+                foreach (Tile t in GetTilesIn3x3(tile))
+                {
+                    t.setSelect(false);
+                }
+                break;
+        }
+    }
+
+    private Tile[] GetTilesIn3x3(Tile tile){
+        if(TileIsOnEdge(tile)){
+            return new Tile[] { tile };
+        }
+        return new Tile[]{
+            tiles[tile.X-1,tile.Y+1], tiles[tile.X,tile.Y+1], tiles[tile.X+1,tile.Y+1],
+            tiles[tile.X-1,tile.Y  ], tiles[tile.X,tile.Y  ], tiles[tile.X+1,tile.Y  ],
+            tiles[tile.X-1,tile.Y-1], tiles[tile.X,tile.Y-1], tiles[tile.X+1,tile.Y-1]
+        };
+    }
+
+    private bool TileIsOnEdge(Tile t){
+        return (t.X - 1 < 0 || t.X + 1 > tiles.GetLength(0) - 1 || t.Y - 1 < 0 || t.Y + 1 > tiles.GetLength(1) - 1);
     }
 }
