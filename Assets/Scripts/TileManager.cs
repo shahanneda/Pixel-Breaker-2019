@@ -126,10 +126,10 @@ public class TileManager : MonoBehaviour
         tiles[x - 1, y]     = bottomMiddle;
         tiles[x - 1, y - 1] = bottomRight;
 
-        //gravityQueue.AddRange(new List<Tile> { tiles[x,y],tiles[x + 1, y + 1], tiles[x, y + 1], tiles[x - 1, y + 1], tiles[x - 1, y], tiles[x - 1, y - 1], tiles[x, y - 1],
-        //tiles[x + 1, y - 1],tiles[x + 1, y]
-        //});
-        //Invoke("GravityInvoke", gravityCheckFloat);
+        gravityQueue.AddRange(new List<Tile> { tiles[x,y],tiles[x + 1, y + 1], tiles[x, y + 1], tiles[x - 1, y + 1], tiles[x - 1, y], tiles[x - 1, y - 1], tiles[x, y - 1],
+        tiles[x + 1, y - 1],tiles[x + 1, y]
+        });
+        Invoke("GravityInvoke", gravityCheckFloat);
         RedrawTilesFromLocal();
     }
 
