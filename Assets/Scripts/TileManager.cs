@@ -15,6 +15,9 @@ public class TileManager : MonoBehaviour
     TileGrid grid;
     TileActions tileActions;
 
+    List<Tile> SelectedTilesGroupOne = new List<Tile>();
+    List<Tile> SelectedTilesGroupTwo = new List<Tile>();
+
     /*
      * @ADAM, whenever we want to move the tiles, if we just move the items of this array, and call RedrawTilesFromLocal(), everything should be handeld
      * 
@@ -57,14 +60,16 @@ public class TileManager : MonoBehaviour
     /// <paramref name="tile"/>. 
     /// </summary>
     /// <param name="tile">The tile clicked</param>
-    public void HandleTileClick(Tile tile){ // Here is where we decide what we should do wheter that a rotate or somethin like that;
-        switch(optionSelected){
+    public void HandleTileClick(Tile tile)
+    { // Here is where we decide what we should do wheter that a rotate or somethin like that;
+        switch (optionSelected)
+        {
             case Options.RotateClockWise:
                 tileActions.RotateTilesAround3x3(tile.X, tile.Y);
                 break;
             case Options.RotateCounterClockwise:
                 tileActions.AntiRotateTilesAround3x3(tile.X, tile.Y);
-              
+
                 break;
             case Options.Destroy:
                 DestroyTile(tile.X, tile.Y);
@@ -73,12 +78,52 @@ public class TileManager : MonoBehaviour
                 DestroyAllTilesOfSameColorAround(tile.X, tile.Y);
                 break;
             case Options.Rotate3x3Right:
-                tileActions.Rotate3x3Tiles(tile.X,tile.Y);
+                tileActions.Rotate3x3Tiles(tile.X, tile.Y);
+                break;
+            case Options.ThreeByThreeSwitch:
+                ThreeByThreeSwitch(tile.X,tile.Y);
                 break;
         }
-       
     }
 
+    public void ThreeByThreeSwitch(int x, int y){
+
+        if(SelectedTilesGroupOne.Count > 0){
+           
+            Tile[] tilesToSwitchTo = GetTilesIn3x3(tiles[x,y]);
+            //add check for edge TODO
+            SwitchTiles(SelectedTilesGroupOne.ToArray(), tilesToSwitchTo);
+            SelectTiles(SelectedTilesGroupOne.ToArray(), false);
+            SelectTiles(tilesToSwitchTo, false);
+            SelectedTilesGroupOne.Clear();
+
+        }else{
+            SelectedTilesGroupOne.AddRange(GetTilesIn3x3(tiles[x, y]));
+            SelectTiles(SelectedTilesGroupOne.ToArray(), true);
+
+        }
+    }
+
+    private void SwitchTiles(Tile[] group1, Tile[] group2){
+        if(group1.Length != group2.Length){
+            return;
+        }
+        for (int i = 0; i < group1.Length; i++){
+            //Tile tile = tiles[group2[i].X, group2[i].Y];
+            tiles[group2[i].X, group2[i].Y] = group1[i];
+            tiles[group1[i].X, group1[i].Y] = group2[i];
+        }
+
+        RedrawTilesFromLocal();
+        CheckForGravity();
+    }
+
+    private void SelectTiles(Tile[] tilesToSelect, bool state){
+        foreach(Tile t in tilesToSelect)
+        {
+            t.setSelect(state);
+        }
+    }
     /// <summary>
     /// Sets the option.
     /// Used from Unity UI Buttons
@@ -96,6 +141,9 @@ public class TileManager : MonoBehaviour
             case Options.RotateClockWise:
             case Options.RotateCounterClockwise:
                 currentSelectionMode = SelectionMode.ThreeByThree;
+                break;
+            case Options.ThreeByThreeSwitch:
+                currentSelectionMode = SelectionMode.SaveSelection;
                 break;
         }
 
@@ -205,6 +253,12 @@ public class TileManager : MonoBehaviour
                     t.setSelect(true);
                 }
                 break;
+            case SelectionMode.SaveSelection:
+                foreach (Tile t in GetTilesIn3x3(tile))
+                {
+                    t.setSelect(true);
+                }
+                break;
         }
        
     }
@@ -221,6 +275,17 @@ public class TileManager : MonoBehaviour
                 foreach (Tile t in GetTilesIn3x3(tile))
                 {
                     t.setSelect(false);
+                }
+                break;
+            case SelectionMode.SaveSelection:
+                if(!SelectedTilesGroupOne.Contains(tile)){
+                    foreach (Tile t in GetTilesIn3x3(tile))
+                    {
+                        if(!SelectedTilesGroupOne.Contains(t)){
+                            t.setSelect(false);
+                        }
+                    }
+                    //tile.setSelect(false);
                 }
                 break;
         }
