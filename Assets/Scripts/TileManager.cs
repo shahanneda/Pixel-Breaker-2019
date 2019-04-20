@@ -214,7 +214,7 @@ public class TileManager : MonoBehaviour
 
             CheckNearbyTileColors(x + 1, y);
         }
-        if (x - 1 > 0 && tiles[x - 1, y].color == color && destructionQueue.IndexOf(tiles[x - 1, y]) == -1){//left
+        if (x - 1 >= 0 && tiles[x - 1, y].color == color && destructionQueue.IndexOf(tiles[x - 1, y]) == -1){//left
         
             CheckNearbyTileColors(x - 1, y);
         }
@@ -222,7 +222,7 @@ public class TileManager : MonoBehaviour
         
             CheckNearbyTileColors(x, y + 1);
         }
-        if (y - 1 > 0 && tiles[x, y - 1].color == color && destructionQueue.IndexOf(tiles[x, y - 1]) == -1){//bottom
+        if (y - 1 >= 0 && tiles[x, y - 1].color == color && destructionQueue.IndexOf(tiles[x, y - 1]) == -1){//bottom
         
             CheckNearbyTileColors(x, y - 1);
         }
