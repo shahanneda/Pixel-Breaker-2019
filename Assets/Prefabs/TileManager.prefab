@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4856161527363955975}
   - component: {fileID: 4856161527363955972}
   - component: {fileID: 4856161527363955973}
+  - component: {fileID: 1167758087}
   m_Layer: 0
   m_Name: TileManager
   m_TagString: Untagged
@@ -92,12 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93abe0b2941549579cf2c3c918c7717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameWidth: 10
-  gameHeight: 20
-  tileSpaceX: 1
-  tileSpaceY: 1
-  tilePrefab: {fileID: 7295061791919763040, guid: c9b3c3349c9584ba9bc9cb56edbe0c9c,
-    type: 3}
+  gravityCheckFloat: 0.1
   colors:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 0.9837978, g: 1, b: 0, a: 1}
@@ -105,3 +101,21 @@ MonoBehaviour:
   - {r: 0, g: 0.93359566, b: 1, a: 1}
   - {r: 0, g: 1, b: 0.1465373, a: 1}
   - {r: 1, g: 0, b: 0.58885527, a: 1}
+--- !u!114 &1167758087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4856161527363955970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29799ea193c4546ee80d1c0ebe74a33e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameWidth: 10
+  gameHeight: 20
+  tileSpaceX: 1
+  tileSpaceY: 1
+  tilePrefab: {fileID: 7295061791919763040, guid: c9b3c3349c9584ba9bc9cb56edbe0c9c,
+    type: 3}
