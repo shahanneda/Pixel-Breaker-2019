@@ -153,18 +153,21 @@ public class TileManager : MonoBehaviour
         print(gravityQueue.ToArray().Length);
 
         foreach(Tile tile in gravityQueue.ToArray()){
-            if(tile.Y+1 < tiles.GetLength(1) && !tiles[tile.X, tile.Y+1].isDead){
+            if(tile.Y+1 < tiles.GetLength(1) && !tiles[tile.X, tile.Y+1].isDead && !gravityQueue.Contains(tiles[tile.X, tile.Y + 1])){
                 gravityQueue.Add(tiles[tile.X, tile.Y + 1]);//NOTE this line is adding multiple tiems @ preformance if needed
             }
+            if(tile.Y != 0){
+                for (int scalingY = tile.Y; tiles[tile.X, scalingY - 1].isDead; scalingY--)
+                {
 
-            for (int scalingY = tile.Y; tiles[tile.X, scalingY-1].isDead; scalingY--){
-
-                Tile temp = tiles[tile.X, scalingY];
-                tiles[tile.X, scalingY] = tiles[tile.X, scalingY - 1];
-                tiles[tile.X, scalingY - 1] = temp;
-                tiles[tile.X, scalingY].isFalling = true;
-                tiles[tile.X, scalingY -1 ].isFalling = true;
+                    Tile temp = tiles[tile.X, scalingY];
+                    tiles[tile.X, scalingY] = tiles[tile.X, scalingY - 1];
+                    tiles[tile.X, scalingY - 1] = temp;
+                    tiles[tile.X, scalingY].isFalling = true;
+                    tiles[tile.X, scalingY - 1].isFalling = true;
+                }
             }
+
            
             if(count >= 3){
                 gravityQueue.Remove(tile);
