@@ -121,6 +121,7 @@ public class TileManager : MonoBehaviour
     private void SelectTiles(Tile[] tilesToSelect, bool state){
         foreach(Tile t in tilesToSelect)
         {
+            t.setHover(false);
             t.setSelect(state);
         }
     }
@@ -246,17 +247,17 @@ public class TileManager : MonoBehaviour
     public void HandleTileMouseOver(Tile tile){
         switch (currentSelectionMode){
             case SelectionMode.Single:
-                tile.setSelect(true);
+                tile.setHover(true);
                 break;
             case SelectionMode.ThreeByThree:
                 foreach (Tile t in GetTilesIn3x3(tile)){
-                    t.setSelect(true);
+                    t.setHover(true);
                 }
                 break;
             case SelectionMode.SaveSelection:
                 foreach (Tile t in GetTilesIn3x3(tile))
                 {
-                    t.setSelect(true);
+                    t.setHover(true);
                 }
                 break;
         }
@@ -269,12 +270,12 @@ public class TileManager : MonoBehaviour
     public void HandleTileMouseExit(Tile tile){
         switch (currentSelectionMode){
             case SelectionMode.Single:
-                tile.setSelect(false);
+                tile.setHover(false);
                 break;
             case SelectionMode.ThreeByThree:
                 foreach (Tile t in GetTilesIn3x3(tile))
                 {
-                    t.setSelect(false);
+                    t.setHover(false);
                 }
                 break;
             case SelectionMode.SaveSelection:
@@ -282,7 +283,7 @@ public class TileManager : MonoBehaviour
                     foreach (Tile t in GetTilesIn3x3(tile))
                     {
                         if(!SelectedTilesGroupOne.Contains(t)){
-                            t.setSelect(false);
+                            t.setHover(false);
                         }
                     }
                     //tile.setSelect(false);

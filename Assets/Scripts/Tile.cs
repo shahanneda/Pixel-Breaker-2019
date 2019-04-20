@@ -83,12 +83,16 @@ public class Tile : MonoBehaviour
         manager.HandleTileMouseExit(this);  
     }
 
-    public void setSelect(bool state){
+    public void setHover(bool state){
         if (isDead)
             return;
         anim.SetBool("isHover",state);
     }
 
+    public void setSelect(bool state){
+        anim.SetBool("Selected",state);
+        print("Setting selection");
+    }
     public bool getInSelect(){
         return !isDead && anim.GetBool("isHover");
     }
