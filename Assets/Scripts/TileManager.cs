@@ -105,7 +105,7 @@ public class TileManager : MonoBehaviour
        
     }
     public void Rotate3x3Tiles(int x, int y){
-        if (x - 1 < 0 || x + 1 > tiles.GetLength(0) - 1 || y - 1 < 0 || y + 1 > tiles.GetLength(1) - 1)//for checking
+        if (TileIsOnEdge(tiles[x, y]))
             return;
         print("Test");
         Tile bottomLeft   = tiles[x - 1,y - 1];
@@ -138,7 +138,7 @@ public class TileManager : MonoBehaviour
 
     //@ADAM, create the other ones of these from the design doc, draw it out on paper to help you lundersd which one is which, and be ready to be frustrated 
     public void RotateTilesAround3x3(int x, int y){
-        if (x-1 < 0 || x+1 > tiles.GetLength(0)-1 || y-1 < 0 || y+1 > tiles.GetLength(1)-1 )//for checking
+        if (TileIsOnEdge(tiles[x, y]))
             return;
         Tile tempTile = tiles[x-1,y-1];
         tiles[x - 1, y - 1] = tiles[x, y - 1];
@@ -158,7 +158,7 @@ public class TileManager : MonoBehaviour
     }
     public void AntiRotateTilesAround3x3(int x, int y)//TODO: make this rotate left
     {
-        if (x - 1 < 0 || x + 1 > tiles.GetLength(0) - 1 || y - 1 < 0 || y + 1 > tiles.GetLength(1) - 1)
+        if (TileIsOnEdge(tiles[x,y]))
             return;
         Tile tempTile = tiles[x + 1, y + 1];
         tiles[x + 1, y + 1] = tiles[x, y + 1];
