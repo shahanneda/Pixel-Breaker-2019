@@ -6,12 +6,14 @@ using static GlobalEnums;
 public class TileManager : MonoBehaviour
 {
 
-    public Tile[,] tiles;
+    public static Tile[,] tiles;
     public float gravityCheckFloat = 0.1f;
     public Color[] colors;
+
     Options optionSelected;
     SelectionMode currentSelectionMode;
     TileGrid grid;
+    TileActions tileActions;
 
     /*
      * @ADAM, whenever we want to move the tiles, if we just move the items of this array, and call RedrawTilesFromLocal(), everything should be handeld
@@ -22,8 +24,10 @@ public class TileManager : MonoBehaviour
     {
         Tile.manager = this;//sets this as the manager for all the tiel
         TileGrid.manager = this;
+        TileActions.manager = this;
 
         grid = GetComponent<TileGrid>();
+        tileActions = GetComponent<TileActions>();
         grid.SetUp();
     }
 
@@ -35,7 +39,7 @@ public class TileManager : MonoBehaviour
      * CALL THIS WHENEVER YOU CHANGE THE BOARD
 
      */
-    private void RedrawTilesFromLocal(){
+    public void RedrawTilesFromLocal(){
         //Note to self If proframce becomes issue think about not doing this every time;
         for (int x = 0; x < tiles.GetLength(0); x++)
         {
@@ -57,10 +61,10 @@ public class TileManager : MonoBehaviour
         //tile.gameObject.SetActive(false);
         switch(optionSelected){
             case Options.RotateClockWise:
-                RotateTilesAround3x3(tile.X, tile.Y);
+                tileActions.RotateTilesAround3x3(tile.X, tile.Y);
                 break;
             case Options.RotateCounterClockwise:
-                AntiRotateTilesAround3x3(tile.X, tile.Y);
+                tileActions.AntiRotateTilesAround3x3(tile.X, tile.Y);
               
                 break;
             case Options.Destroy:
@@ -71,83 +75,12 @@ public class TileManager : MonoBehaviour
                 ;
                 break;
             case Options.Rotate3x3Right:
-                Rotate3x3Tiles(tile.X,tile.Y);
+                tileActions.Rotate3x3Tiles(tile.X,tile.Y);
                 break;
         }
        
     }
-    public void Rotate3x3Tiles(int x, int y){
-        if (TileIsOnEdge(tiles[x, y]))
-            return;
-        print("Test");
-        Tile bottomLeft   = tiles[x - 1,y - 1];
-        Tile bottomMiddle = tiles[x, y - 1];
-        Tile bottomRight  = tiles[x + 1, y - 1];
-        Tile topLeft = tiles[x + 1, y + 1];
 
-        tiles[x + 1, y - 1] = tiles[x + 1, y + 1]; // bottom right = top right
-        tiles[x, y - 1] = tiles[x + 1, y];
-        tiles[x - 1, y - 1] = bottomRight;
-
-        tiles[x + 1, y + 1] = tiles[x - 1, y + 1];
-        tiles[x + 1, y]     = tiles[x    , y + 1];
-        tiles[x + 1, y - 1] = topLeft;
-
-        tiles[x + 1, y + 1] = tiles[x - 1, y + 1];
-        tiles[x,     y + 1] = tiles[x - 1, y];
-        tiles[x - 1, y + 1] = bottomLeft;
-
-        tiles[x - 1, y + 1] = bottomLeft;
-        tiles[x - 1, y]     = bottomMiddle;
-        tiles[x - 1, y - 1] = bottomRight;
-
-        gravityQueue.AddRange(new List<Tile> { tiles[x,y],tiles[x + 1, y + 1], tiles[x, y + 1], tiles[x - 1, y + 1], tiles[x - 1, y], tiles[x - 1, y - 1], tiles[x, y - 1],
-        tiles[x + 1, y - 1],tiles[x + 1, y]
-        });
-        Invoke("GravityInvoke", gravityCheckFloat);
-        RedrawTilesFromLocal();
-    }
-
-    //@ADAM, create the other ones of these from the design doc, draw it out on paper to help you lundersd which one is which, and be ready to be frustrated 
-    public void RotateTilesAround3x3(int x, int y){
-        if (TileIsOnEdge(tiles[x, y]))
-            return;
-        Tile tempTile = tiles[x-1,y-1];
-        tiles[x - 1, y - 1] = tiles[x, y - 1];
-        tiles[x, y - 1] = tiles[x + 1, y-1];
-        tiles[x + 1, y - 1] = tiles[x + 1, y];
-        tiles[x + 1, y] = tiles[x + 1, y + 1];
-        tiles[x + 1, y + 1] = tiles[x, y + 1];
-        tiles[x, y + 1] = tiles[x -1, y + 1];
-        tiles[x - 1, y + 1] = tiles[x -1, y];
-        tiles[x - 1, y] = tempTile;
-       
-        gravityQueue.AddRange(new List<Tile> { tiles[x,y],tiles[x + 1, y + 1], tiles[x, y + 1], tiles[x - 1, y + 1], tiles[x - 1, y], tiles[x - 1, y - 1], tiles[x, y - 1],
-        tiles[x + 1, y - 1],tiles[x + 1, y]
-        });
-        Invoke("GravityInvoke", gravityCheckFloat);
-        RedrawTilesFromLocal();
-    }
-    public void AntiRotateTilesAround3x3(int x, int y)//TODO: make this rotate left
-    {
-        if (TileIsOnEdge(tiles[x,y]))
-            return;
-        Tile tempTile = tiles[x + 1, y + 1];
-        tiles[x + 1, y + 1] = tiles[x, y + 1];
-        tiles[x, y + 1] = tiles[x - 1, y + 1];
-        tiles[x - 1, y + 1] = tiles[x - 1, y];
-        tiles[x - 1, y] = tiles[x - 1, y - 1];
-        tiles[x - 1, y - 1] = tiles[x, y - 1];
-        tiles[x, y - 1] = tiles[x + 1, y - 1];
-        tiles[x + 1, y - 1] = tiles[x + 1, y];
-        tiles[x + 1, y] = tempTile;
-
-        gravityQueue.AddRange(new List<Tile> { tiles[x,y],tiles[x + 1, y + 1], tiles[x, y + 1], tiles[x - 1, y + 1], tiles[x - 1, y], tiles[x - 1, y - 1], tiles[x, y - 1],
-        tiles[x + 1, y - 1],tiles[x + 1, y]
-        });
-        Invoke("GravityInvoke",gravityCheckFloat);
-        RedrawTilesFromLocal();
-    }
 
     public void SetOption(int opt){
         optionSelected = (Options)opt;
@@ -165,10 +98,10 @@ public class TileManager : MonoBehaviour
         }
 
     }
-    List<Tile> destructionQueue = new List<Tile>();
-    List<Tile> gravityQueue = new List<Tile>();
+    public List<Tile> destructionQueue = new List<Tile>();
+   public List<Tile> gravityQueue = new List<Tile>();
 
-    private void GravityInvoke(){
+    public void GravityInvoke(){
         CheckForGravity();
     }
     private void CheckForGravity(int count = 0){
@@ -294,7 +227,7 @@ public class TileManager : MonoBehaviour
         };
     }
 
-    private bool TileIsOnEdge(Tile t){
+    public bool TileIsOnEdge(Tile t){
         return (t.X - 1 < 0 || t.X + 1 > tiles.GetLength(0) - 1 || t.Y - 1 < 0 || t.Y + 1 > tiles.GetLength(1) - 1);
     }
 }

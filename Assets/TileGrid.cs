@@ -1,7 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static TileManager;
 
+
+/// <summary>
+/// Tile grid.
+/// Responsible for setting up the grid of tiles
+/// </summary>
 public class TileGrid : MonoBehaviour
 {
 
@@ -13,23 +19,23 @@ public class TileGrid : MonoBehaviour
     public static TileManager manager;
 
     public void SetUp(){
-        manager.tiles = new Tile[gameWidth, gameHeight];
+        tiles = new Tile[gameWidth, gameHeight];
         FillTiles();
     }
 
     private void FillTiles()
     {
-        for (int x = 0; x < manager.tiles.GetLength(0); x++)
+        for (int x = 0; x < tiles.GetLength(0); x++)
         {
-            for (int y = 0; y < manager.tiles.GetLength(1); y++)
+            for (int y = 0; y < tiles.GetLength(1); y++)
             {
-                manager. tiles[x, y] = (Instantiate(tilePrefab,
+                tiles[x, y] = (Instantiate(tilePrefab,
                      tileGamePosVec(x, y),
                      Quaternion.identity, transform) as GameObject)
                     .GetComponent<Tile>();
 
-                manager.tiles[x, y].X = x;//gives each tile its position in the grid
-                manager.tiles[x, y].Y = y;
+                tiles[x, y].X = x;//gives each tile its position in the grid
+                tiles[x, y].Y = y;
 
             }
         }
