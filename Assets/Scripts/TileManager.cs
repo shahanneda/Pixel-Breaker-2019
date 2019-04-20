@@ -266,4 +266,11 @@ public class TileManager : MonoBehaviour
 
     }
 
+    public void HandleTileMouseOver(Tile tile){
+        tile.setSelect(true);
+    }
+    public void HandleTileMouseExit(Tile tile)
+    {
+        tile.setSelect(false);
+    }
 }

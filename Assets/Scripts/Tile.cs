@@ -76,11 +76,11 @@ public class Tile : MonoBehaviour
     }
 
     public void OnMouseOver(){
-        setSelect(true);
+        manager.HandleTileMouseOver(this);
     }
 
     public void OnMouseExit(){
-        setSelect(false);       
+        manager.HandleTileMouseExit(this);  
     }
 
     public void setSelect(bool state){
