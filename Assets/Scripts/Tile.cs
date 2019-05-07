@@ -94,7 +94,7 @@ public class Tile : MonoBehaviour
     {
         if (isDead)
             return;
-        anim.SetBool("isHover", state);
+        //anim.SetBool("isHover", state);
 
         if (state)
         {
