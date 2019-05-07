@@ -8,7 +8,8 @@ public class TileManager : MonoBehaviour
 
     public static Tile[,] tiles;
     public float gravityCheckFloat = 0.1f;
-    public Color[] colors;
+    //public Color[] colors;
+    public ColorToSprite[] colorToSprite;
 
     Options optionSelected;
     SelectionMode currentSelectionMode;
@@ -40,10 +41,13 @@ public class TileManager : MonoBehaviour
     /// we rotate the local grid or something
     /// CALL THIS WHENEVER YOU CHANGE THE BOARD
     /// </summary>
-    public void RedrawTilesFromLocal(){
+    public void RedrawTilesFromLocal()
+    {
         //Note to self If proframce becomes issue think about not doing this every time;
-        for (int x = 0; x < tiles.GetLength(0); x++){
-            for (int y = 0; y < tiles.GetLength(1); y++){
+        for (int x = 0; x < tiles.GetLength(0); x++)
+        {
+            for (int y = 0; y < tiles.GetLength(1); y++)
+            {
                 tiles[x, y].shouldMoveTo = grid.tileGamePosVec(x, y);//Update pos from local
                 tiles[x, y].inAnimation = true;
                 tiles[x, y].X = x;
@@ -81,34 +85,41 @@ public class TileManager : MonoBehaviour
                 tileActions.Rotate3x3Tiles(tile.X, tile.Y);
                 break;
             case Options.ThreeByThreeSwitch:
-                ThreeByThreeSwitch(tile.X,tile.Y);
+                ThreeByThreeSwitch(tile.X, tile.Y);
                 break;
         }
     }
 
-    public void ThreeByThreeSwitch(int x, int y){
+    public void ThreeByThreeSwitch(int x, int y)
+    {
 
-        if(SelectedTilesGroupOne.Count > 0){
-           
-            Tile[] tilesToSwitchTo = GetTilesIn3x3(tiles[x,y]);
+        if (SelectedTilesGroupOne.Count > 0)
+        {
+
+            Tile[] tilesToSwitchTo = GetTilesIn3x3(tiles[x, y]);
             //add check for edge TODO
             SwitchTiles(SelectedTilesGroupOne.ToArray(), tilesToSwitchTo);
             SelectTiles(SelectedTilesGroupOne.ToArray(), false);
             SelectTiles(tilesToSwitchTo, false);
             SelectedTilesGroupOne.Clear();
 
-        }else{
+        }
+        else
+        {
             SelectedTilesGroupOne.AddRange(GetTilesIn3x3(tiles[x, y]));
             SelectTiles(SelectedTilesGroupOne.ToArray(), true);
 
         }
     }
 
-    private void SwitchTiles(Tile[] group1, Tile[] group2){
-        if(group1.Length != group2.Length){
+    private void SwitchTiles(Tile[] group1, Tile[] group2)
+    {
+        if (group1.Length != group2.Length)
+        {
             return;
         }
-        for (int i = 0; i < group1.Length; i++){
+        for (int i = 0; i < group1.Length; i++)
+        {
             //Tile tile = tiles[group2[i].X, group2[i].Y];
             tiles[group2[i].X, group2[i].Y] = group1[i];
             tiles[group1[i].X, group1[i].Y] = group2[i];
@@ -118,8 +129,9 @@ public class TileManager : MonoBehaviour
         CheckForGravity();
     }
 
-    private void SelectTiles(Tile[] tilesToSelect, bool state){
-        foreach(Tile t in tilesToSelect)
+    private void SelectTiles(Tile[] tilesToSelect, bool state)
+    {
+        foreach (Tile t in tilesToSelect)
         {
             t.setHover(false);
             t.setSelect(state);
@@ -130,9 +142,11 @@ public class TileManager : MonoBehaviour
     /// Used from Unity UI Buttons
     /// </summary>
     /// <param name="opt">Opt.</param>
-    public void SetOption(int opt){
+    public void SetOption(int opt)
+    {
         optionSelected = (Options)opt;
-        switch(optionSelected){
+        switch (optionSelected)
+        {
             case Options.Destroy:
             case Options.DestroyWithColors:
                 currentSelectionMode = SelectionMode.Single;
@@ -161,19 +175,24 @@ public class TileManager : MonoBehaviour
     /// <summary>
     /// Metheod called by invoke
     /// </summary>
-    public void GravityInvoke(){
+    public void GravityInvoke()
+    {
         CheckForGravity();
     }
 
-    private void CheckForGravity(int count = 0){
-        
+    private void CheckForGravity(int count = 0)
+    {
+
         print(gravityQueue.ToArray().Length);
 
-        foreach(Tile tile in gravityQueue.ToArray()){
-            if(tile.Y+1 < tiles.GetLength(1) && !tiles[tile.X, tile.Y+1].isDead && !gravityQueue.Contains(tiles[tile.X, tile.Y + 1])){
+        foreach (Tile tile in gravityQueue.ToArray())
+        {
+            if (tile.Y + 1 < tiles.GetLength(1) && !tiles[tile.X, tile.Y + 1].isDead && !gravityQueue.Contains(tiles[tile.X, tile.Y + 1]))
+            {
                 gravityQueue.Add(tiles[tile.X, tile.Y + 1]);//NOTE this line is adding multiple tiems @ preformance if needed
             }
-            if(tile.Y != 0){
+            if (tile.Y != 0)
+            {
                 for (int scalingY = tile.Y; tiles[tile.X, scalingY - 1].isDead; scalingY--)
                 {
 
@@ -184,56 +203,70 @@ public class TileManager : MonoBehaviour
                     tiles[tile.X, scalingY - 1].isFalling = true;
                 }
             }
-            if(count >= 3){
+            if (count >= 3)
+            {
                 gravityQueue.Remove(tile);
             }
         }
-        if(count <= 3){
-            CheckForGravity(count+1);
-        }else{
+        if (count <= 3)
+        {
+            CheckForGravity(count + 1);
+        }
+        else
+        {
             RedrawTilesFromLocal();
         }
-        
+
 
     }
-    private void DestroyAllTilesOfSameColorAround(int x, int y){
-        CheckNearbyTileColors(x,y);
+    private void DestroyAllTilesOfSameColorAround(int x, int y)
+    {
+        CheckNearbyTileColors(x, y);
         ApplyDestructionQueue();
     }
 
-    private void ApplyDestructionQueue(){
-        foreach (Tile t in destructionQueue.ToArray()) {
+    private void ApplyDestructionQueue()
+    {
+        foreach (Tile t in destructionQueue.ToArray())
+        {
             DestroyTile(t.X, t.Y);
             destructionQueue.Remove(t);
         }
     }
-    private void CheckNearbyTileColors(int x, int y){
-        Color color = tiles[x, y].color;
+    private void CheckNearbyTileColors(int x, int y)
+    {
+        Color color = tiles[x, y].color.color;
         destructionQueue.Add(tiles[x, y]);
-        if (x + 1 < tiles.GetLength(0) && tiles[x + 1, y].color == color && destructionQueue.IndexOf(tiles[x + 1, y]) == -1){//right
+        if (x + 1 < tiles.GetLength(0) && tiles[x + 1, y].color.color == color && destructionQueue.IndexOf(tiles[x + 1, y]) == -1)
+        {//right
 
             CheckNearbyTileColors(x + 1, y);
         }
-        if (x - 1 >= 0 && tiles[x - 1, y].color == color && destructionQueue.IndexOf(tiles[x - 1, y]) == -1){//left
-        
+        if (x - 1 >= 0 && tiles[x - 1, y].color.color == color && destructionQueue.IndexOf(tiles[x - 1, y]) == -1)
+        {//left
+
             CheckNearbyTileColors(x - 1, y);
         }
-        if (y + 1 < tiles.GetLength(1) && tiles[x, y + 1].color == color && destructionQueue.IndexOf(tiles[x, y + 1]) == -1){//top
-        
+        if (y + 1 < tiles.GetLength(1) && tiles[x, y + 1].color.color == color && destructionQueue.IndexOf(tiles[x, y + 1]) == -1)
+        {//top
+
             CheckNearbyTileColors(x, y + 1);
         }
-        if (y - 1 >= 0 && tiles[x, y - 1].color == color && destructionQueue.IndexOf(tiles[x, y - 1]) == -1){//bottom
-        
+        if (y - 1 >= 0 && tiles[x, y - 1].color.color == color && destructionQueue.IndexOf(tiles[x, y - 1]) == -1)
+        {//bottom
+
             CheckNearbyTileColors(x, y - 1);
         }
     }
-    private void DestroyTile(int x, int y){
+    private void DestroyTile(int x, int y)
+    {
         Destroy(tiles[x, y].gameObject);
         //THIS IS SO ALL BLOCK ABOVE FALL DOWN
-        for (int scalingY = 0; scalingY < tiles.GetLength(1)-y-1; scalingY++){
+        for (int scalingY = 0; scalingY < tiles.GetLength(1) - y - 1; scalingY++)
+        {
             Tile empty = Instantiate(grid.tilePrefab, this.transform).GetComponent<Tile>();
             empty.setIsDead();
-            tiles[x, y+ scalingY] = tiles[x, y + 1 + scalingY];
+            tiles[x, y + scalingY] = tiles[x, y + 1 + scalingY];
             tiles[x, y + 1 + scalingY] = empty;
         }
         RedrawTilesFromLocal();
@@ -244,13 +277,16 @@ public class TileManager : MonoBehaviour
     /// Called form tile
     /// </summary>
     /// <param name="tile">Tile.</param>
-    public void HandleTileMouseOver(Tile tile){
-        switch (currentSelectionMode){
+    public void HandleTileMouseOver(Tile tile)
+    {
+        switch (currentSelectionMode)
+        {
             case SelectionMode.Single:
                 tile.setHover(true);
                 break;
             case SelectionMode.ThreeByThree:
-                foreach (Tile t in GetTilesIn3x3(tile)){
+                foreach (Tile t in GetTilesIn3x3(tile))
+                {
                     t.setHover(true);
                 }
                 break;
@@ -261,14 +297,16 @@ public class TileManager : MonoBehaviour
                 }
                 break;
         }
-       
+
     }
     /// <summary>
     /// Handles the tile mouse exit.
     /// </summary>
     /// <param name="tile">Tile.</param>
-    public void HandleTileMouseExit(Tile tile){
-        switch (currentSelectionMode){
+    public void HandleTileMouseExit(Tile tile)
+    {
+        switch (currentSelectionMode)
+        {
             case SelectionMode.Single:
                 tile.setHover(false);
                 break;
@@ -279,10 +317,12 @@ public class TileManager : MonoBehaviour
                 }
                 break;
             case SelectionMode.SaveSelection:
-                if(!SelectedTilesGroupOne.Contains(tile)){
+                if (!SelectedTilesGroupOne.Contains(tile))
+                {
                     foreach (Tile t in GetTilesIn3x3(tile))
                     {
-                        if(!SelectedTilesGroupOne.Contains(t)){
+                        if (!SelectedTilesGroupOne.Contains(t))
+                        {
                             t.setHover(false);
                         }
                     }
@@ -292,8 +332,10 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    private Tile[] GetTilesIn3x3(Tile tile){
-        if(TileIsOnEdge(tile)){
+    private Tile[] GetTilesIn3x3(Tile tile)
+    {
+        if (TileIsOnEdge(tile))
+        {
             return new Tile[] { tile };
         }
         return new Tile[]{
@@ -303,7 +345,15 @@ public class TileManager : MonoBehaviour
         };
     }
 
-    public bool TileIsOnEdge(Tile t){
+    public bool TileIsOnEdge(Tile t)
+    {
         return (t.X - 1 < 0 || t.X + 1 > tiles.GetLength(0) - 1 || t.Y - 1 < 0 || t.Y + 1 > tiles.GetLength(1) - 1);
     }
+}
+
+[System.Serializable]
+public struct ColorToSprite
+{
+    public Color color;
+    public Sprite sprite;
 }

@@ -7,7 +7,7 @@ public class Tile : MonoBehaviour
     public static TileManager manager;
 
     [HideInInspector]
-    public int X; 
+    public int X;
     [HideInInspector]
     public int Y;
 
@@ -19,19 +19,22 @@ public class Tile : MonoBehaviour
     [HideInInspector]
     public Vector2 shouldMoveTo = Vector2.positiveInfinity;
     [HideInInspector]
-    public Color color;
+    public ColorToSprite color;
 
     private Animator anim;
     public SpriteRenderer spriteRenderer;
 
 
     private bool _isFalling;
-    public bool isFalling{
+    public bool isFalling
+    {
 
-        get{
+        get
+        {
             return _isFalling;
         }
-        set{
+        set
+        {
             _isFalling = value;
             //if(_isFalling)
             //{
@@ -44,56 +47,72 @@ public class Tile : MonoBehaviour
     }
     //THIS CLASS IS HERE JUST FOR THE BUTTON CLICKS, BUT TILES THEMSELVES SHOULD NOT HANDLE ANY ACTIONS, ISNTEAD
     //THEY SHOULD REPORT THAT MESSAGE TO THEIR MANAGER!
-    void OnMouseDown(){
+    void OnMouseDown()
+    {
         manager.HandleTileClick(this);
     }
     public void Start()
     {
-
-        if(!isDead){
-            GetComponent<SpriteRenderer>().color = manager.colors[Random.Range(0, manager.colors.Length - 1)];
+        if (!isDead)
+        {
             spriteRenderer = GetComponent<SpriteRenderer>();
-            this.color = spriteRenderer.color;
+            //spriteRenderer.color = manager.colorToSprite[Random.Range(0, manager.colorToSprite.Length - 1)].color;
+            color = manager.colorToSprite[Random.Range(0, manager.colorToSprite.Length - 1)];
+            spriteRenderer.sprite = color.sprite;
             anim = GetComponent<Animator>();
         }
-
-         
-
     }
     public void Update()
     {
-        if(inAnimation){
+        if (inAnimation)
+        {
             transform.position = Vector2.Lerp(transform.position, shouldMoveTo, speed * Time.deltaTime);
         }
-        if(Vector2.Distance(transform.position, shouldMoveTo) < 0.01f){
+        if (Vector2.Distance(transform.position, shouldMoveTo) < 0.01f)
+        {
             inAnimation = false;
             isFalling = false;
         }
     }
-    public void setIsDead(){
+    public void setIsDead()
+    {
         isDead = true;
         GetComponent<SpriteRenderer>().enabled = false;
     }
 
-    public void OnMouseOver(){
+    public void OnMouseOver()
+    {
         manager.HandleTileMouseOver(this);
     }
 
-    public void OnMouseExit(){
-        manager.HandleTileMouseExit(this);  
+    public void OnMouseExit()
+    {
+        manager.HandleTileMouseExit(this);
     }
 
-    public void setHover(bool state){
+    public void setHover(bool state)
+    {
         if (isDead)
             return;
-        anim.SetBool("isHover",state);
+        anim.SetBool("isHover", state);
+
+        if (state)
+        {
+            spriteRenderer.color = Color.gray;
+        }
+        else
+        {
+            spriteRenderer.color = Color.white;
+        }
     }
 
-    public void setSelect(bool state){
-        anim.SetBool("Selected",state);
+    public void setSelect(bool state)
+    {
+        anim.SetBool("Selected", state);
         print("Setting selection");
     }
-    public bool getInSelect(){
+    public bool getInSelect()
+    {
         return !isDead && anim.GetBool("isHover");
     }
 
