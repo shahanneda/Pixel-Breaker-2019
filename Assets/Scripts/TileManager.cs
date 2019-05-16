@@ -8,7 +8,6 @@ public class TileManager : MonoBehaviour
 
     public static Tile[,] tiles;
     public float gravityCheckFloat = 0.1f;
-    //public Color[] colors;
     public Sprite[] sprites;
 
     Options optionSelected;
@@ -34,8 +33,6 @@ public class TileManager : MonoBehaviour
         grid.SetUp();
     }
 
-
-
     /// <summary>
     /// summary: this method is suppsued to move all of the tiles to their correct position in the game world after
     /// we rotate the local grid or something
@@ -54,7 +51,6 @@ public class TileManager : MonoBehaviour
                 tiles[x, y].Y = y;
             }
         }
-
     }
 
     /// <summary>
@@ -65,7 +61,8 @@ public class TileManager : MonoBehaviour
     /// </summary>
     /// <param name="tile">The tile clicked</param>
     public void HandleTileClick(Tile tile)
-    { // Here is where we decide what we should do wheter that a rotate or somethin like that;
+    {
+        // Here is where we decide what we should do wheter that a rotate or somethin like that;
         switch (optionSelected)
         {
             case Options.RotateClockWise:
@@ -92,32 +89,69 @@ public class TileManager : MonoBehaviour
 
     public void ThreeByThreeSwitch(int x, int y)
     {
-
         if (SelectedTilesGroupOne.Count > 0)
         {
-
             Tile[] tilesToSwitchTo = GetTilesIn3x3(tiles[x, y]);
-            //add check for edge TODO
+
+            //Add check for edge TODO
             SwitchTiles(SelectedTilesGroupOne.ToArray(), tilesToSwitchTo);
             SelectTiles(SelectedTilesGroupOne.ToArray(), false);
             SelectTiles(tilesToSwitchTo, false);
             SelectedTilesGroupOne.Clear();
-
         }
         else
         {
             SelectedTilesGroupOne.AddRange(GetTilesIn3x3(tiles[x, y]));
             SelectTiles(SelectedTilesGroupOne.ToArray(), true);
-
         }
     }
 
     private void SwitchTiles(Tile[] group1, Tile[] group2)
     {
+        StartCoroutine(SwtichTilesCoroutine(group1, group2));
+    }
+
+    private IEnumerator SwtichTilesCoroutine(Tile[] group1, Tile[] group2)
+    {
         if (group1.Length != group2.Length)
         {
-            return;
+            yield return null;
         }
+
+        List<Tile> group1Top = new List<Tile>();
+        int group1TopY = 0;
+        for (int i = 0; i < group1.Length; i++)
+        {
+            if (group1[i].Y > group1TopY)
+            {
+                group1TopY = group1[i].Y;
+            }
+        }
+        for (int i = 0; i < group1.Length; i++)
+        {
+            if (group1[i].Y == group1TopY)
+            {
+                group1Top.Add(group1[i]);
+            }
+        }
+
+        List<Tile> group2Top = new List<Tile>();
+        int group2TopY = 0;
+        for (int i = 0; i < group2.Length; i++)
+        {
+            if (group2[i].Y > group2TopY)
+            {
+                group2TopY = group2[i].Y;
+            }
+        }
+        for (int i = 0; i < group2.Length; i++)
+        {
+            if (group2[i].Y == group2TopY)
+            {
+                group2Top.Add(group2[i]);
+            }
+        }
+
         for (int i = 0; i < group1.Length; i++)
         {
             //Tile tile = tiles[group2[i].X, group2[i].Y];
@@ -125,7 +159,16 @@ public class TileManager : MonoBehaviour
             tiles[group1[i].X, group1[i].Y] = group2[i];
         }
 
+        for (int i = 0; i < 3; i++)
+        {
+            if(group1TopY < grid.gameHeight - 1) gravityQueue.Add(tiles[group1Top[i].X, group1Top[i].Y + 1]);
+            if (group2TopY < grid.gameHeight - 1) gravityQueue.Add(tiles[group2Top[i].X, group2Top[i].Y + 1]);
+        }
+
         RedrawTilesFromLocal();
+
+        yield return new WaitForSeconds(0.2f);
+
         CheckForGravity();
     }
 
@@ -182,7 +225,6 @@ public class TileManager : MonoBehaviour
 
     private void CheckForGravity(int count = 0)
     {
-
         print(gravityQueue.ToArray().Length);
 
         foreach (Tile tile in gravityQueue.ToArray())
@@ -191,11 +233,11 @@ public class TileManager : MonoBehaviour
             {
                 gravityQueue.Add(tiles[tile.X, tile.Y + 1]);//NOTE this line is adding multiple tiems @ preformance if needed
             }
+
             if (tile.Y != 0)
             {
                 for (int scalingY = tile.Y; tiles[tile.X, scalingY - 1].isDead; scalingY--)
                 {
-
                     Tile temp = tiles[tile.X, scalingY];
                     tiles[tile.X, scalingY] = tiles[tile.X, scalingY - 1];
                     tiles[tile.X, scalingY - 1] = temp;
@@ -208,6 +250,7 @@ public class TileManager : MonoBehaviour
                 gravityQueue.Remove(tile);
             }
         }
+
         if (count <= 3)
         {
             CheckForGravity(count + 1);
@@ -216,9 +259,8 @@ public class TileManager : MonoBehaviour
         {
             RedrawTilesFromLocal();
         }
-
-
     }
+
     private void DestroyAllTilesOfSameColorAround(int x, int y)
     {
         CheckNearbyTileColors(x, y);
@@ -233,31 +275,33 @@ public class TileManager : MonoBehaviour
             destructionQueue.Remove(t);
         }
     }
+
     private void CheckNearbyTileColors(int x, int y)
     {
         Sprite sprite = tiles[x, y].sprite;
         destructionQueue.Add(tiles[x, y]);
         if (x + 1 < tiles.GetLength(0) && tiles[x + 1, y].sprite == sprite && destructionQueue.IndexOf(tiles[x + 1, y]) == -1)
-        {//right
-
+        {
+            //right
             CheckNearbyTileColors(x + 1, y);
         }
         if (x - 1 >= 0 && tiles[x - 1, y].sprite == sprite && destructionQueue.IndexOf(tiles[x - 1, y]) == -1)
-        {//left
-
+        {
+            //left
             CheckNearbyTileColors(x - 1, y);
         }
         if (y + 1 < tiles.GetLength(1) && tiles[x, y + 1].sprite == sprite && destructionQueue.IndexOf(tiles[x, y + 1]) == -1)
-        {//top
-
+        {
+            //top
             CheckNearbyTileColors(x, y + 1);
         }
         if (y - 1 >= 0 && tiles[x, y - 1].sprite == sprite && destructionQueue.IndexOf(tiles[x, y - 1]) == -1)
-        {//bottom
-
+        {
+            //bottom
             CheckNearbyTileColors(x, y - 1);
         }
     }
+
     private void DestroyTile(int x, int y)
     {
         Destroy(tiles[x, y].gameObject);
@@ -272,6 +316,7 @@ public class TileManager : MonoBehaviour
         RedrawTilesFromLocal();
 
     }
+
     /// <summary>
     /// Handles the tile mouse over. 
     /// Called form tile
@@ -299,6 +344,7 @@ public class TileManager : MonoBehaviour
         }
 
     }
+
     /// <summary>
     /// Handles the tile mouse exit.
     /// </summary>

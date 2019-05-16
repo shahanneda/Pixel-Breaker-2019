@@ -96,7 +96,7 @@ public class Tile : MonoBehaviour
             return;
         //anim.SetBool("isHover", state);
 
-        if (state)
+        if (state && spriteRenderer.enabled)
         {
             spriteRenderer.color = Color.gray;
         }
@@ -108,8 +108,11 @@ public class Tile : MonoBehaviour
 
     public void setSelect(bool state)
     {
-        anim.SetBool("Selected", state);
-        print("Setting selection");
+        if (!isDead)
+        {
+            anim.SetBool("Selected", state);
+            print("Setting selection");
+        }
     }
 
     public bool getInSelect()
