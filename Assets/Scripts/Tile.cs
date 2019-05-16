@@ -19,7 +19,7 @@ public class Tile : MonoBehaviour
     [HideInInspector]
     public Vector2 shouldMoveTo = Vector2.positiveInfinity;
     [HideInInspector]
-    public ColorToSprite color;
+    public Sprite sprite;
 
     private Animator anim;
     public SpriteRenderer spriteRenderer;
@@ -57,8 +57,8 @@ public class Tile : MonoBehaviour
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
             //spriteRenderer.color = manager.colorToSprite[Random.Range(0, manager.colorToSprite.Length - 1)].color;
-            color = manager.colorToSprite[Random.Range(0, manager.colorToSprite.Length - 1)];
-            spriteRenderer.sprite = color.sprite;
+            sprite = manager.sprites[Random.Range(0, manager.sprites.Length - 1)];
+            spriteRenderer.sprite = sprite;
             anim = GetComponent<Animator>();
         }
     }
@@ -111,9 +111,9 @@ public class Tile : MonoBehaviour
         anim.SetBool("Selected", state);
         print("Setting selection");
     }
+
     public bool getInSelect()
     {
         return !isDead && anim.GetBool("isHover");
     }
-
 }

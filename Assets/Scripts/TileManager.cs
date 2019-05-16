@@ -9,7 +9,7 @@ public class TileManager : MonoBehaviour
     public static Tile[,] tiles;
     public float gravityCheckFloat = 0.1f;
     //public Color[] colors;
-    public ColorToSprite[] colorToSprite;
+    public Sprite[] sprites;
 
     Options optionSelected;
     SelectionMode currentSelectionMode;
@@ -235,24 +235,24 @@ public class TileManager : MonoBehaviour
     }
     private void CheckNearbyTileColors(int x, int y)
     {
-        Color color = tiles[x, y].color.color;
+        Sprite sprite = tiles[x, y].sprite;
         destructionQueue.Add(tiles[x, y]);
-        if (x + 1 < tiles.GetLength(0) && tiles[x + 1, y].color.color == color && destructionQueue.IndexOf(tiles[x + 1, y]) == -1)
+        if (x + 1 < tiles.GetLength(0) && tiles[x + 1, y].sprite == sprite && destructionQueue.IndexOf(tiles[x + 1, y]) == -1)
         {//right
 
             CheckNearbyTileColors(x + 1, y);
         }
-        if (x - 1 >= 0 && tiles[x - 1, y].color.color == color && destructionQueue.IndexOf(tiles[x - 1, y]) == -1)
+        if (x - 1 >= 0 && tiles[x - 1, y].sprite == sprite && destructionQueue.IndexOf(tiles[x - 1, y]) == -1)
         {//left
 
             CheckNearbyTileColors(x - 1, y);
         }
-        if (y + 1 < tiles.GetLength(1) && tiles[x, y + 1].color.color == color && destructionQueue.IndexOf(tiles[x, y + 1]) == -1)
+        if (y + 1 < tiles.GetLength(1) && tiles[x, y + 1].sprite == sprite && destructionQueue.IndexOf(tiles[x, y + 1]) == -1)
         {//top
 
             CheckNearbyTileColors(x, y + 1);
         }
-        if (y - 1 >= 0 && tiles[x, y - 1].color.color == color && destructionQueue.IndexOf(tiles[x, y - 1]) == -1)
+        if (y - 1 >= 0 && tiles[x, y - 1].sprite == sprite && destructionQueue.IndexOf(tiles[x, y - 1]) == -1)
         {//bottom
 
             CheckNearbyTileColors(x, y - 1);
@@ -349,11 +349,4 @@ public class TileManager : MonoBehaviour
     {
         return (t.X - 1 < 0 || t.X + 1 > tiles.GetLength(0) - 1 || t.Y - 1 < 0 || t.Y + 1 > tiles.GetLength(1) - 1);
     }
-}
-
-[System.Serializable]
-public struct ColorToSprite
-{
-    public Color color;
-    public Sprite sprite;
 }
