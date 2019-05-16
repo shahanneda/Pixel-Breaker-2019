@@ -98,7 +98,7 @@ public class Tile : MonoBehaviour
 
         if (state && spriteRenderer.enabled)
         {
-            spriteRenderer.color = Color.gray;
+            spriteRenderer.color = new Color(0.8f, 0.8f, 0.8f);
         }
         else
         {
