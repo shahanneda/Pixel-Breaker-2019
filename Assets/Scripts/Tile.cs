@@ -28,7 +28,6 @@ public class Tile : MonoBehaviour
     private bool _isFalling;
     public bool isFalling
     {
-
         get
         {
             return _isFalling;
@@ -36,32 +35,26 @@ public class Tile : MonoBehaviour
         set
         {
             _isFalling = value;
-            //if(_isFalling)
-            //{
-            //    speed = 1f;
-            //}else{
-            //    speed = 1f;
-            //}
+            /*if(_isFalling)
+            {
+                speed = 1f;
+            }else{
+                speed = 1f;
+            }*/
         }
+    }
 
-    }
-    //THIS CLASS IS HERE JUST FOR THE BUTTON CLICKS, BUT TILES THEMSELVES SHOULD NOT HANDLE ANY ACTIONS, ISNTEAD
-    //THEY SHOULD REPORT THAT MESSAGE TO THEIR MANAGER!
-    void OnMouseDown()
-    {
-        manager.HandleTileClick(this);
-    }
     public void Start()
     {
         if (!isDead)
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
-            //spriteRenderer.color = manager.colorToSprite[Random.Range(0, manager.colorToSprite.Length - 1)].color;
             sprite = manager.sprites[Random.Range(0, manager.sprites.Length - 1)];
             spriteRenderer.sprite = sprite;
             anim = GetComponent<Animator>();
         }
     }
+
     public void Update()
     {
         if (inAnimation)
@@ -74,10 +67,12 @@ public class Tile : MonoBehaviour
             isFalling = false;
         }
     }
-    public void setIsDead()
+
+    //THIS CLASS IS HERE JUST FOR THE BUTTON CLICKS, BUT TILES THEMSELVES SHOULD NOT HANDLE ANY ACTIONS, ISNTEAD
+    //THEY SHOULD REPORT THAT MESSAGE TO THEIR MANAGER!
+    void OnMouseDown()
     {
-        isDead = true;
-        GetComponent<SpriteRenderer>().enabled = false;
+        manager.HandleTileClick(this);
     }
 
     public void OnMouseOver()
@@ -118,5 +113,12 @@ public class Tile : MonoBehaviour
     public bool getInSelect()
     {
         return !isDead && anim.GetBool("isHover");
+    }
+
+    public void setIsDead()
+    {
+        isDead = true;
+        //GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<SpriteRenderer>().sprite = null;
     }
 }

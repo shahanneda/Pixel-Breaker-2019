@@ -159,10 +159,17 @@ public class TileManager : MonoBehaviour
             tiles[group1[i].X, group1[i].Y] = group2[i];
         }
 
-        for (int i = 0; i < 3; i++)
+        print("x coordinates " + group1[0].X + " " + group1[1].X + " " + group1[2].X);
+
+        for(int i = 0; i < grid.gameHeight; i++)
         {
-            if(group1TopY < grid.gameHeight - 1) gravityQueue.Add(tiles[group1Top[i].X, group1Top[i].Y + 1]);
-            if (group2TopY < grid.gameHeight - 1) gravityQueue.Add(tiles[group2Top[i].X, group2Top[i].Y + 1]);
+            gravityQueue.Add(tiles[group1[0].X, i]);
+            gravityQueue.Add(tiles[group1[1].X, i]);
+            gravityQueue.Add(tiles[group1[2].X, i]);
+
+            gravityQueue.Add(tiles[group2[0].X, i]);
+            gravityQueue.Add(tiles[group2[1].X, i]);
+            gravityQueue.Add(tiles[group2[2].X, i]);
         }
 
         RedrawTilesFromLocal();
@@ -305,16 +312,17 @@ public class TileManager : MonoBehaviour
     private void DestroyTile(int x, int y)
     {
         Destroy(tiles[x, y].gameObject);
+
         //THIS IS SO ALL BLOCK ABOVE FALL DOWN
         for (int scalingY = 0; scalingY < tiles.GetLength(1) - y - 1; scalingY++)
         {
-            Tile empty = Instantiate(grid.tilePrefab, this.transform).GetComponent<Tile>();
+            Tile empty = Instantiate(grid.tilePrefab, transform).GetComponent<Tile>();
             empty.setIsDead();
             tiles[x, y + scalingY] = tiles[x, y + 1 + scalingY];
             tiles[x, y + 1 + scalingY] = empty;
         }
-        RedrawTilesFromLocal();
 
+        RedrawTilesFromLocal();
     }
 
     /// <summary>
@@ -384,6 +392,7 @@ public class TileManager : MonoBehaviour
         {
             return new Tile[] { tile };
         }
+
         return new Tile[]{
             tiles[tile.X-1,tile.Y+1], tiles[tile.X,tile.Y+1], tiles[tile.X+1,tile.Y+1],
             tiles[tile.X-1,tile.Y  ], tiles[tile.X,tile.Y  ], tiles[tile.X+1,tile.Y  ],
