@@ -91,7 +91,7 @@ public class Tile : MonoBehaviour
             return;
         //anim.SetBool("isHover", state);
 
-        if (state && spriteRenderer.enabled)
+        if (state && spriteRenderer.enabled && spriteRenderer != null)
         {
             spriteRenderer.color = new Color(0.8f, 0.8f, 0.8f);
         }

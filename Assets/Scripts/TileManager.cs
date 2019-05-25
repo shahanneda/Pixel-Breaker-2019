@@ -155,21 +155,35 @@ public class TileManager : MonoBehaviour
         for (int i = 0; i < group1.Length; i++)
         {
             //Tile tile = tiles[group2[i].X, group2[i].Y];
-            tiles[group2[i].X, group2[i].Y] = group1[i];
-            tiles[group1[i].X, group1[i].Y] = group2[i];
+            try
+            {
+                tiles[group2[i].X, group2[i].Y] = group1[i];
+                tiles[group1[i].X, group1[i].Y] = group2[i];
+            }
+            catch
+            {
+                continue;
+            }
         }
 
         print("x coordinates " + group1[0].X + " " + group1[1].X + " " + group1[2].X);
 
-        for(int i = 0; i < grid.gameHeight; i++)
+        for (int i = 0; i < grid.gameHeight; i++)
         {
-            gravityQueue.Add(tiles[group1[0].X, i]);
-            gravityQueue.Add(tiles[group1[1].X, i]);
-            gravityQueue.Add(tiles[group1[2].X, i]);
+            try
+            {
+                gravityQueue.Add(tiles[group1[0].X, i]);
+                gravityQueue.Add(tiles[group1[1].X, i]);
+                gravityQueue.Add(tiles[group1[2].X, i]);
 
-            gravityQueue.Add(tiles[group2[0].X, i]);
-            gravityQueue.Add(tiles[group2[1].X, i]);
-            gravityQueue.Add(tiles[group2[2].X, i]);
+                gravityQueue.Add(tiles[group2[0].X, i]);
+                gravityQueue.Add(tiles[group2[1].X, i]);
+                gravityQueue.Add(tiles[group2[2].X, i]);
+            }
+            catch
+            {
+                continue;
+            }
         }
 
         RedrawTilesFromLocal();
@@ -311,7 +325,8 @@ public class TileManager : MonoBehaviour
 
     private void DestroyTile(int x, int y)
     {
-        Destroy(tiles[x, y].gameObject);
+        //Destroy(tiles[x, y].gameObject); //THIS COMMENT IS TEMPORARY
+        tiles[x, y].setIsDead();
 
         //THIS IS SO ALL BLOCK ABOVE FALL DOWN
         for (int scalingY = 0; scalingY < tiles.GetLength(1) - y - 1; scalingY++)
