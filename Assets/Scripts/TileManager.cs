@@ -93,6 +93,11 @@ public class TileManager : MonoBehaviour
         {
             Tile[] tilesToSwitchTo = GetTilesIn3x3(tiles[x, y]);
 
+            foreach (Tile tile in tilesToSwitchTo)
+            {
+                if (SelectedTilesGroupOne.Contains(tile)) return;
+            }
+
             //Add check for edge TODO
             SwitchTiles(SelectedTilesGroupOne.ToArray(), tilesToSwitchTo);
             SelectTiles(SelectedTilesGroupOne.ToArray(), false);
