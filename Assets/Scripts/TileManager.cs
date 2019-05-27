@@ -18,6 +18,8 @@ public class TileManager : MonoBehaviour
     List<Tile> SelectedTilesGroupOne = new List<Tile>();
     List<Tile> SelectedTilesGroupTwo = new List<Tile>();
 
+    private ScoreManager scoreManager;
+
     /*
      * @ADAM, whenever we want to move the tiles, if we just move the items of this array, and call RedrawTilesFromLocal(), everything should be handeld
      * 
@@ -27,6 +29,8 @@ public class TileManager : MonoBehaviour
         Tile.manager = this;
         TileGrid.manager = this;
         TileActions.manager = this;
+
+        scoreManager = FindObjectOfType<ScoreManager>();
 
         grid = GetComponent<TileGrid>();
         tileActions = GetComponent<TileActions>();
@@ -73,7 +77,7 @@ public class TileManager : MonoBehaviour
 
                 break;
             case Options.Destroy:
-                DestroyTile(tile.X, tile.Y);
+                DestroyTile(tile.X, tile.Y, true);
                 break;
             case Options.DestroyWithColors:
                 DestroyAllTilesOfSameColorAround(tile.X, tile.Y);
@@ -170,8 +174,6 @@ public class TileManager : MonoBehaviour
                 continue;
             }
         }
-
-        print("x coordinates " + group1[0].X + " " + group1[1].X + " " + group1[2].X);
 
         for (int i = 0; i < grid.gameHeight; i++)
         {
@@ -295,9 +297,11 @@ public class TileManager : MonoBehaviour
 
     private void ApplyDestructionQueue()
     {
+        scoreManager.AddScore((int)Mathf.Pow(destructionQueue.Count, 2));
+
         foreach (Tile t in destructionQueue.ToArray())
         {
-            DestroyTile(t.X, t.Y);
+            DestroyTile(t.X, t.Y, false);
             destructionQueue.Remove(t);
         }
     }
@@ -328,7 +332,7 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    private void DestroyTile(int x, int y)
+    private void DestroyTile(int x, int y, bool addScore)
     {
         //Destroy(tiles[x, y].gameObject); //THIS COMMENT IS TEMPORARY
         tiles[x, y].setIsDead();
@@ -342,6 +346,7 @@ public class TileManager : MonoBehaviour
             tiles[x, y + 1 + scalingY] = empty;
         }
 
+        if (addScore) scoreManager.AddScore(1);
         RedrawTilesFromLocal();
     }
 
