@@ -20,6 +20,8 @@ public class TileManager : MonoBehaviour
 
     private ScoreManager scoreManager;
 
+    private int amountOfTurns = 0;
+
     /*
      * @ADAM, whenever we want to move the tiles, if we just move the items of this array, and call RedrawTilesFromLocal(), everything should be handeld
      * 
@@ -49,7 +51,7 @@ public class TileManager : MonoBehaviour
         {
             for (int y = 0; y < tiles.GetLength(1); y++)
             {
-                tiles[x, y].shouldMoveTo = grid.tileGamePosVec(x, y);//Update pos from local
+                tiles[x, y].shouldMoveTo = grid.tileGamePosVec(x, y); //Update pos from local
                 tiles[x, y].inAnimation = true;
                 tiles[x, y].X = x;
                 tiles[x, y].Y = y;
@@ -88,6 +90,13 @@ public class TileManager : MonoBehaviour
             case Options.ThreeByThreeSwitch:
                 ThreeByThreeSwitch(tile.X, tile.Y);
                 break;
+        }
+
+        amountOfTurns++;
+
+        if (amountOfTurns % 9 == 0)
+        {
+            AddRowOfTiles();
         }
     }
 
@@ -253,7 +262,7 @@ public class TileManager : MonoBehaviour
 
     private void CheckForGravity(int count = 0)
     {
-        print(gravityQueue.ToArray().Length);
+        print(gravityQueue.Count);
 
         foreach (Tile tile in gravityQueue.ToArray())
         {
@@ -308,46 +317,52 @@ public class TileManager : MonoBehaviour
 
     private void CheckNearbyTileColors(int x, int y)
     {
-        Sprite sprite = tiles[x, y].sprite;
-        destructionQueue.Add(tiles[x, y]);
-        if (x + 1 < tiles.GetLength(0) && tiles[x + 1, y].sprite == sprite && destructionQueue.IndexOf(tiles[x + 1, y]) == -1)
+        if (!tiles[x, y].isDead) 
         {
-            //right
-            CheckNearbyTileColors(x + 1, y);
-        }
-        if (x - 1 >= 0 && tiles[x - 1, y].sprite == sprite && destructionQueue.IndexOf(tiles[x - 1, y]) == -1)
-        {
-            //left
-            CheckNearbyTileColors(x - 1, y);
-        }
-        if (y + 1 < tiles.GetLength(1) && tiles[x, y + 1].sprite == sprite && destructionQueue.IndexOf(tiles[x, y + 1]) == -1)
-        {
-            //top
-            CheckNearbyTileColors(x, y + 1);
-        }
-        if (y - 1 >= 0 && tiles[x, y - 1].sprite == sprite && destructionQueue.IndexOf(tiles[x, y - 1]) == -1)
-        {
-            //bottom
-            CheckNearbyTileColors(x, y - 1);
+            Sprite sprite = tiles[x, y].sprite;
+            destructionQueue.Add(tiles[x, y]);
+            if (x + 1 < tiles.GetLength(0) && tiles[x + 1, y].sprite == sprite && destructionQueue.IndexOf(tiles[x + 1, y]) == -1)
+            {
+                //right
+                CheckNearbyTileColors(x + 1, y);
+            }
+            if (x - 1 >= 0 && tiles[x - 1, y].sprite == sprite && destructionQueue.IndexOf(tiles[x - 1, y]) == -1)
+            {
+                //left
+                CheckNearbyTileColors(x - 1, y);
+            }
+            if (y + 1 < tiles.GetLength(1) && tiles[x, y + 1].sprite == sprite && destructionQueue.IndexOf(tiles[x, y + 1]) == -1)
+            {
+                //top
+                CheckNearbyTileColors(x, y + 1);
+            }
+            if (y - 1 >= 0 && tiles[x, y - 1].sprite == sprite && destructionQueue.IndexOf(tiles[x, y - 1]) == -1)
+            {
+                //bottom
+                CheckNearbyTileColors(x, y - 1);
+            }
         }
     }
 
     private void DestroyTile(int x, int y, bool addScore)
     {
-        //Destroy(tiles[x, y].gameObject); //THIS COMMENT IS TEMPORARY
-        tiles[x, y].setIsDead();
-
-        //THIS IS SO ALL BLOCK ABOVE FALL DOWN
-        for (int scalingY = 0; scalingY < tiles.GetLength(1) - y - 1; scalingY++)
+        if (!tiles[x, y].isDead)
         {
-            Tile empty = Instantiate(grid.tilePrefab, transform).GetComponent<Tile>();
-            empty.setIsDead();
-            tiles[x, y + scalingY] = tiles[x, y + 1 + scalingY];
-            tiles[x, y + 1 + scalingY] = empty;
-        }
+            //Destroy(tiles[x, y].gameObject); //THIS COMMENT IS TEMPORARY
+            tiles[x, y].setIsDead();
 
-        if (addScore) scoreManager.AddScore(1);
-        RedrawTilesFromLocal();
+            //THIS IS SO ALL BLOCK ABOVE FALL DOWN
+            for (int scalingY = 0; scalingY < tiles.GetLength(1) - y - 1; scalingY++)
+            {
+                Tile empty = Instantiate(grid.tilePrefab, transform).GetComponent<Tile>();
+                empty.setIsDead();
+                tiles[x, y + scalingY] = tiles[x, y + 1 + scalingY];
+                tiles[x, y + 1 + scalingY] = empty;
+            }
+
+            if (addScore) scoreManager.AddScore(1);
+            RedrawTilesFromLocal();
+        }
     }
 
     /// <summary>
@@ -428,5 +443,38 @@ public class TileManager : MonoBehaviour
     public bool TileIsOnEdge(Tile t)
     {
         return (t.X - 1 < 0 || t.X + 1 > tiles.GetLength(0) - 1 || t.Y - 1 < 0 || t.Y + 1 > tiles.GetLength(1) - 1);
+    }
+
+    public void AddRowOfTiles()
+    {
+        bool lose = false;
+
+        for (int x = 0; x < grid.gameWidth; x++)
+        {
+            for (int y = grid.gameHeight; y < 0; y--)
+            {
+                Tile tile = tiles[x, y];
+
+                if (tile.isDead || tile == null) continue;
+                if (y >= grid.gameHeight - 100)
+                {
+                    lose = true;
+                    break;
+                }
+
+                if (lose) break;
+
+                tile.Y++;
+                tiles[x, y + 1] = tile;
+
+                gravityQueue.Add(tiles[x, y]);
+            }
+
+            grid.AddTile(x, 0).ChooseRandomSprite();
+        }
+
+        print(lose);
+
+        RedrawTilesFromLocal();
     }
 }

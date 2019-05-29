@@ -10,7 +10,6 @@ using static TileManager;
 /// </summary>
 public class TileGrid : MonoBehaviour
 {
-
     public int gameWidth = 10;
     public int gameHeight = 20;
     public float tileSpaceX = 1;//TODO: maybe make this  auto generated for optimal setting maybe?
@@ -18,9 +17,32 @@ public class TileGrid : MonoBehaviour
     public GameObject tilePrefab;
     public static TileManager manager;
 
-    public void SetUp(){
+    public void SetUp()
+    {
         tiles = new Tile[gameWidth, gameHeight];
         FillTiles();
+    }
+
+    public Tile AddTile(int x, int y)
+    {
+        tiles[x, y] = (Instantiate(tilePrefab, tileGamePosVec(x, y), Quaternion.identity, transform) as GameObject).GetComponent<Tile>();
+
+        tiles[x, y].X = x;
+        tiles[x, y].Y = y;
+
+        return tiles[x, y];
+    }
+
+    public Tile AddTile(int x, int y, Sprite sprite)
+    {
+        tiles[x, y] = (Instantiate(tilePrefab, tileGamePosVec(x, y), Quaternion.identity, transform) as GameObject).GetComponent<Tile>();
+
+        tiles[x, y].X = x;
+        tiles[x, y].Y = y;
+
+        tiles[x, y].SetSprite(sprite);
+
+        return tiles[x, y];
     }
 
     private void FillTiles()
@@ -29,14 +51,7 @@ public class TileGrid : MonoBehaviour
         {
             for (int y = 0; y < tiles.GetLength(1); y++)
             {
-                tiles[x, y] = (Instantiate(tilePrefab,
-                     tileGamePosVec(x, y),
-                     Quaternion.identity, transform) as GameObject)
-                    .GetComponent<Tile>();
-
-                tiles[x, y].X = x;//gives each tile its position in the grid
-                tiles[x, y].Y = y;
-
+                AddTile(x, y).ChooseRandomSprite(); ;
             }
         }
 

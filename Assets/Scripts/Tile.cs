@@ -16,7 +16,7 @@ public class Tile : MonoBehaviour
     public bool inAnimation = false;
     public bool isDead = false;
 
-    [HideInInspector]
+    //[HideInInspector]
     public Vector2 shouldMoveTo = Vector2.positiveInfinity;
     [HideInInspector]
     public Sprite sprite;
@@ -44,15 +44,15 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void Start()
+    public void Awake()
     {
         if (!isDead)
         {
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            sprite = manager.sprites[Random.Range(0, manager.sprites.Length - 1)];
-            spriteRenderer.sprite = sprite;
             anim = GetComponent<Animator>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
         }
+
+        shouldMoveTo = transform.position;
     }
 
     public void Update()
@@ -61,6 +61,7 @@ public class Tile : MonoBehaviour
         {
             transform.position = Vector2.Lerp(transform.position, shouldMoveTo, speed * Time.deltaTime);
         }
+
         if (Vector2.Distance(transform.position, shouldMoveTo) < 0.01f)
         {
             inAnimation = false;
@@ -68,11 +69,23 @@ public class Tile : MonoBehaviour
         }
     }
 
+    public void ChooseRandomSprite()
+    {
+        sprite = manager.sprites[Random.Range(0, manager.sprites.Length - 1)];
+        spriteRenderer.sprite = sprite;
+    }
+
+    public void SetSprite(Sprite sprite)
+    {
+        this.sprite = sprite;
+        spriteRenderer.sprite = sprite;
+    }
+
     //THIS CLASS IS HERE JUST FOR THE BUTTON CLICKS, BUT TILES THEMSELVES SHOULD NOT HANDLE ANY ACTIONS, ISNTEAD
     //THEY SHOULD REPORT THAT MESSAGE TO THEIR MANAGER!
     void OnMouseDown()
     {
-        manager.HandleTileClick(this);
+        if (!isDead) manager.HandleTileClick(this);
     }
 
     public void OnMouseOver()
