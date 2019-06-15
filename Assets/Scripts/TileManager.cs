@@ -94,7 +94,7 @@ public class TileManager : MonoBehaviour
 
         amountOfTurns++;
 
-        if (amountOfTurns % 9 == 0)
+        if (amountOfTurns % 3 == 0)
         {
             AddRowOfTiles();
         }
@@ -445,7 +445,7 @@ public class TileManager : MonoBehaviour
     }
 
     public void SwitchRowOfTiles(int rowNumber1, int rowNumber2){
-        //print("Switching row " + rowNumber1 + " with row " + rowNumber2);
+        print("Switching row " + rowNumber2 + " with row " + rowNumber1);
         for (int i = 0; i < tiles.GetLength(0); i++){
             Tile t = tiles[i, rowNumber1];
             tiles[i, rowNumber1] = tiles[i, rowNumber2];
@@ -455,6 +455,7 @@ public class TileManager : MonoBehaviour
 
     public void AddRowOfTiles()
     {
+        CheckForIsLastRowFilled();
         for (int row = tiles.GetLength(1)-1; row > 0; row--){
             SwitchRowOfTiles(row, row - 1);
         }
@@ -462,43 +463,21 @@ public class TileManager : MonoBehaviour
         {
             grid.AddTile(i, 0).ChooseRandomSprite();
         }
-                
-    //bool lose = false;
-        //SwitchRowOfTiles(0,1);
-        ////Add secondray for for rows
-        //Tile[] newRow = new Tile[tiles.GetLength(0)];
-        //for (int i = 0; i < newRow.Length; i++)
-        //{
-        //    newRow[i] = grid.getStandbyTile();
-        //    newRow[i].X = i;
-        //}
-
-        //for (int x = 0; x < grid.gameWidth; x++)
-        //{
-        //    for (int y = grid.gameHeight; y < 0; y--)
-        //    {
-        //        //Tile tile = tiles[x, y];
-
-        //        //if (tile.isDead || tile == null) continue;
-        //        //if (y >= grid.gameHeight - 100)
-        //        //{
-        //        //    lose = true;
-        //        //    break;
-        //        //}
-
-        //        //if (lose) break;
-
-        //        //tile.Y++;
-        //        //tiles[x, y + 1] = tile;
-
-        //        //gravityQueue.Add(tiles[x, y]);
-        //    }
-
-        //grid.AddTile(x, 0).ChooseRandomSprite();
-        //}
-
-        //print(lose);
-
         RedrawTilesFromLocal();
+    }
+
+    private bool CheckForIsLastRowFilled(){
+        bool isDead = false;
+        for (int i = 0; i < tiles.GetLength(0); i++)
+        {
+            Tile t = tiles[i, tiles.GetLength(1) - 1];
+            if (!t.isDead)
+            {
+                print("PLAYER DEAD");
+                isDead = true;
+                t.GetComponent<SpriteRenderer>().color = Color.red;
+            }
+        }
+        return isDead;
     }
 }
