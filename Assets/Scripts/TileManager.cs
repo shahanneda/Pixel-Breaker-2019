@@ -94,7 +94,7 @@ public class TileManager : MonoBehaviour
 
         amountOfTurns++;
 
-        if (amountOfTurns % 3 == 0)
+        if (amountOfTurns % 9 == 0)
         {
             AddRowOfTiles();
         }
