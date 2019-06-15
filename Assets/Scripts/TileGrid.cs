@@ -17,10 +17,13 @@ public class TileGrid : MonoBehaviour
     public float tileSpaceY = 1;
     public GameObject tilePrefab;
     public static TileManager manager;
+    private Tile[] loadingArea;
+    public float loadingAreaY = -2.73f;
 
     public void SetUp()
     {
         tiles = new Tile[gameWidth, gameHeight];
+        loadingArea = new Tile[gameWidth];
         FillTiles();
     }
 
@@ -29,7 +32,30 @@ public class TileGrid : MonoBehaviour
         tiles[x, y] = GetNewTile(x, y);
         return tiles[x, y];
     }
-
+    public Tile AddTileToLoadingArea(int x)
+    {
+        Tile t = (Instantiate(tilePrefab, new Vector2(transform.position.x + x * tileSpaceX, loadingAreaY * 2.88340611f), Quaternion.identity, transform) as GameObject).GetComponent<Tile>();
+        loadingArea[x] = t;
+        t.setIsInLoadingArea(true);
+        return t;
+    }
+    public void fillTileLoadingArea()
+    {
+        for (int i = 0; i < tiles.GetLength(0); i++)
+        {
+            AddTileToLoadingArea(i).ChooseRandomSprite();
+        }
+    }
+    public void SwitchTilesFromLoadingAreaToLastRow(){
+        for (int i = 0; i < tiles.GetLength(0); i++){
+            Tile t = loadingArea[i];
+            t.transform.position = tileGamePosVec(i, 0);
+            t.X = i;
+            t.Y = 0;
+            tiles[t.X, t.Y] = t;
+            t.setIsInLoadingArea(false);
+        }
+    }
     public Tile AddTile(int x, int y, Sprite sprite)
     {
         AddTile(x, y);
@@ -42,9 +68,7 @@ public class TileGrid : MonoBehaviour
         t.Y = y;
         return t;
     }
-    public Tile getStandbyTile(){
-        return (Instantiate(tilePrefab, tileGamePosVec(-1, -1), Quaternion.identity, transform) as GameObject).GetComponent<Tile>();
-    }
+
     public void RegisterStandbyTilePositionInBoard(Tile t, int x, int y){
         t.X = x;
         t.Y = y;
@@ -53,6 +77,7 @@ public class TileGrid : MonoBehaviour
 
     private void FillTiles()
     {
+        fillTileLoadingArea();
         for (int x = 0; x < tiles.GetLength(0); x++)
         {
             for (int y = 0; y < numberOfRowsFilled; y++)

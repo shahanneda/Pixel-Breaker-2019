@@ -14,8 +14,15 @@ public class Tile : MonoBehaviour
     public float speed = 1f;
 
     public bool inAnimation = false;
-    public bool isDead = false;
-
+    public bool isDead = false;   
+    private bool isInLoadingArea = false;
+    
+    public bool getIsLoadingArea(){
+        return isInLoadingArea;
+    }
+    public void setIsInLoadingArea(bool value){
+        isInLoadingArea = value;
+    }
     //[HideInInspector]
     public Vector2 shouldMoveTo = Vector2.positiveInfinity;
     [HideInInspector]
@@ -85,7 +92,7 @@ public class Tile : MonoBehaviour
     //THEY SHOULD REPORT THAT MESSAGE TO THEIR MANAGER!
     void OnMouseDown()
     {
-        if (!isDead) manager.HandleTileClick(this);
+        if (!isDead && !isInLoadingArea) manager.HandleTileClick(this);
     }
 
     public void OnMouseOver()
@@ -100,7 +107,7 @@ public class Tile : MonoBehaviour
 
     public void setHover(bool state)
     {
-        if (isDead)
+        if (isDead || isInLoadingArea)
             return;
         //anim.SetBool("isHover", state);
 
@@ -116,7 +123,7 @@ public class Tile : MonoBehaviour
 
     public void setSelect(bool state)
     {
-        if (!isDead)
+        if (!isDead || !isInLoadingArea)
         {
             anim.SetBool("Selected", state);
             print("Setting selection");
@@ -125,7 +132,7 @@ public class Tile : MonoBehaviour
 
     public bool getInSelect()
     {
-        return !isDead && anim.GetBool("isHover");
+        return !isDead && !isInLoadingArea && anim.GetBool("isHover");
     }
 
     public void setIsDead()

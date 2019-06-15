@@ -459,10 +459,13 @@ public class TileManager : MonoBehaviour
         for (int row = tiles.GetLength(1)-1; row > 0; row--){
             SwitchRowOfTiles(row, row - 1);
         }
-        for (int i = 0; i < tiles.GetLength(0); i++)
-        {
-            grid.AddTile(i, 0).ChooseRandomSprite();
-        }
+        grid.SwitchTilesFromLoadingAreaToLastRow();
+        grid.fillTileLoadingArea();
+
+        //for (int i = 0; i < tiles.GetLength(0); i++)
+        //{
+        //    grid.AddTile(i, 0).ChooseRandomSprite();
+        //}
         RedrawTilesFromLocal();
     }
 
