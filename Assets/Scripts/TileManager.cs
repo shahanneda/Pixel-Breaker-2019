@@ -445,7 +445,7 @@ public class TileManager : MonoBehaviour
     }
 
     public void SwitchRowOfTiles(int rowNumber1, int rowNumber2){
-        print("SWITCING");
+        //print("Switching row " + rowNumber1 + " with row " + rowNumber2);
         for (int i = 0; i < tiles.GetLength(0); i++){
             Tile t = tiles[i, rowNumber1];
             tiles[i, rowNumber1] = tiles[i, rowNumber2];
@@ -453,15 +453,23 @@ public class TileManager : MonoBehaviour
             t.GetComponent<SpriteRenderer>().color = Color.black;
         }
     }
+
     public void AddRowOfTiles()
     {
-        bool lose = false;
-        SwitchRowOfTiles(0,1);
-
-        Tile[] newRow = new Tile[tiles.GetLength(0)];
-        for (int i = 0; i < newRow.Length; i++){
-            newRow[i] = new Tile();
+        for (int row = tiles.GetLength(1)-1; row > 0; row--){
+            
+            SwitchRowOfTiles(row, row - 1);
         }
+        //bool lose = false;
+        //SwitchRowOfTiles(0,1);
+        ////Add secondray for for rows
+        //Tile[] newRow = new Tile[tiles.GetLength(0)];
+        //for (int i = 0; i < newRow.Length; i++)
+        //{
+        //    newRow[i] = grid.getStandbyTile();
+        //    newRow[i].X = i;
+        //}
+        
         //for (int x = 0; x < grid.gameWidth; x++)
         //{
         //    for (int y = grid.gameHeight; y < 0; y--)
@@ -483,10 +491,10 @@ public class TileManager : MonoBehaviour
         //        //gravityQueue.Add(tiles[x, y]);
         //    }
 
-        //    //grid.AddTile(x, 0).ChooseRandomSprite();
+            //grid.AddTile(x, 0).ChooseRandomSprite();
         //}
 
-        print(lose);
+        //print(lose);
 
         RedrawTilesFromLocal();
     }

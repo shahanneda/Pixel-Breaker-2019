@@ -42,6 +42,14 @@ public class TileGrid : MonoBehaviour
         t.Y = y;
         return t;
     }
+    public Tile getStandbyTile(){
+        return (Instantiate(tilePrefab, tileGamePosVec(-1, -1), Quaternion.identity, transform) as GameObject).GetComponent<Tile>();
+    }
+    public void RegisterStandbyTilePositionInBoard(Tile t, int x, int y){
+        t.X = x;
+        t.Y = y;
+        t.transform.position = tileGamePosVec(x, y);
+    }
 
     private void FillTiles()
     {
