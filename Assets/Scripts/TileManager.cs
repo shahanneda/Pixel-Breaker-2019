@@ -262,7 +262,6 @@ public class TileManager : MonoBehaviour
 
     private void CheckForGravity(int count = 0)
     {
-        print(gravityQueue.Count);
 
         foreach (Tile tile in gravityQueue.ToArray())
         {
@@ -445,33 +444,47 @@ public class TileManager : MonoBehaviour
         return (t.X - 1 < 0 || t.X + 1 > tiles.GetLength(0) - 1 || t.Y - 1 < 0 || t.Y + 1 > tiles.GetLength(1) - 1);
     }
 
+    public void SwitchRowOfTiles(int rowNumber1, int rowNumber2){
+        print("SWITCING");
+        for (int i = 0; i < tiles.GetLength(0); i++){
+            Tile t = tiles[i, rowNumber1];
+            tiles[i, rowNumber1] = tiles[i, rowNumber2];
+            tiles[i, rowNumber2] = t;
+            t.GetComponent<SpriteRenderer>().color = Color.black;
+        }
+    }
     public void AddRowOfTiles()
     {
         bool lose = false;
+        SwitchRowOfTiles(0,1);
 
-        for (int x = 0; x < grid.gameWidth; x++)
-        {
-            for (int y = grid.gameHeight; y < 0; y--)
-            {
-                Tile tile = tiles[x, y];
-
-                if (tile.isDead || tile == null) continue;
-                if (y >= grid.gameHeight - 100)
-                {
-                    lose = true;
-                    break;
-                }
-
-                if (lose) break;
-
-                tile.Y++;
-                tiles[x, y + 1] = tile;
-
-                gravityQueue.Add(tiles[x, y]);
-            }
-
-            grid.AddTile(x, 0).ChooseRandomSprite();
+        Tile[] newRow = new Tile[tiles.GetLength(0)];
+        for (int i = 0; i < newRow.Length; i++){
+            newRow[i] = new Tile();
         }
+        //for (int x = 0; x < grid.gameWidth; x++)
+        //{
+        //    for (int y = grid.gameHeight; y < 0; y--)
+        //    {
+        //        //Tile tile = tiles[x, y];
+
+        //        //if (tile.isDead || tile == null) continue;
+        //        //if (y >= grid.gameHeight - 100)
+        //        //{
+        //        //    lose = true;
+        //        //    break;
+        //        //}
+
+        //        //if (lose) break;
+
+        //        //tile.Y++;
+        //        //tiles[x, y + 1] = tile;
+
+        //        //gravityQueue.Add(tiles[x, y]);
+        //    }
+
+        //    //grid.AddTile(x, 0).ChooseRandomSprite();
+        //}
 
         print(lose);
 
