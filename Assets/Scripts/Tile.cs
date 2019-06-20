@@ -82,10 +82,10 @@ public class Tile : MonoBehaviour
         spriteRenderer.sprite = sprite;
     }
 
-    public void SetSprite(Sprite sprite)
+    public void SetSprite(Sprite newSprite)
     {
-        this.sprite = sprite;
-        spriteRenderer.sprite = sprite;
+        sprite = newSprite;
+        spriteRenderer.sprite = newSprite;
     }
 
     //THIS CLASS IS HERE JUST FOR THE BUTTON CLICKS, BUT TILES THEMSELVES SHOULD NOT HANDLE ANY ACTIONS, ISNTEAD

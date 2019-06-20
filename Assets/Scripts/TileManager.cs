@@ -5,10 +5,11 @@ using static GlobalEnums;
 
 public class TileManager : MonoBehaviour
 {
-
     public static Tile[,] tiles;
     public float gravityCheckFloat = 0.1f;
     public Sprite[] sprites;
+
+    public GameObject selectCardColorMenu;
 
     Options optionSelected;
     SelectionMode currentSelectionMode;
@@ -19,6 +20,8 @@ public class TileManager : MonoBehaviour
     List<Tile> SelectedTilesGroupTwo = new List<Tile>();
 
     private ScoreManager scoreManager;
+
+    private Tile selectedTile;
 
     private int amountOfTurns = 0;
 
@@ -68,6 +71,7 @@ public class TileManager : MonoBehaviour
     /// <param name="tile">The tile clicked</param>
     public void HandleTileClick(Tile tile)
     {
+
         // Here is where we decide what we should do wheter that a rotate or somethin like that;
         switch (optionSelected)
         {
@@ -90,6 +94,10 @@ public class TileManager : MonoBehaviour
             case Options.ThreeByThreeSwitch:
                 ThreeByThreeSwitch(tile.X, tile.Y);
                 break;
+            case Options.SwitchOne:
+                selectedTile = tile;
+                selectCardColorMenu.SetActive(true);
+                break;
         }
 
         amountOfTurns++;
@@ -98,6 +106,11 @@ public class TileManager : MonoBehaviour
         {
             AddRowOfTiles();
         }
+    }
+
+    public void SwitchColorOfOne(Sprite newColor)
+    {
+        selectedTile.SetSprite(newColor);
     }
 
     public void ThreeByThreeSwitch(int x, int y)
@@ -240,6 +253,9 @@ public class TileManager : MonoBehaviour
             case Options.ThreeByThreeSwitch:
                 currentSelectionMode = SelectionMode.SaveSelection;
                 break;
+            case Options.SwitchOne:
+                currentSelectionMode = SelectionMode.Single;
+                break;
         }
 
     }
@@ -262,7 +278,6 @@ public class TileManager : MonoBehaviour
 
     private void CheckForGravity(int count = 0)
     {
-
         foreach (Tile tile in gravityQueue.ToArray())
         {
             if (tile.Y + 1 < tiles.GetLength(1) && !tiles[tile.X, tile.Y + 1].isDead && !gravityQueue.Contains(tiles[tile.X, tile.Y + 1]))
@@ -316,7 +331,7 @@ public class TileManager : MonoBehaviour
 
     private void CheckNearbyTileColors(int x, int y)
     {
-        if (!tiles[x, y].isDead) 
+        if (!tiles[x, y].isDead)
         {
             Sprite sprite = tiles[x, y].sprite;
             destructionQueue.Add(tiles[x, y]);
@@ -444,9 +459,11 @@ public class TileManager : MonoBehaviour
         return (t.X - 1 < 0 || t.X + 1 > tiles.GetLength(0) - 1 || t.Y - 1 < 0 || t.Y + 1 > tiles.GetLength(1) - 1);
     }
 
-    public void SwitchRowOfTiles(int rowNumber1, int rowNumber2){
+    public void SwitchRowOfTiles(int rowNumber1, int rowNumber2)
+    {
         print("Switching row " + rowNumber2 + " with row " + rowNumber1);
-        for (int i = 0; i < tiles.GetLength(0); i++){
+        for (int i = 0; i < tiles.GetLength(0); i++)
+        {
             Tile t = tiles[i, rowNumber1];
             tiles[i, rowNumber1] = tiles[i, rowNumber2];
             tiles[i, rowNumber2] = t;
@@ -456,7 +473,8 @@ public class TileManager : MonoBehaviour
     public void AddRowOfTiles()
     {
         CheckForIsLastRowFilled();
-        for (int row = tiles.GetLength(1)-1; row > 0; row--){
+        for (int row = tiles.GetLength(1) - 1; row > 0; row--)
+        {
             SwitchRowOfTiles(row, row - 1);
         }
         grid.SwitchTilesFromLoadingAreaToLastRow();
@@ -469,7 +487,8 @@ public class TileManager : MonoBehaviour
         RedrawTilesFromLocal();
     }
 
-    private bool CheckForIsLastRowFilled(){
+    private bool CheckForIsLastRowFilled()
+    {
         bool isDead = false;
         for (int i = 0; i < tiles.GetLength(0); i++)
         {
