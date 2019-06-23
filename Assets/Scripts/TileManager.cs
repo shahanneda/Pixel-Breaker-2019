@@ -71,7 +71,6 @@ public class TileManager : MonoBehaviour
     /// <param name="tile">The tile clicked</param>
     public void HandleTileClick(Tile tile)
     {
-
         // Here is where we decide what we should do wheter that a rotate or somethin like that;
         switch (optionSelected)
         {
