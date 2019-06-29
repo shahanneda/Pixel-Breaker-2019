@@ -88,9 +88,9 @@ GameObject:
   - component: {fileID: 815098464460776124}
   - component: {fileID: 815098464460776127}
   - component: {fileID: 815098464460776125}
-  - component: {fileID: 2446804177426131198}
+  - component: {fileID: -1640176233255055937}
   m_Layer: 5
-  m_Name: Horizontal Flip Board
+  m_Name: Vertical Flip Board
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -145,7 +145,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 229ce01edfb0c674aaa5384410003c4f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d3c967438de7e4243b2e706eb86454f3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2446804177426131198}
+      - m_Target: {fileID: -1640176233255055937}
         m_MethodName: Flip
         m_Mode: 1
         m_Arguments:
@@ -210,7 +210,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &2446804177426131198
+--- !u!114 &-1640176233255055937
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93b84bc7b78c9324ab443a8d319cc294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flipOption: 1
+  flipOption: 0
 --- !u!1 &815098464578942380
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,7 +512,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Horizontally flip the board
+  m_Text: 'Vertically flip the board
 
 '
 --- !u!1 &815098465898476375

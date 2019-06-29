@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FlipBoard : MonoBehaviour
 {
+    public GlobalEnums.FlipOptions flipOption;
+
     private TileManager tileManager;
 
     private void Start()
@@ -13,6 +15,6 @@ public class FlipBoard : MonoBehaviour
 
     public void Flip()
     {
-
+        tileManager.FlipBoard(flipOption);
     }
 }

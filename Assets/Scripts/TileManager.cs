@@ -107,11 +107,7 @@ public class TileManager : MonoBehaviour
             }
 
             amountOfTurns++;
-
-            if (amountOfTurns % 9 == 0)
-            {
-                AddRowOfTiles();
-            }
+            CheckAmountOfTurns();
         }
     }
 
@@ -119,6 +115,29 @@ public class TileManager : MonoBehaviour
     {
         selectedTile.SetSprite(newColor);
         CanSelectTile = true;
+    }
+
+    public void FlipBoard(FlipOptions flipOption)
+    {
+        if (flipOption.Equals(FlipOptions.Horizontal))
+        {
+            for (int column = 0; column < Mathf.FloorToInt(grid.gameWidth / 2); column++)
+            {
+                SwitchColumnOfTiles(column, grid.gameWidth - column - 1);
+            }
+        }
+        else
+        {
+            for (int row = 0; row < Mathf.FloorToInt(grid.gameHeight / 2); row++)
+            {
+                SwitchRowOfTiles(row, grid.gameHeight - row - 1);
+            }
+        }
+
+        RedrawTilesFromLocal();
+
+        amountOfTurns++;
+        CheckAmountOfTurns();
     }
 
     public void ThreeByThreeSwitch(int x, int y)
@@ -142,6 +161,14 @@ public class TileManager : MonoBehaviour
         {
             SelectedTilesGroupOne.AddRange(GetTilesIn3x3(tiles[x, y]));
             SelectTiles(SelectedTilesGroupOne.ToArray(), true);
+        }
+    }
+
+    private void CheckAmountOfTurns()
+    {
+        if (amountOfTurns % 9 == 0)
+        {
+            AddRowOfTiles();
         }
     }
 
@@ -472,6 +499,7 @@ public class TileManager : MonoBehaviour
     public void SwitchRowOfTiles(int rowNumber1, int rowNumber2)
     {
         print("Switching row " + rowNumber2 + " with row " + rowNumber1);
+
         for (int i = 0; i < tiles.GetLength(0); i++)
         {
             Tile t = tiles[i, rowNumber1];
@@ -480,20 +508,30 @@ public class TileManager : MonoBehaviour
         }
     }
 
+    public void SwitchColumnOfTiles(int columnNumber1, int columnNumber2)
+    {
+        print("Switching column " + columnNumber2 + " with column " + columnNumber1);
+
+        for (int i = 0; i < tiles.GetLength(1); i++)
+        {
+            Tile t = tiles[columnNumber1, i];
+            tiles[columnNumber1, i] = tiles[columnNumber2, i];
+            tiles[columnNumber2, i] = t;
+        }
+    }
+
     public void AddRowOfTiles()
     {
         CheckForIsLastRowFilled();
+
         for (int row = tiles.GetLength(1) - 1; row > 0; row--)
         {
             SwitchRowOfTiles(row, row - 1);
         }
+
         grid.SwitchTilesFromLoadingAreaToLastRow();
         grid.fillTileLoadingArea();
 
-        //for (int i = 0; i < tiles.GetLength(0); i++)
-        //{
-        //    grid.AddTile(i, 0).ChooseRandomSprite();
-        //}
         RedrawTilesFromLocal();
     }
 
