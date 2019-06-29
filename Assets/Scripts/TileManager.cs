@@ -21,9 +21,11 @@ public class TileManager : MonoBehaviour
 
     private ScoreManager scoreManager;
 
-    private Tile selectedTile;
+    [SerializeField] private Tile selectedTile;
 
     private int amountOfTurns = 0;
+
+    public bool CanSelectTile { get; set; }
 
     /*
      * @ADAM, whenever we want to move the tiles, if we just move the items of this array, and call RedrawTilesFromLocal(), everything should be handeld
@@ -40,6 +42,8 @@ public class TileManager : MonoBehaviour
         grid = GetComponent<TileGrid>();
         tileActions = GetComponent<TileActions>();
         grid.SetUp();
+
+        CanSelectTile = true;
     }
 
     /// <summary>
@@ -71,45 +75,50 @@ public class TileManager : MonoBehaviour
     /// <param name="tile">The tile clicked</param>
     public void HandleTileClick(Tile tile)
     {
-        // Here is where we decide what we should do wheter that a rotate or somethin like that;
-        switch (optionSelected)
+        if (CanSelectTile)
         {
-            case Options.RotateClockWise:
-                tileActions.RotateTilesAround3x3(tile.X, tile.Y);
-                break;
-            case Options.RotateCounterClockwise:
-                tileActions.AntiRotateTilesAround3x3(tile.X, tile.Y);
+            // Here is where we decide what we should do wheter that a rotate or somethin like that;
+            switch (optionSelected)
+            {
+                case Options.RotateClockWise:
+                    tileActions.RotateTilesAround3x3(tile.X, tile.Y);
+                    break;
+                case Options.RotateCounterClockwise:
+                    tileActions.AntiRotateTilesAround3x3(tile.X, tile.Y);
 
-                break;
-            case Options.Destroy:
-                DestroyTile(tile.X, tile.Y, true);
-                break;
-            case Options.DestroyWithColors:
-                DestroyAllTilesOfSameColorAround(tile.X, tile.Y);
-                break;
-            case Options.Rotate3x3Right:
-                tileActions.Rotate3x3Tiles(tile.X, tile.Y);
-                break;
-            case Options.ThreeByThreeSwitch:
-                ThreeByThreeSwitch(tile.X, tile.Y);
-                break;
-            case Options.SwitchOne:
-                selectedTile = tile;
-                selectCardColorMenu.SetActive(true);
-                break;
-        }
+                    break;
+                case Options.Destroy:
+                    DestroyTile(tile.X, tile.Y, true);
+                    break;
+                case Options.DestroyWithColors:
+                    DestroyAllTilesOfSameColorAround(tile.X, tile.Y);
+                    break;
+                case Options.Rotate3x3Right:
+                    tileActions.Rotate3x3Tiles(tile.X, tile.Y);
+                    break;
+                case Options.ThreeByThreeSwitch:
+                    ThreeByThreeSwitch(tile.X, tile.Y);
+                    break;
+                case Options.SwitchOne:
+                    selectedTile = tile;
+                    selectCardColorMenu.SetActive(true);
+                    CanSelectTile = false;
+                    break;
+            }
 
-        amountOfTurns++;
+            amountOfTurns++;
 
-        if (amountOfTurns % 9 == 0)
-        {
-            AddRowOfTiles();
+            if (amountOfTurns % 9 == 0)
+            {
+                AddRowOfTiles();
+            }
         }
     }
 
     public void SwitchColorOfOne(Sprite newColor)
     {
         selectedTile.SetSprite(newColor);
+        CanSelectTile = true;
     }
 
     public void ThreeByThreeSwitch(int x, int y)
@@ -385,25 +394,27 @@ public class TileManager : MonoBehaviour
     /// <param name="tile">Tile.</param>
     public void HandleTileMouseOver(Tile tile)
     {
-        switch (currentSelectionMode)
+        if (CanSelectTile)
         {
-            case SelectionMode.Single:
-                tile.setHover(true);
-                break;
-            case SelectionMode.ThreeByThree:
-                foreach (Tile t in GetTilesIn3x3(tile))
-                {
-                    t.setHover(true);
-                }
-                break;
-            case SelectionMode.SaveSelection:
-                foreach (Tile t in GetTilesIn3x3(tile))
-                {
-                    t.setHover(true);
-                }
-                break;
+            switch (currentSelectionMode)
+            {
+                case SelectionMode.Single:
+                    tile.setHover(true);
+                    break;
+                case SelectionMode.ThreeByThree:
+                    foreach (Tile t in GetTilesIn3x3(tile))
+                    {
+                        t.setHover(true);
+                    }
+                    break;
+                case SelectionMode.SaveSelection:
+                    foreach (Tile t in GetTilesIn3x3(tile))
+                    {
+                        t.setHover(true);
+                    }
+                    break;
+            }
         }
-
     }
 
     /// <summary>

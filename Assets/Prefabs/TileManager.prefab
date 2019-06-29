@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4856161527363955972}
   - component: {fileID: 4856161527363955973}
   - component: {fileID: 1167758087}
+  - component: {fileID: 1167758088}
   m_Layer: 0
   m_Name: TileManager
   m_TagString: Untagged
@@ -94,13 +95,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravityCheckFloat: 0.1
-  colors:
-  - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 0.9837978, g: 1, b: 0, a: 1}
-  - {r: 1, g: 0.3940722, b: 0, a: 1}
-  - {r: 0, g: 0.93359566, b: 1, a: 1}
-  - {r: 0, g: 1, b: 0.1465373, a: 1}
-  - {r: 1, g: 0, b: 0.58885527, a: 1}
+  sprites:
+  - {fileID: 21300000, guid: e2f30057f938aed42b6463b14d453fd5, type: 3}
+  - {fileID: 21300000, guid: 9107c1d82073865408330976357fc17b, type: 3}
+  - {fileID: 21300000, guid: d9e41af61a35cfb4c9243e88860661a3, type: 3}
+  - {fileID: 21300000, guid: 36f801c722c1f5145ae86af2a9dc4c24, type: 3}
+  - {fileID: 21300000, guid: 8f52aabb766456d418dd6fba2a12aef8, type: 3}
+  - {fileID: 21300000, guid: 337d4203a44569b4fba65ecb52681489, type: 3}
+  - {fileID: 21300000, guid: 5e5ea3fc36e8d1a48adc5471a343a45a, type: 3}
+  selectCardColorMenu: {fileID: 0}
+  selectedTile: {fileID: 0}
+  destructionQueue: []
+  gravityQueue: []
 --- !u!114 &1167758087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,9 +119,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29799ea193c4546ee80d1c0ebe74a33e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameWidth: 10
-  gameHeight: 20
+  gameWidth: 9
+  gameHeight: 15
+  numberOfRowsFilled: 12
   tileSpaceX: 1
   tileSpaceY: 1
   tilePrefab: {fileID: 7295061791919763040, guid: c9b3c3349c9584ba9bc9cb56edbe0c9c,
     type: 3}
+  loadingAreaY: -2.73
+--- !u!114 &1167758088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4856161527363955970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b604e926b50694983bc92369abe31660, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

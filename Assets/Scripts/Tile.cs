@@ -23,9 +23,9 @@ public class Tile : MonoBehaviour
     public void setIsInLoadingArea(bool value){
         isInLoadingArea = value;
     }
-    //[HideInInspector]
-    public Vector2 shouldMoveTo = Vector2.positiveInfinity;
     [HideInInspector]
+    public Vector2 shouldMoveTo = Vector2.positiveInfinity;
+    //[HideInInspector]
     public Sprite sprite;
 
     private Animator anim;
@@ -85,7 +85,7 @@ public class Tile : MonoBehaviour
     public void SetSprite(Sprite newSprite)
     {
         sprite = newSprite;
-        spriteRenderer.sprite = newSprite;
+        spriteRenderer.sprite = sprite;
     }
 
     //THIS CLASS IS HERE JUST FOR THE BUTTON CLICKS, BUT TILES THEMSELVES SHOULD NOT HANDLE ANY ACTIONS, ISNTEAD

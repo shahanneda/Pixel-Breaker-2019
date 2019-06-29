@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Conversion : MonoBehaviour
+public class FlipBoard : MonoBehaviour
 {
-    public Sprite cardColor;
-    public int amount;
-
     private TileManager tileManager;
 
     private void Start()
@@ -14,11 +11,8 @@ public class Conversion : MonoBehaviour
         tileManager = FindObjectOfType<TileManager>();
     }
 
-    public void Convert()
+    public void Flip()
     {
-        if (amount == 1)
-        {
-            tileManager.SetOption(6);
-        }
+
     }
 }
