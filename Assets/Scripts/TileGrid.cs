@@ -48,13 +48,14 @@ public class TileGrid : MonoBehaviour
     }
     public void SwitchTilesFromLoadingAreaToLastRow(){
         for (int i = 0; i < tiles.GetLength(0); i++){
-            Tile t = loadingArea[i];
-            t.setIsInLoadingArea(false);
-            t.X = i;
-            t.Y = 0;
-            t.shouldMoveTo = tileGamePosVec(t.X, t.Y); //Update pos from local
-            t.inAnimation = true;
-            tiles[t.X, t.Y] = t;
+            Tile tileToLoad = loadingArea[i];
+            tileToLoad.setIsInLoadingArea(false);
+            tileToLoad.X = i;
+            tileToLoad.Y = 0;
+            tileToLoad.shouldMoveTo = tileGamePosVec(tileToLoad.X, tileToLoad.Y); //Update pos from local
+            tileToLoad.inAnimation = true;
+            print(tileToLoad.Y);
+            tiles[tileToLoad.X, tileToLoad.Y] = tileToLoad;
         }
     }
     public Tile AddTile(int x, int y, Sprite sprite)

@@ -128,13 +128,16 @@ public class TileManager : MonoBehaviour
         }
         else
         {
+            int amountOfFullRows = AmountOfFullRows();
+
             for (int row = 0; row < Mathf.FloorToInt(grid.gameHeight / 2); row++)
             {
-                SwitchRowOfTiles(row, grid.gameHeight - row - 1);
+                SwitchRowOfTiles(row, grid.gameHeight - row - (grid.gameHeight - amountOfFullRows) - 1);
             }
         }
 
         RedrawTilesFromLocal();
+        CheckForGravity();
 
         amountOfTurns++;
         CheckAmountOfTurns();
@@ -162,6 +165,25 @@ public class TileManager : MonoBehaviour
             SelectedTilesGroupOne.AddRange(GetTilesIn3x3(tiles[x, y]));
             SelectTiles(SelectedTilesGroupOne.ToArray(), true);
         }
+    }
+
+    private int AmountOfFullRows()
+    {
+        int amountOfFullRows = 0;
+
+        for (int y = 0; y < grid.gameHeight; y++)
+        {
+            for (int x = 0; x < grid.gameWidth; x++)
+            {
+                if (!tiles[x, y].isDead)
+                {
+                    amountOfFullRows++;
+                    break;
+                }
+            }
+        }
+
+        return amountOfFullRows;
     }
 
     private void CheckAmountOfTurns()
@@ -502,9 +524,13 @@ public class TileManager : MonoBehaviour
 
         for (int i = 0; i < tiles.GetLength(0); i++)
         {
-            Tile t = tiles[i, rowNumber1];
-            tiles[i, rowNumber1] = tiles[i, rowNumber2];
-            tiles[i, rowNumber2] = t;
+            Tile tile1 = tiles[i, rowNumber1];
+            Tile tile2 = tiles[i, rowNumber2];
+
+            SwitchTiles(tile1, tile2);
+
+            //if (tile1.isDead) MoveDeadTileToTop(tile1);
+            //if (tile2.isDead) MoveDeadTileToTop(tile2);
         }
     }
 
@@ -514,10 +540,28 @@ public class TileManager : MonoBehaviour
 
         for (int i = 0; i < tiles.GetLength(1); i++)
         {
-            Tile t = tiles[columnNumber1, i];
-            tiles[columnNumber1, i] = tiles[columnNumber2, i];
-            tiles[columnNumber2, i] = t;
+            Tile tile1 = tiles[columnNumber1, i];
+            Tile tile2 = tiles[columnNumber2, i];
+
+            SwitchTiles(tile1, tile2);
         }
+    }
+
+    public void MoveDeadTileToTop(Tile deadTile)
+    {
+        Tile topTile = tiles[deadTile.X, deadTile.Y + 1];
+
+        if (!topTile.isDead && topTile != null)
+        {
+            SwitchTiles(deadTile, topTile);
+            RedrawTilesFromLocal();
+        }
+    }
+
+    public void SwitchTiles(Tile tile1, Tile tile2)
+    {
+        tiles[tile1.X, tile1.Y] = tile2;
+        tiles[tile2.X, tile2.Y] = tile1;
     }
 
     public void AddRowOfTiles()

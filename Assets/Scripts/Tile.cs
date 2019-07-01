@@ -6,9 +6,9 @@ public class Tile : MonoBehaviour
 {
     public static TileManager manager;
 
-    [HideInInspector]
+    //[HideInInspector]
     public int X;
-    [HideInInspector]
+    //[HideInInspector]
     public int Y;
 
     public float speed = 1f;
