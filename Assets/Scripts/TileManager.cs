@@ -13,8 +13,8 @@ public class TileManager : MonoBehaviour
 
     public GameObject selectCardColorMenu;
 
-    Options optionSelected;
-    SelectionMode currentSelectionMode;
+    Options optionSelected = Options.DestroyWithColors;
+    SelectionMode currentSelectionMode = SelectionMode.Single;
     TileGrid grid;
     TileActions tileActions;
 
@@ -82,11 +82,11 @@ public class TileManager : MonoBehaviour
             // Here is where we decide what we should do wheter that a rotate or somethin like that;
             switch (optionSelected)
             {
-                case Options.RotateClockWise:
-                    tileActions.RotateTilesAround3x3(tile.X, tile.Y);
+                case Options.Rotate3x3Left90Degrees:
+                    tileActions.Rotate3x3Left90Degrees(tile.X, tile.Y);
                     break;
-                case Options.RotateCounterClockwise:
-                    tileActions.AntiRotateTilesAround3x3(tile.X, tile.Y);
+                case Options.Rotate3x3Right90Degrees:
+                    tileActions.Rotate3x3Right90Degrees(tile.X, tile.Y);
 
                     break;
                 case Options.Destroy:
@@ -190,6 +190,8 @@ public class TileManager : MonoBehaviour
 
     private void CheckAmountOfTurns()
     {
+        SetOption((int)Options.DestroyWithColors);
+
         if (amountOfTurns % 9 == 0)
         {
             AddRowOfTiles();
@@ -305,8 +307,8 @@ public class TileManager : MonoBehaviour
                 break;
 
             case Options.Rotate3x3Right:
-            case Options.RotateClockWise:
-            case Options.RotateCounterClockwise:
+            case Options.Rotate3x3Left90Degrees:
+            case Options.Rotate3x3Right90Degrees:
                 currentSelectionMode = SelectionMode.ThreeByThree;
                 break;
             case Options.ThreeByThreeSwitch:

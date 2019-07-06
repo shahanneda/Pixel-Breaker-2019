@@ -44,19 +44,19 @@ public class TileActions : MonoBehaviour
     }
 
     //@ADAM, create the other ones of these from the design doc, draw it out on paper to help you lundersd which one is which, and be ready to be frustrated 
-    public void RotateTilesAround3x3(int x, int y)
+    public void Rotate3x3Left90Degrees(int x, int y)
     {
         if (manager.TileIsOnEdge(tiles[x, y]))
             return;
-        Tile tempTile = tiles[x - 1, y - 1];
-        tiles[x - 1, y - 1] = tiles[x, y - 1];
-        tiles[x, y - 1] = tiles[x + 1, y - 1];
-        tiles[x + 1, y - 1] = tiles[x + 1, y];
-        tiles[x + 1, y] = tiles[x + 1, y + 1];
-        tiles[x + 1, y + 1] = tiles[x, y + 1];
-        tiles[x, y + 1] = tiles[x - 1, y + 1];
-        tiles[x - 1, y + 1] = tiles[x - 1, y];
-        tiles[x - 1, y] = tempTile;
+        Tile tempTile = tiles[x + 1, y + 1];
+        tiles[x + 1, y + 1] = tiles[x + 1, y];
+        tiles[x + 1, y] = tiles[x + 1, y - 1];
+        tiles[x + 1, y - 1] = tiles[x, y - 1];
+        tiles[x, y - 1] = tiles[x - 1, y - 1];
+        tiles[x - 1, y - 1] = tiles[x - 1, y];
+        tiles[x - 1, y] = tiles[x - 1, y + 1];
+        tiles[x - 1, y + 1] = tiles[x, y + 1];
+        tiles[x, y + 1] = tempTile;
 
         manager.gravityQueue.AddRange(new List<Tile> { tiles[x,y],tiles[x + 1, y + 1], tiles[x, y + 1], tiles[x - 1, y + 1], tiles[x - 1, y], tiles[x - 1, y - 1], tiles[x, y - 1],
         tiles[x + 1, y - 1],tiles[x + 1, y]
@@ -65,7 +65,7 @@ public class TileActions : MonoBehaviour
         manager.RedrawTilesFromLocal();
     }
 
-    public void AntiRotateTilesAround3x3(int x, int y)//TODO: make this rotate left
+    public void Rotate3x3Right90Degrees(int x, int y)
     {
         if (manager.TileIsOnEdge(tiles[x, y]))
             return;
@@ -85,7 +85,8 @@ public class TileActions : MonoBehaviour
         Invoke("GravityInvoke", manager.gravityCheckFloat);
         manager.RedrawTilesFromLocal();
     }
-    public void GravityInvoke(){
+    public void GravityInvoke()
+    {
         manager.GravityInvoke();
     }
 }
