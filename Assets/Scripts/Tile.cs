@@ -6,31 +6,30 @@ public class Tile : MonoBehaviour
 {
     public static TileManager manager;
 
-    //[HideInInspector]
-    public int X;
-    //[HideInInspector]
-    public int Y;
+    [HideInInspector] public int X, Y;
 
     public float speed = 1f;
 
     public bool inAnimation = false;
-    public bool isDead = false;   
+    public bool isDead = false;
     private bool isInLoadingArea = false;
-    
-    public bool getIsLoadingArea(){
+
+    public bool getIsLoadingArea()
+    {
         return isInLoadingArea;
     }
-    public void setIsInLoadingArea(bool value){
+
+    public void setIsInLoadingArea(bool value)
+    {
         isInLoadingArea = value;
     }
-    [HideInInspector]
-    public Vector2 shouldMoveTo = Vector2.positiveInfinity;
-    //[HideInInspector]
-    public Sprite sprite;
+
+    [HideInInspector] public Vector2 shouldMoveTo = Vector2.positiveInfinity;
+
+    [HideInInspector] public Sprite sprite;
 
     private Animator anim;
     public SpriteRenderer spriteRenderer;
-
 
     private bool _isFalling;
     public bool isFalling
@@ -42,12 +41,6 @@ public class Tile : MonoBehaviour
         set
         {
             _isFalling = value;
-            /*if(_isFalling)
-            {
-                speed = 1f;
-            }else{
-                speed = 1f;
-            }*/
         }
     }
 

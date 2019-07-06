@@ -532,6 +532,8 @@ public class TileManager : MonoBehaviour
             //if (tile1.isDead) MoveDeadTileToTop(tile1);
             //if (tile2.isDead) MoveDeadTileToTop(tile2);
         }
+
+        RedrawTilesFromLocal();
     }
 
     public void SwitchColumnOfTiles(int columnNumber1, int columnNumber2)
@@ -545,6 +547,8 @@ public class TileManager : MonoBehaviour
 
             SwitchTiles(tile1, tile2);
         }
+
+        RedrawTilesFromLocal();
     }
 
     public void MoveDeadTileToTop(Tile deadTile)
