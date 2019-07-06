@@ -10,61 +10,64 @@ public class CardManager : MonoBehaviour
     public GameObject[] translationCards;
     public GameObject[] conversionCards;
 
-    [SerializeField] private List<GameObject> previousCards = new List<GameObject>();
+    private GameObject[] previousCards = new GameObject[3];
 
     private void Start()
     {
         PickCards();
     }
 
-    private void DisablePreviousCards()
+    private void ReplacePreviousCard(int index, GameObject newCard)
     {
-        foreach (GameObject card in previousCards)
-        {
-            card.SetActive(false);
-        }
-
-        previousCards.Clear();
+        if (previousCards[index] != null) previousCards[index].SetActive(false);
+        previousCards[index] = newCard;
     }
 
     public void PickCards()
     {
-        DisablePreviousCards();
-
         #region New Rotation Card
         GameObject newRotationCard = rotationCards[Random.Range(0, rotationCards.Length)];
 
-        while (previousCards.Contains(newRotationCard))
+        if (previousCards[0] != null)
         {
-            newRotationCard = rotationCards[Random.Range(0, rotationCards.Length)];
+            while (previousCards[0].Equals(newRotationCard))
+            {
+                newRotationCard = rotationCards[Random.Range(0, rotationCards.Length)];
+            }
         }
 
+        ReplacePreviousCard(0, newRotationCard);
         newRotationCard.SetActive(true);
-        previousCards.Add(newRotationCard);
         #endregion
 
         #region New Translation Card
         GameObject newTranslationCard = translationCards[Random.Range(0, translationCards.Length)];
 
-        while (previousCards.Contains(newTranslationCard))
+        if (previousCards[1] != null)
         {
-            newTranslationCard = translationCards[Random.Range(0, translationCards.Length)];
+            while (previousCards[1].Equals(newTranslationCard))
+            {
+                newTranslationCard = translationCards[Random.Range(0, translationCards.Length)];
+            }
         }
 
+        ReplacePreviousCard(1, newTranslationCard);
         newTranslationCard.SetActive(true);
-        previousCards.Add(newTranslationCard);
         #endregion
 
         #region New Conversion Card
         GameObject newConversionCard = conversionCards[Random.Range(0, conversionCards.Length)];
 
-        while (previousCards.Contains(newConversionCard))
+        if (previousCards[2] != null)
         {
-            newConversionCard = conversionCards[Random.Range(0, conversionCards.Length)];
+            while (previousCards[2].Equals(newConversionCard))
+            {
+                newConversionCard = conversionCards[Random.Range(0, conversionCards.Length)];
+            }
         }
 
+        ReplacePreviousCard(2, newConversionCard);
         newConversionCard.SetActive(true);
-        previousCards.Add(newConversionCard);
         #endregion
     }
 }
