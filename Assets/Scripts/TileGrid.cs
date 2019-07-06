@@ -20,6 +20,8 @@ public class TileGrid : MonoBehaviour
     private Tile[] loadingArea;
     public float loadingAreaY = -2.73f;
 
+    public Transform board;
+
     public void SetUp()
     {
         tiles = new Tile[gameWidth, gameHeight];
@@ -34,7 +36,7 @@ public class TileGrid : MonoBehaviour
     }
     public Tile AddTileToLoadingArea(int x)
     {
-        Tile t = (Instantiate(tilePrefab, new Vector2(transform.position.x + x * tileSpaceX, loadingAreaY * 2.88340611f), Quaternion.identity, transform) as GameObject).GetComponent<Tile>();
+        Tile t = (Instantiate(tilePrefab, new Vector2(transform.position.x + x * tileSpaceX, loadingAreaY * 2.88340611f), Quaternion.identity, board) as GameObject).GetComponent<Tile>();
         loadingArea[x] = t;
         t.setIsInLoadingArea(true);
         return t;
@@ -65,7 +67,7 @@ public class TileGrid : MonoBehaviour
         return tiles[x, y];
     }
     public Tile GetNewTile(int x, int y){
-        Tile t = (Instantiate(tilePrefab, tileGamePosVec(x, y), Quaternion.identity, transform) as GameObject).GetComponent<Tile>();
+        Tile t = (Instantiate(tilePrefab, tileGamePosVec(x, y), Quaternion.identity, board) as GameObject).GetComponent<Tile>();
         t.X = x;
         t.Y = y;
         return t;

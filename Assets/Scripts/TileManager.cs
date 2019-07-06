@@ -9,6 +9,8 @@ public class TileManager : MonoBehaviour
     public float gravityCheckFloat = 0.1f;
     public Sprite[] sprites;
 
+    public Transform board;
+
     public GameObject selectCardColorMenu;
 
     Options optionSelected;
@@ -425,7 +427,7 @@ public class TileManager : MonoBehaviour
             //THIS IS SO ALL BLOCK ABOVE FALL DOWN
             for (int scalingY = 0; scalingY < tiles.GetLength(1) - y - 1; scalingY++)
             {
-                Tile empty = Instantiate(grid.tilePrefab, transform).GetComponent<Tile>();
+                Tile empty = Instantiate(grid.tilePrefab, board).GetComponent<Tile>();
                 empty.setIsDead();
                 tiles[x, y + scalingY] = tiles[x, y + 1 + scalingY];
                 tiles[x, y + 1 + scalingY] = empty;

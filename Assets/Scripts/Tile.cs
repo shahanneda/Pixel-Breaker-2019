@@ -131,7 +131,10 @@ public class Tile : MonoBehaviour
     public void setIsDead()
     {
         isDead = true;
+
         //GetComponent<SpriteRenderer>().enabled = false;
+
         GetComponent<SpriteRenderer>().sprite = null;
+        Destroy(GetComponent<BoxCollider2D>());
     }
 }
