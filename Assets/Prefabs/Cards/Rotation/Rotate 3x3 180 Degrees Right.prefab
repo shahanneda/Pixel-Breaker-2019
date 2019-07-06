@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Rotate a 3x3 area by 90\xB0 left"
+  m_Text: "Rotate a 3x3 area by 90\xB0 right\n"
 --- !u!1 &5204617056016582949
 GameObject:
   m_ObjectHideFlags: 0

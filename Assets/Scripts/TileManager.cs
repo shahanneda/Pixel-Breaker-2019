@@ -81,7 +81,6 @@ public class TileManager : MonoBehaviour
     {
         if (CanSelectTile)
         {
-            // Here is where we decide what we should do wheter that a rotate or somethin like that;
             switch (optionSelected)
             {
                 case Options.Rotate3x3Left90Degrees:
