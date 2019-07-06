@@ -528,9 +528,6 @@ public class TileManager : MonoBehaviour
             Tile tile2 = tiles[i, rowNumber2];
 
             SwitchTiles(tile1, tile2);
-
-            //if (tile1.isDead) MoveDeadTileToTop(tile1);
-            //if (tile2.isDead) MoveDeadTileToTop(tile2);
         }
 
         RedrawTilesFromLocal();
@@ -549,17 +546,6 @@ public class TileManager : MonoBehaviour
         }
 
         RedrawTilesFromLocal();
-    }
-
-    public void MoveDeadTileToTop(Tile deadTile)
-    {
-        Tile topTile = tiles[deadTile.X, deadTile.Y + 1];
-
-        if (!topTile.isDead && topTile != null)
-        {
-            SwitchTiles(deadTile, topTile);
-            RedrawTilesFromLocal();
-        }
     }
 
     public void SwitchTiles(Tile tile1, Tile tile2)
