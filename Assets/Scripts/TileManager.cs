@@ -85,18 +85,22 @@ public class TileManager : MonoBehaviour
                 case Options.Rotate3x3Left90Degrees:
                     tileActions.Rotate3x3Left90Degrees(tile.X, tile.Y);
                     break;
+                case Options.Rotate3x3Left180Degrees:
+                    tileActions.Rotate3x3Left90Degrees(tile.X, tile.Y);
+                    tileActions.Rotate3x3Left90Degrees(tile.X, tile.Y);
+                    break;
                 case Options.Rotate3x3Right90Degrees:
                     tileActions.Rotate3x3Right90Degrees(tile.X, tile.Y);
-
+                    break;
+                case Options.Rotate3x3Right180Degrees:
+                    tileActions.Rotate3x3Right90Degrees(tile.X, tile.Y);
+                    tileActions.Rotate3x3Right90Degrees(tile.X, tile.Y);
                     break;
                 case Options.Destroy:
                     DestroyTile(tile.X, tile.Y, true);
                     break;
                 case Options.DestroyWithColors:
                     DestroyAllTilesOfSameColorAround(tile.X, tile.Y);
-                    break;
-                case Options.Rotate3x3Right:
-                    tileActions.Rotate3x3Tiles(tile.X, tile.Y);
                     break;
                 case Options.ThreeByThreeSwitch:
                     ThreeByThreeSwitch(tile.X, tile.Y);
@@ -305,10 +309,10 @@ public class TileManager : MonoBehaviour
             case Options.DestroyWithColors:
                 currentSelectionMode = SelectionMode.Single;
                 break;
-
-            case Options.Rotate3x3Right:
             case Options.Rotate3x3Left90Degrees:
             case Options.Rotate3x3Right90Degrees:
+            case Options.Rotate3x3Right180Degrees:
+            case Options.Rotate3x3Left180Degrees:
                 currentSelectionMode = SelectionMode.ThreeByThree;
                 break;
             case Options.ThreeByThreeSwitch:
