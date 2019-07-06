@@ -18,7 +18,7 @@ public class Conversion : MonoBehaviour
     {
         if (amount == 1)
         {
-            tileManager.SetOption(6);
+            tileManager.SetOption((int)GlobalEnums.Options.SwitchOne);
         }
     }
 }

@@ -15,23 +15,6 @@ public class Rotation : MonoBehaviour
 
     public void SetRotation()
     {
-        /*if (amount == -90)
-        {
-            tileManager.SetOption((int)GlobalEnums.Options.Rotate3x3Left90Degrees);
-        }
-        else if (amount == -180)
-        {
-            tileManager.SetOption((int)GlobalEnums.Options.Rotate3x3Left180Degrees);
-        }
-        else if (amount == 90)
-        {
-            tileManager.SetOption((int)GlobalEnums.Options.Rotate3x3Right90Degrees);
-        }
-        else if (amount == 180)
-        {
-            tileManager.SetOption((int)GlobalEnums.Options.Rotate3x3Right180Degrees);
-        }*/
-
         switch (amount)
         {
             case -90:
@@ -39,15 +22,15 @@ public class Rotation : MonoBehaviour
                 break;
 
             case -180:
-
+                tileManager.SetOption((int)GlobalEnums.Options.Rotate3x3Left180Degrees);
                 break;
 
             case 90:
-
+                tileManager.SetOption((int)GlobalEnums.Options.Rotate3x3Right90Degrees);
                 break;
 
             case 180:
-
+                tileManager.SetOption((int)GlobalEnums.Options.Rotate3x3Right180Degrees);
                 break;
         }
     }

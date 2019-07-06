@@ -22,6 +22,7 @@ public class TileManager : MonoBehaviour
     List<Tile> SelectedTilesGroupTwo = new List<Tile>();
 
     private ScoreManager scoreManager;
+    private CardManager cardManager;
 
     [SerializeField] private Tile selectedTile;
 
@@ -40,6 +41,7 @@ public class TileManager : MonoBehaviour
         TileActions.manager = this;
 
         scoreManager = FindObjectOfType<ScoreManager>();
+        cardManager = FindObjectOfType<CardManager>();
 
         grid = GetComponent<TileGrid>();
         tileActions = GetComponent<TileActions>();
@@ -195,6 +197,7 @@ public class TileManager : MonoBehaviour
     private void CheckAmountOfTurns()
     {
         SetOption((int)Options.DestroyWithColors);
+        cardManager.PickCards();
 
         if (amountOfTurns % 9 == 0)
         {
