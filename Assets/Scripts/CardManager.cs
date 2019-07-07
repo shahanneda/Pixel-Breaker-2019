@@ -33,9 +33,9 @@ public class CardManager : MonoBehaviour
 
         PickCards();
 
-        yield return new WaitForSeconds(0.5f);
+        /*yield return new WaitForSeconds(0.5f);
 
-        cardsAnimator.Play("Idle");
+        cardsAnimator.Play("Idle");*/
     }
 
     public void PlayCardsAnimation()

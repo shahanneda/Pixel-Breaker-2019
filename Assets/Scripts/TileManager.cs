@@ -14,7 +14,7 @@ public class TileManager : MonoBehaviour
     public GameObject selectCardColorMenu;
 
     Options optionSelected = Options.DestroyWithColors;
-    SelectionMode currentSelectionMode = SelectionMode.Single;
+    [SerializeField] SelectionMode currentSelectionMode = SelectionMode.Single;
     TileGrid grid;
     TileActions tileActions;
 
@@ -24,7 +24,7 @@ public class TileManager : MonoBehaviour
     private ScoreManager scoreManager;
     private CardManager cardManager;
 
-    [SerializeField] private Tile selectedTile;
+    private Tile selectedTile;
 
     private int amountOfTurns = 0;
 
@@ -111,9 +111,31 @@ public class TileManager : MonoBehaviour
                     selectCardColorMenu.SetActive(true);
                     CanSelectTile = false;
                     break;
+                case Options.TranslateOneTile:
+                    if (!tile.isDead)
+                    {
+                        if (selectedTile == null)
+                        {
+                            selectedTile = tile;
+                            selectedTile.setSelect(true);
+                        }
+                        else
+                        {
+                            selectedTile.setSelect(false);
+
+                            SwitchTiles(selectedTile, tile);
+                            selectedTile = null;
+
+                            RedrawTilesFromLocal();
+
+                            amountOfTurns++;
+                            CheckAmountOfTurns();
+                        }
+                    }
+                    break;
             }
 
-            if (!optionSelected.Equals(Options.SwitchColorOfOne))
+            if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.TranslateOneTile))
             {
                 amountOfTurns++;
                 CheckAmountOfTurns();
@@ -202,7 +224,6 @@ public class TileManager : MonoBehaviour
     private void CheckAmountOfTurns()
     {
         SetOption((int)Options.DestroyWithColors);
-        //cardManager.PickCards();
         cardManager.PlayCardsAnimation();
 
         if (amountOfTurns % 9 == 0)
@@ -325,6 +346,7 @@ public class TileManager : MonoBehaviour
                 currentSelectionMode = SelectionMode.ThreeByThree;
                 break;
             case Options.ThreeByThreeSwitch:
+            case Options.TranslateOneTile:
                 currentSelectionMode = SelectionMode.SaveSelection;
                 break;
             case Options.SwitchColorOfOne:
@@ -474,9 +496,16 @@ public class TileManager : MonoBehaviour
                     }
                     break;
                 case SelectionMode.SaveSelection:
-                    foreach (Tile t in GetTilesIn3x3(tile))
+                    if (optionSelected.Equals(Options.ThreeByThreeSwitch))
                     {
-                        t.setHover(true);
+                        foreach (Tile t in GetTilesIn3x3(tile))
+                        {
+                            t.setHover(true);
+                        }
+                    }
+                    else if (optionSelected.Equals(Options.TranslateOneTile))
+                    {
+                        tile.setHover(true);
                     }
                     break;
             }
