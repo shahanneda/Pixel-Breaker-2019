@@ -113,8 +113,11 @@ public class TileManager : MonoBehaviour
                     break;
             }
 
-            amountOfTurns++;
-            CheckAmountOfTurns();
+            if (!optionSelected.Equals(Options.SwitchOne))
+            {
+                amountOfTurns++;
+                CheckAmountOfTurns();
+            }
         }
     }
 
@@ -122,6 +125,9 @@ public class TileManager : MonoBehaviour
     {
         selectedTile.SetSprite(newColor);
         CanSelectTile = true;
+
+        amountOfTurns++;
+        CheckAmountOfTurns();
     }
 
     public void FlipBoard(FlipOptions flipOption)
