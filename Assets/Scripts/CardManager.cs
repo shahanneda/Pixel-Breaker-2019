@@ -27,15 +27,14 @@ public class CardManager : MonoBehaviour
 
     private IEnumerator CardsAnimationCoroutine()
     {
+        cardsAnimator.enabled = false;
+        cardsAnimator.enabled = true;
+
         cardsAnimator.Play("Switch Cards");
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.35f);
 
         PickCards();
-
-        /*yield return new WaitForSeconds(0.5f);
-
-        cardsAnimator.Play("Idle");*/
     }
 
     public void PlayCardsAnimation()
