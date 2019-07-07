@@ -6,6 +6,8 @@ public class CardManager : MonoBehaviour
 {
     //NOTE: current cards avaliable are placeholders and are not meant to be in the positions they are currently at.
 
+    public Animator cardsAnimator;
+
     public GameObject[] rotationCards;
     public GameObject[] translationCards;
     public GameObject[] conversionCards;
@@ -21,6 +23,24 @@ public class CardManager : MonoBehaviour
     {
         if (previousCards[index] != null) previousCards[index].SetActive(false);
         previousCards[index] = newCard;
+    }
+
+    private IEnumerator CardsAnimationCoroutine()
+    {
+        cardsAnimator.Play("Switch Cards");
+
+        yield return new WaitForSeconds(0.5f);
+
+        PickCards();
+
+        yield return new WaitForSeconds(0.5f);
+
+        cardsAnimator.Play("Idle");
+    }
+
+    public void PlayCardsAnimation()
+    {
+        StartCoroutine(CardsAnimationCoroutine());
     }
 
     public void PickCards()

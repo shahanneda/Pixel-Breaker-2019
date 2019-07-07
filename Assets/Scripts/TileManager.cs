@@ -106,14 +106,14 @@ public class TileManager : MonoBehaviour
                 case Options.ThreeByThreeSwitch:
                     ThreeByThreeSwitch(tile.X, tile.Y);
                     break;
-                case Options.SwitchOne:
+                case Options.SwitchColorOfOne:
                     selectedTile = tile;
                     selectCardColorMenu.SetActive(true);
                     CanSelectTile = false;
                     break;
             }
 
-            if (!optionSelected.Equals(Options.SwitchOne))
+            if (!optionSelected.Equals(Options.SwitchColorOfOne))
             {
                 amountOfTurns++;
                 CheckAmountOfTurns();
@@ -202,7 +202,8 @@ public class TileManager : MonoBehaviour
     private void CheckAmountOfTurns()
     {
         SetOption((int)Options.DestroyWithColors);
-        cardManager.PickCards();
+        //cardManager.PickCards();
+        cardManager.PlayCardsAnimation();
 
         if (amountOfTurns % 9 == 0)
         {
@@ -326,7 +327,7 @@ public class TileManager : MonoBehaviour
             case Options.ThreeByThreeSwitch:
                 currentSelectionMode = SelectionMode.SaveSelection;
                 break;
-            case Options.SwitchOne:
+            case Options.SwitchColorOfOne:
                 currentSelectionMode = SelectionMode.Single;
                 break;
         }
