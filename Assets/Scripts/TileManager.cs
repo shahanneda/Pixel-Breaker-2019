@@ -202,6 +202,28 @@ public class TileManager : MonoBehaviour
         }
     }
 
+    public void SwitchEdgeRows()
+    {
+        SwitchRowOfTiles(0, AmountOfFullRows() - 1);
+
+        RedrawTilesFromLocal();
+        CheckForGravity();
+
+        amountOfTurns++;
+        CheckAmountOfTurns();
+    }
+
+    public void SwitchEdgeColumns()
+    {
+        SwitchColumnOfTiles(0, grid.gameWidth - 1);
+
+        RedrawTilesFromLocal();
+        CheckForGravity();
+
+        amountOfTurns++;
+        CheckAmountOfTurns();
+    }
+
     private int AmountOfFullRows()
     {
         int amountOfFullRows = 0;
