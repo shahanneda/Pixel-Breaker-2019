@@ -254,7 +254,7 @@ public class TileManager : MonoBehaviour
         SetOption((int)Options.DestroyWithColors);
         cardManager.PlayCardsAnimation();
 
-        if (amountOfTurns % 9 == 0)
+        if (amountOfTurns % 5 == 0)
         {
             AddRowOfTiles();
         }
