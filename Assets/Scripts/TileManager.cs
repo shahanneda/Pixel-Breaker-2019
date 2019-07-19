@@ -85,15 +85,21 @@ public class TileManager : MonoBehaviour
             {
                 case Options.Rotate3x3Left90Degrees:
                     tileActions.Rotate3x3Left90Degrees(tile.X, tile.Y);
+                    tileActions.Rotate3x3Left90Degrees(tile.X, tile.Y);
                     break;
                 case Options.Rotate3x3Left180Degrees:
+                    tileActions.Rotate3x3Left90Degrees(tile.X, tile.Y);
+                    tileActions.Rotate3x3Left90Degrees(tile.X, tile.Y);
                     tileActions.Rotate3x3Left90Degrees(tile.X, tile.Y);
                     tileActions.Rotate3x3Left90Degrees(tile.X, tile.Y);
                     break;
                 case Options.Rotate3x3Right90Degrees:
                     tileActions.Rotate3x3Right90Degrees(tile.X, tile.Y);
+                    tileActions.Rotate3x3Right90Degrees(tile.X, tile.Y);
                     break;
                 case Options.Rotate3x3Right180Degrees:
+                    tileActions.Rotate3x3Right90Degrees(tile.X, tile.Y);
+                    tileActions.Rotate3x3Right90Degrees(tile.X, tile.Y);
                     tileActions.Rotate3x3Right90Degrees(tile.X, tile.Y);
                     tileActions.Rotate3x3Right90Degrees(tile.X, tile.Y);
                     break;
