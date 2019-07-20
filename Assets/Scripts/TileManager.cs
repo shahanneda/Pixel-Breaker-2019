@@ -379,6 +379,9 @@ public class TileManager : MonoBehaviour
             case Options.ThreeByThreeSwitch:
             case Options.TranslateOneTile:
                 currentSelectionMode = SelectionMode.SaveSelection;
+                selectedTile = null;
+                SelectedTilesGroupOne.Clear();
+                SelectedTilesGroupTwo.Clear();
                 break;
             case Options.SwitchColorOfOne:
                 currentSelectionMode = SelectionMode.Single;
