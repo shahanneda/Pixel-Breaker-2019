@@ -13,6 +13,8 @@ public class TileManager : MonoBehaviour
 
     public GameObject selectCardColorMenu;
 
+    public MusicManager musicManager;
+
     Options optionSelected = Options.DestroyWithColors;
     [SerializeField] SelectionMode currentSelectionMode = SelectionMode.Single;
     TileGrid grid;
@@ -42,6 +44,7 @@ public class TileManager : MonoBehaviour
 
         scoreManager = FindObjectOfType<ScoreManager>();
         cardManager = FindObjectOfType<CardManager>();
+        musicManager = FindObjectOfType<MusicManager>();
 
         grid = GetComponent<TileGrid>();
         tileActions = GetComponent<TileActions>();
@@ -630,6 +633,7 @@ public class TileManager : MonoBehaviour
 
     public void AddRowOfTiles()
     {
+        CheckIfTense();
         CheckForIsLastRowFilled();
 
         for (int row = tiles.GetLength(1) - 1; row > 0; row--)
@@ -651,11 +655,25 @@ public class TileManager : MonoBehaviour
             Tile t = tiles[i, tiles.GetLength(1) - 1];
             if (!t.isDead)
             {
+                musicManager.QueueOutro();
+
                 print("PLAYER DEAD");
                 isDead = true;
                 t.GetComponent<SpriteRenderer>().color = Color.red;
             }
         }
         return isDead;
+    }
+
+    private void CheckIfTense()
+    {
+        if (AmountOfFullRows() > Mathf.FloorToInt(0.75f * grid.gameHeight))
+        {
+            musicManager.tense = true;
+        }
+        else
+        {
+            musicManager.tense = false;
+        }
     }
 }

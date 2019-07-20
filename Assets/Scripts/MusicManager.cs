@@ -37,26 +37,29 @@ public class MusicManager : MonoBehaviour
 
     private void CheckNextClip()
     {
-        if (tense)
+        if (!queuedClip.Equals(outroA || outroB))
         {
-            if (musicSource.clip.Equals(sectionACalm) || musicSource.clip.Equals(sectionA))
+            if (tense)
             {
-                QueueClip(sectionB);
+                if (musicSource.clip.Equals(sectionACalm) || musicSource.clip.Equals(sectionA))
+                {
+                    QueueClip(sectionB);
+                }
+                else if (musicSource.clip.Equals(sectionBCalm) || musicSource.clip.Equals(sectionB))
+                {
+                    QueueClip(sectionA);
+                }
             }
-            else if (musicSource.clip.Equals(sectionBCalm) || musicSource.clip.Equals(sectionB))
+            else
             {
-                QueueClip(sectionA);
-            }
-        }
-        else
-        {
-            if (musicSource.clip.Equals(sectionACalm) || musicSource.clip.Equals(sectionA))
-            {
-                QueueClip(sectionBCalm);
-            }
-            else if (musicSource.clip.Equals(sectionBCalm) || musicSource.clip.Equals(sectionB))
-            {
-                QueueClip(sectionACalm);
+                if (musicSource.clip.Equals(sectionACalm) || musicSource.clip.Equals(sectionA))
+                {
+                    QueueClip(sectionBCalm);
+                }
+                else if (musicSource.clip.Equals(sectionBCalm) || musicSource.clip.Equals(sectionB))
+                {
+                    QueueClip(sectionACalm);
+                }
             }
         }
     }
@@ -64,5 +67,17 @@ public class MusicManager : MonoBehaviour
     public void QueueClip(AudioClip clipToQueue)
     {
         queuedClip = clipToQueue;
+    }
+
+    public void QueueOutro()
+    {
+        if (musicSource.clip.Equals(sectionACalm) || musicSource.clip.Equals(sectionA))
+        {
+            QueueClip(outroA);
+        }
+        else if (musicSource.clip.Equals(sectionBCalm) || musicSource.clip.Equals(sectionB))
+        {
+            QueueClip(outroB);
+        }
     }
 }
