@@ -8,7 +8,7 @@ public class Tile : MonoBehaviour
 
     [HideInInspector] public int X, Y;
 
-    public float speed = 1f;
+    public static float speed = 5f;
 
     public bool inAnimation = false;
     public bool isDead = false;
@@ -132,10 +132,10 @@ public class Tile : MonoBehaviour
     {
         isDead = true;
 
-        //GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<SpriteRenderer>().enabled = false;
 
         //GetComponent<SpriteRenderer>().sprite = null;
-        spriteRenderer.color = Color.blue;
+        //spriteRenderer.color = Color.blue;
         Destroy(GetComponent<BoxCollider2D>());
     }
     public void MarkForDebug(){

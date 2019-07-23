@@ -55,4 +55,8 @@ public class TileGravity : MonoBehaviour
         return null;
 
     }
+    public void RunCheckDelayed(float time){
+        print("Strating ru");
+        Invoke("runCheck", time);
+    }
 }

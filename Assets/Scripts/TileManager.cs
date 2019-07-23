@@ -187,7 +187,7 @@ public class TileManager : MonoBehaviour
         }
 
         RedrawTilesFromLocal();
-        tileGravity.runCheck();
+        tileGravity.RunCheckDelayed(0.5f);
 
         amountOfTurns++;
         CheckAmountOfTurns();
@@ -222,7 +222,8 @@ public class TileManager : MonoBehaviour
         SwitchRowOfTiles(0, AmountOfFullRows() - 1);
 
         RedrawTilesFromLocal();
-        CheckForGravity();
+
+        tileGravity.RunCheckDelayed(0.5f);
 
         amountOfTurns++;
         CheckAmountOfTurns();
@@ -233,7 +234,7 @@ public class TileManager : MonoBehaviour
         SwitchColumnOfTiles(0, grid.gameWidth - 1);
 
         RedrawTilesFromLocal();
-        CheckForGravity();
+        tileGravity.RunCheckDelayed(0.5f);
 
         amountOfTurns++;
         CheckAmountOfTurns();
