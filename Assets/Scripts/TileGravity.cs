@@ -7,12 +7,11 @@ public class TileGravity : MonoBehaviour
 {
     public static TileManager manager;
 
-    public void runCheck()
+    public void RunCheck()
     {
         print("Running whole board gravity check");
         for (int j = 0; j < tiles.GetLength(1); j++)
         {
-            print("Starting on row " + j);
             for (int i = 0; i < tiles.GetLength(0); i++)
             {
                 if (tiles[i, j].isDead)
@@ -44,7 +43,6 @@ public class TileGravity : MonoBehaviour
 
     }
     public void RunCheckDelayed(float time){
-        print("Strating ru");
-        Invoke("runCheck", time);
+        Invoke("RunCheck", time);
     }
 }
