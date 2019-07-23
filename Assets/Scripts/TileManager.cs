@@ -28,7 +28,6 @@ public class TileManager : MonoBehaviour
     private ScoreManager scoreManager;
     private CardManager cardManager;
 
-
     private Tile selectedTile;
 
     private int amountOfTurns = 0;
@@ -221,8 +220,8 @@ public class TileManager : MonoBehaviour
     {
         SwitchRowOfTiles(0, AmountOfFullRows() - 1);
 
+        tileGravity.runCheck();
         RedrawTilesFromLocal();
-        CheckForGravity();
 
         amountOfTurns++;
         CheckAmountOfTurns();
