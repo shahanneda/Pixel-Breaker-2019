@@ -9,9 +9,18 @@ public class ScoreManager : MonoBehaviour
 
     private int score = 0;
 
+    private ScoreTextEffect scoreTextEffect;
+
+    private void Start()
+    {
+        scoreTextEffect = FindObjectOfType<ScoreTextEffect>();
+    }
+
     public void AddScore(int addScore)
     {
         score += addScore;
-        scoreText.text = "" +score; 
+        scoreText.text = score.ToString();
+
+        scoreTextEffect.DisplayScore(addScore);
     }
 }
