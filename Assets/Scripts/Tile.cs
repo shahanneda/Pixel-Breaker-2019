@@ -134,7 +134,11 @@ public class Tile : MonoBehaviour
 
         //GetComponent<SpriteRenderer>().enabled = false;
 
-        GetComponent<SpriteRenderer>().sprite = null;
-        //Destroy(GetComponent<BoxCollider2D>());
+        //GetComponent<SpriteRenderer>().sprite = null;
+        spriteRenderer.color = Color.blue;
+        Destroy(GetComponent<BoxCollider2D>());
+    }
+    public void MarkForDebug(){
+        spriteRenderer.color = Color.black;
     }
 }

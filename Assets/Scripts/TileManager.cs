@@ -19,12 +19,15 @@ public class TileManager : MonoBehaviour
     [SerializeField] SelectionMode currentSelectionMode = SelectionMode.Single;
     TileGrid grid;
     TileActions tileActions;
+    TileGravity tileGravity;
+    
 
     List<Tile> SelectedTilesGroupOne = new List<Tile>();
     List<Tile> SelectedTilesGroupTwo = new List<Tile>();
 
     private ScoreManager scoreManager;
     private CardManager cardManager;
+
 
     private Tile selectedTile;
 
@@ -41,17 +44,18 @@ public class TileManager : MonoBehaviour
         Tile.manager = this;
         TileGrid.manager = this;
         TileActions.manager = this;
+        TileGravity.manager = this;
 
         scoreManager = FindObjectOfType<ScoreManager>();
         cardManager = FindObjectOfType<CardManager>();
         musicManager = FindObjectOfType<MusicManager>();
 
+        tileGravity = GetComponent<TileGravity>();
         grid = GetComponent<TileGrid>();
         tileActions = GetComponent<TileActions>();
         grid.SetUp();
 
         CanSelectTile = true;
-        tiles[0, 0].setSelect(true);
     }
 
     /// <summary>
@@ -182,8 +186,8 @@ public class TileManager : MonoBehaviour
             }
         }
 
-
         RedrawTilesFromLocal();
+        tileGravity.runCheck();
 
         amountOfTurns++;
         CheckAmountOfTurns();
@@ -502,8 +506,8 @@ public class TileManager : MonoBehaviour
         if (!tiles[x, y].isDead)
         {
             
-            //Destroy(tiles[x, y].gameObject); //THIS COMMENT IS TEMPORARY
-            tiles[x, y].setIsDead();
+            Destroy(tiles[x, y].gameObject); 
+            //tiles[x, y].setIsDead();
 
             //THIS IS SO ALL BLOCK ABOVE FALL DOWN
             for (int scalingY = 0; scalingY < tiles.GetLength(1) - y - 1; scalingY++)
@@ -646,14 +650,26 @@ public class TileManager : MonoBehaviour
 
     public void SwitchTiles(Tile tile1, Tile tile2)
     {
-        tiles[tile1.X, tile1.Y] = tile2;
-        tiles[tile2.X, tile2.Y] = tile1;
+        int t1x = tile1.X;
+        int t1y = tile1.Y;
+
+        int t2x = tile2.X;
+        int t2y = tile2.Y;
+
+        tile1.X = t2x;
+        tile1.Y = t2y;
+
+        tile2.X = t1x;
+        tile2.Y = t1y;
+
+        tiles[t1x,t1y] = tile2;
+        tiles[t2x,t2y] = tile1;
     }
 
     public void AddRowOfTiles()
     {
         CheckIfTense();
-        CheckForIsLastRowFilled();
+        CheckForIsLastRowFilledAndDeleteDeadTiles();
 
         for (int row = tiles.GetLength(1) - 1; row > 0; row--)
         {
@@ -666,7 +682,7 @@ public class TileManager : MonoBehaviour
         RedrawTilesFromLocal();
     }
 
-    private bool CheckForIsLastRowFilled()
+    private bool CheckForIsLastRowFilledAndDeleteDeadTiles()
     {
         bool isDead = false;
         for (int i = 0; i < tiles.GetLength(0); i++)
@@ -678,7 +694,10 @@ public class TileManager : MonoBehaviour
 
                 print("PLAYER DEAD");
                 isDead = true;
+                Destroy(t);
                 t.GetComponent<SpriteRenderer>().color = Color.red;
+            }else{
+                Destroy(t);
             }
         }
         return isDead;
