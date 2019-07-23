@@ -414,17 +414,33 @@ public class TileManager : MonoBehaviour
             {
                 gravityQueue.Add(tiles[tile.X, tile.Y + 1]);//NOTE this line is adding multiple tiems @ preformance if needed
             }
-
-            if (tile.Y != 0)
+            print(tile.Y);
+            if (tile.Y-1 > 0)
             {
+               
                 for (int scalingY = tile.Y; tiles[tile.X, scalingY - 1].isDead; scalingY--)
                 {
-                    Tile temp = tiles[tile.X, scalingY];
-                    tiles[tile.X, scalingY] = tiles[tile.X, scalingY - 1];
-                    tiles[tile.X, scalingY - 1] = temp;
-                    tiles[tile.X, scalingY].isFalling = true;
-                    tiles[tile.X, scalingY - 1].isFalling = true;
+                    try
+                    {
+                   
+
+                        Tile temp = tiles[tile.X, scalingY];
+                        tiles[tile.X, scalingY] = tiles[tile.X, scalingY - 1];
+                        tiles[tile.X, scalingY - 1] = temp;
+                        tiles[tile.X, scalingY].isFalling = true;
+                        tiles[tile.X, scalingY - 1].isFalling = true;
+                        print(scalingY + " if next one is error it must be " + tile.X + " or " + (scalingY-1));
+                    }
+                    catch
+                    {
+                        //print(tile.X + " " + (scalingY - 1));
+                        print("CATCHED ERROR");
+
+                    }
                 }
+               
+
+
             }
             if (count >= 3)
             {
@@ -606,7 +622,11 @@ public class TileManager : MonoBehaviour
         {
             Tile tile1 = tiles[i, rowNumber1];
             Tile tile2 = tiles[i, rowNumber2];
-
+            if (tile1.isDead || tile2.isDead)
+            {
+                gravityQueue.Add(tile1);
+                gravityQueue.Add(tile2);
+            }
             SwitchTiles(tile1, tile2);
         }
 
@@ -621,6 +641,10 @@ public class TileManager : MonoBehaviour
         {
             Tile tile1 = tiles[columnNumber1, i];
             Tile tile2 = tiles[columnNumber2, i];
+            if(tile1.isDead || tile2.isDead){
+                gravityQueue.Add(tile1);
+                gravityQueue.Add(tile2);
+            }
 
             SwitchTiles(tile1, tile2);
         }
