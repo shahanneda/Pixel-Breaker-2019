@@ -28,7 +28,6 @@ public class TileManager : MonoBehaviour
     private ScoreManager scoreManager;
     private CardManager cardManager;
 
-
     private Tile selectedTile;
 
     private int amountOfTurns = 0;
@@ -186,6 +185,7 @@ public class TileManager : MonoBehaviour
             }
         }
 
+
         RedrawTilesFromLocal();
         tileGravity.RunCheckDelayed(0.5f);
 
@@ -221,9 +221,10 @@ public class TileManager : MonoBehaviour
     {
         SwitchRowOfTiles(0, AmountOfFullRows() - 1);
 
-        RedrawTilesFromLocal();
 
+        RedrawTilesFromLocal();
         tileGravity.RunCheckDelayed(0.5f);
+
 
         amountOfTurns++;
         CheckAmountOfTurns();
