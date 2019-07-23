@@ -51,6 +51,7 @@ public class TileManager : MonoBehaviour
         grid.SetUp();
 
         CanSelectTile = true;
+        tiles[0, 0].setSelect(true);
     }
 
     /// <summary>
@@ -163,6 +164,7 @@ public class TileManager : MonoBehaviour
 
     public void FlipBoard(FlipOptions flipOption)
     {
+        gravityQueue.Clear();
         if (flipOption.Equals(FlipOptions.Horizontal))
         {
             for (int column = 0; column < Mathf.FloorToInt(grid.gameWidth / 2); column++)
@@ -180,8 +182,8 @@ public class TileManager : MonoBehaviour
             }
         }
 
+
         RedrawTilesFromLocal();
-        CheckForGravity();
 
         amountOfTurns++;
         CheckAmountOfTurns();
@@ -414,29 +416,20 @@ public class TileManager : MonoBehaviour
             {
                 gravityQueue.Add(tiles[tile.X, tile.Y + 1]);//NOTE this line is adding multiple tiems @ preformance if needed
             }
-            print(tile.Y);
-            if (tile.Y-1 > 0)
+
+            if (tile.Y != 0)
             {
                
                 for (int scalingY = tile.Y; tiles[tile.X, scalingY - 1].isDead; scalingY--)
                 {
-                    try
-                    {
-                   
 
                         Tile temp = tiles[tile.X, scalingY];
                         tiles[tile.X, scalingY] = tiles[tile.X, scalingY - 1];
                         tiles[tile.X, scalingY - 1] = temp;
                         tiles[tile.X, scalingY].isFalling = true;
                         tiles[tile.X, scalingY - 1].isFalling = true;
-                        print(scalingY + " if next one is error it must be " + tile.X + " or " + (scalingY-1));
-                    }
-                    catch
-                    {
-                        //print(tile.X + " " + (scalingY - 1));
-                        print("CATCHED ERROR");
+                        //print(scalingY + " if next one is error it must be " + tile.X + " or " + (scalingY-1));
 
-                    }
                 }
                
 
@@ -508,6 +501,7 @@ public class TileManager : MonoBehaviour
     {
         if (!tiles[x, y].isDead)
         {
+            
             //Destroy(tiles[x, y].gameObject); //THIS COMMENT IS TEMPORARY
             tiles[x, y].setIsDead();
 
@@ -616,17 +610,16 @@ public class TileManager : MonoBehaviour
 
     public void SwitchRowOfTiles(int rowNumber1, int rowNumber2)
     {
-        print("Switching row " + rowNumber2 + " with row " + rowNumber1);
+        //print("Switching row " + rowNumber2 + " with row " + rowNumber1);
 
         for (int i = 0; i < tiles.GetLength(0); i++)
         {
             Tile tile1 = tiles[i, rowNumber1];
             Tile tile2 = tiles[i, rowNumber2];
-            if (tile1.isDead || tile2.isDead)
-            {
-                gravityQueue.Add(tile1);
-                gravityQueue.Add(tile2);
-            }
+            //if (tile1.isDead || tile2.isDead)
+            //{
+
+            //}
             SwitchTiles(tile1, tile2);
         }
 
@@ -635,16 +628,15 @@ public class TileManager : MonoBehaviour
 
     public void SwitchColumnOfTiles(int columnNumber1, int columnNumber2)
     {
-        print("Switching column " + columnNumber2 + " with column " + columnNumber1);
+        //print("Switching column " + columnNumber2 + " with column " + columnNumber1);
 
         for (int i = 0; i < tiles.GetLength(1); i++)
         {
             Tile tile1 = tiles[columnNumber1, i];
             Tile tile2 = tiles[columnNumber2, i];
-            if(tile1.isDead || tile2.isDead){
-                gravityQueue.Add(tile1);
-                gravityQueue.Add(tile2);
-            }
+            //if(tile1.isDead || tile2.isDead){
+
+            //}
 
             SwitchTiles(tile1, tile2);
         }

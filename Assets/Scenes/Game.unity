@@ -293,6 +293,12 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &349706803 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1157979323634503623, guid: f4aad556b270110468257ac0fcfc8f9d,
+    type: 3}
+  m_PrefabInstance: {fileID: 5418963210542307090}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &351924755
 GameObject:
   m_ObjectHideFlags: 0
@@ -1484,6 +1490,12 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 815098464460776126, guid: 3bc054cea1043a347afcb50db71eae82,
     type: 3}
   m_PrefabInstance: {fileID: 1197149887}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1225611845 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5204617057432262859, guid: 4f268095593979d43b3de5cb9a5db7f1,
+    type: 3}
+  m_PrefabInstance: {fileID: 3891147754876543910}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1268628649
 PrefabInstance:
@@ -2781,6 +2793,10 @@ MonoBehaviour:
   rotationCards:
   - {fileID: 1051819754}
   - {fileID: 1359160180}
+  - {fileID: 1886984769}
+  - {fileID: 2115392600}
+  - {fileID: 349706803}
+  - {fileID: 1225611845}
   translationCards:
   - {fileID: 815098465735808134}
   - {fileID: 7217977652495366114}
@@ -3254,6 +3270,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1878857179}
   m_CullTransparentMesh: 0
+--- !u!1 &1886984769 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3931645538014916793, guid: 59e9c1018f559774f9bbcbdca6493221,
+    type: 3}
+  m_PrefabInstance: {fileID: 1083997934416451868}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1988113170
 GameObject:
   m_ObjectHideFlags: 0
@@ -3480,6 +3502,12 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -256}
   m_SizeDelta: {x: 1402, y: 789}
   m_Pivot: {x: 1, y: 0}
+--- !u!1 &2115392600 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2222906380459202122, guid: 968a6037f7d87294cb1a36ee633dbd03,
+    type: 3}
+  m_PrefabInstance: {fileID: 6087472047604958006}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &815098465735808129 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8224465929576772098, guid: a00c0776e3f050246ab4f8f17be961cf,

@@ -135,6 +135,6 @@ public class Tile : MonoBehaviour
         //GetComponent<SpriteRenderer>().enabled = false;
 
         GetComponent<SpriteRenderer>().sprite = null;
-        Destroy(GetComponent<BoxCollider2D>());
+        //Destroy(GetComponent<BoxCollider2D>());
     }
 }

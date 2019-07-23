@@ -56,7 +56,7 @@ public class TileGrid : MonoBehaviour
             tileToLoad.Y = 0;
             tileToLoad.shouldMoveTo = tileGamePosVec(tileToLoad.X, tileToLoad.Y); //Update pos from local
             tileToLoad.inAnimation = true;
-            print(tileToLoad.Y);
+            //print(tileToLoad.Y);
             tiles[tileToLoad.X, tileToLoad.Y] = tileToLoad;
         }
     }
