@@ -774,15 +774,8 @@ public class TileManager : MonoBehaviour
         return isDead;
     }
 
-    private void CheckIfTense()
+    public bool CheckIfTense()
     {
-        if (AmountOfFullRows() > Mathf.FloorToInt(0.75f * grid.gameHeight))
-        {
-            musicManager.tense = true;
-        }
-        else
-        {
-            musicManager.tense = false;
-        }
+        return AmountOfFullRows() >= Mathf.FloorToInt(0.75f * grid.gameHeight);
     }
 }
