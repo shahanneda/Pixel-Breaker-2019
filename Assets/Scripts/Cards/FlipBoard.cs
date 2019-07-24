@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlipBoard : MonoBehaviour
+public class FlipBoard : Card
 {
     public GlobalEnums.FlipOptions flipOption;
-
     private TileManager tileManager;
 
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         tileManager = FindObjectOfType<TileManager>();
     }
 
