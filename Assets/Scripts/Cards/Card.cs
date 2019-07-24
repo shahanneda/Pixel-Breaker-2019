@@ -31,4 +31,8 @@ public class Card : MonoBehaviour
             c.SetSelect(false);
         }
     }
+    public void OnDisable()
+    {
+        //Card.DeSelectAll();
+    }
 }
