@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Translation : MonoBehaviour
+public class Translation : Card
 {
     public int amount;
 
-    private TileManager tileManager;
-
-    private void Start()
+    public override void Start()
     {
-        tileManager = FindObjectOfType<TileManager>();
+        base.Start();
     }
 
     public void Translate()

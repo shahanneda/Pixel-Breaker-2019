@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Conversion : MonoBehaviour
+public class Conversion : Card
 {
     public Sprite cardColor;
     public int amount;
 
-    private TileManager tileManager;
-
-    private void Start()
+    public override void Start()
     {
-        tileManager = FindObjectOfType<TileManager>();
+        base.Start();
     }
 
     public void Convert()

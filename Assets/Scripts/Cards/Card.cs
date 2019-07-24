@@ -6,10 +6,12 @@ using System.Collections;
 public class Card : MonoBehaviour
 {
 
-    public Animator animator;
+    protected Animator animator;
+    protected TileManager tileManager;
 
     public virtual void Start(){
         animator = GetComponent<Animator>();
+        tileManager = FindObjectOfType<TileManager>();
     }
     public void SetSelect(bool state){
         animator.SetBool("isSelected", state);

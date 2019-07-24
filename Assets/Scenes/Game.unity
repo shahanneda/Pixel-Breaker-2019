@@ -1807,6 +1807,25 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3079060077094341188}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1051819759
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051819754}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f8708eacbb05e47c88ea28b5609be396, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1135855836
 GameObject:
   m_ObjectHideFlags: 0
@@ -4341,6 +4360,36 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 815098464460776125, guid: 3bc054cea1043a347afcb50db71eae82,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 815098464460776125, guid: 3bc054cea1043a347afcb50db71eae82,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 815098464460776125, guid: 3bc054cea1043a347afcb50db71eae82,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 815098464460776125, guid: 3bc054cea1043a347afcb50db71eae82,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1051819759}
+    - target: {fileID: 815098464460776125, guid: 3bc054cea1043a347afcb50db71eae82,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetTrigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 815098464460776125, guid: 3bc054cea1043a347afcb50db71eae82,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3bc054cea1043a347afcb50db71eae82, type: 3}
 --- !u!1001 &3322058782668748978
@@ -4599,11 +4648,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 824389162}
     m_Modifications:
-    - target: {fileID: 3580128351907107544, guid: 736406bc34c041241aabb6f618c4e370,
-        type: 3}
-      propertyPath: m_Name
-      value: Switch Rows
-      objectReference: {fileID: 0}
     - target: {fileID: 3580128351907107551, guid: 736406bc34c041241aabb6f618c4e370,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4708,6 +4752,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580128351907107544, guid: 736406bc34c041241aabb6f618c4e370,
+        type: 3}
+      propertyPath: m_Name
+      value: Switch Rows
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 736406bc34c041241aabb6f618c4e370, type: 3}
