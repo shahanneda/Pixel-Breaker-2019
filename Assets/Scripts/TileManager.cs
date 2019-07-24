@@ -163,6 +163,7 @@ public class TileManager : MonoBehaviour
                             SwitchRowOfTiles(selectedTile.Y, tile.Y);
                             selectedTile = null;
 
+                            tileGravity.RunCheckDelayed(0.4f);
                             RedrawTilesFromLocal();
 
                             amountOfTurns++;
