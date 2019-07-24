@@ -23,5 +23,13 @@ public class Translation : MonoBehaviour
         {
             tileManager.SetOption((int)GlobalEnums.Options.ThreeByThreeSwitch);
         }
+        else if (amount == -1)
+        {
+            tileManager.SetOption((int)GlobalEnums.Options.SwitchRows);
+        }
+        else if (amount == -2)
+        {
+            tileManager.SetOption((int)GlobalEnums.Options.SwitchColumns);
+        }
     }
 }
