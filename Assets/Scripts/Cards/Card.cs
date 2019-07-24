@@ -17,4 +17,10 @@ public class Card : MonoBehaviour
         animator.SetBool("isSelected", state);
     }
 
+    public static void DeSelectAll(){
+        //FindObjectOfType<Card>();
+        foreach(Card c in FindObjectsOfType<Card>()){
+            c.SetSelect(false);
+        }
+    }
 }

@@ -83,6 +83,7 @@ public class TileManager : MonoBehaviour
     {
         if (CanSelectTile)
         {
+            Card.DeSelectAll();
             switch (optionSelected)
             {
                 case Options.Rotate3x3Left90Degrees:

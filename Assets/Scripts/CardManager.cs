@@ -94,5 +94,6 @@ public class CardManager : MonoBehaviour
     public void CancelCard()
     {
         tileManager.SetOption((int)GlobalEnums.Options.DestroyWithColors);
+        Card.DeSelectAll();
     }
 }
