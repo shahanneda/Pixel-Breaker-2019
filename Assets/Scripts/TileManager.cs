@@ -15,12 +15,11 @@ public class TileManager : MonoBehaviour
 
     public MusicManager musicManager;
 
-    Options optionSelected = Options.DestroyWithColors;
+    [SerializeField] Options optionSelected = Options.DestroyWithColors;
     [SerializeField] SelectionMode currentSelectionMode = SelectionMode.Single;
     TileGrid grid;
     TileActions tileActions;
     TileGravity tileGravity;
-    
 
     List<Tile> SelectedTilesGroupOne = new List<Tile>();
     List<Tile> SelectedTilesGroupTwo = new List<Tile>();
@@ -34,10 +33,6 @@ public class TileManager : MonoBehaviour
 
     public bool CanSelectTile { get; set; }
 
-    /*
-     * @ADAM, whenever we want to move the tiles, if we just move the items of this array, and call RedrawTilesFromLocal(), everything should be handeld
-     * 
-     */
     void Start()
     {
         Tile.manager = this;
@@ -146,9 +141,80 @@ public class TileManager : MonoBehaviour
                         }
                     }
                     break;
+                case Options.SwitchRows:
+                    if (!tile.isDead)
+                    {
+                        if (selectedTile == null)
+                        {
+                            selectedTile = tile;
+
+                            for (int i = 0; i < grid.gameWidth; i++)
+                            {
+                                tiles[i, selectedTile.Y].setSelect(true);
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 0; i < grid.gameWidth; i++)
+                            {
+                                tiles[i, selectedTile.Y].setSelect(false);
+                            }
+
+                            SwitchRowOfTiles(selectedTile.Y, tile.Y);
+                            selectedTile = null;
+
+                            tileGravity.RunCheckDelayed(0.4f);
+                            RedrawTilesFromLocal();
+
+                            amountOfTurns++;
+                            CheckAmountOfTurns();
+                        }
+                    }
+
+                    if (!tile.isDead)
+                    {
+                        if (selectedTile == null)
+                        {
+                            print("New selected tile");
+                        }
+                        else
+                        {
+                            print("Switching row " + selectedTile.Y + " with row " + tile.Y);
+                        }
+                    }
+                    break;
+                case Options.SwitchColumns:
+                    if (!tile.isDead)
+                    {
+                        if (selectedTile == null)
+                        {
+                            selectedTile = tile;
+
+                            for (int i = 0; i < grid.gameHeight; i++)
+                            {
+                                tiles[selectedTile.X, i].setSelect(true);
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 0; i < grid.gameHeight; i++)
+                            {
+                                tiles[selectedTile.X, i].setSelect(false);
+                            }
+
+                            SwitchColumnOfTiles(selectedTile.X, tile.X);
+                            selectedTile = null;
+
+                            RedrawTilesFromLocal();
+
+                            amountOfTurns++;
+                            CheckAmountOfTurns();
+                        }
+                    }
+                    break;
             }
 
-            if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.TranslateOneTile))
+            if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.TranslateOneTile) && !optionSelected.Equals(Options.SwitchRows) && !optionSelected.Equals(Options.SwitchColumns))
             {
                 amountOfTurns++;
                 CheckAmountOfTurns();
@@ -386,6 +452,8 @@ public class TileManager : MonoBehaviour
                 break;
             case Options.ThreeByThreeSwitch:
             case Options.TranslateOneTile:
+            case Options.SwitchRows:
+            case Options.SwitchColumns:
                 currentSelectionMode = SelectionMode.SaveSelection;
                 selectedTile = null;
                 SelectedTilesGroupOne.Clear();
@@ -425,19 +493,19 @@ public class TileManager : MonoBehaviour
 
             if (tile.Y != 0)
             {
-               
+
                 for (int scalingY = tile.Y; tiles[tile.X, scalingY - 1].isDead; scalingY--)
                 {
 
-                        Tile temp = tiles[tile.X, scalingY];
-                        tiles[tile.X, scalingY] = tiles[tile.X, scalingY - 1];
-                        tiles[tile.X, scalingY - 1] = temp;
-                        tiles[tile.X, scalingY].isFalling = true;
-                        tiles[tile.X, scalingY - 1].isFalling = true;
-                        //print(scalingY + " if next one is error it must be " + tile.X + " or " + (scalingY-1));
+                    Tile temp = tiles[tile.X, scalingY];
+                    tiles[tile.X, scalingY] = tiles[tile.X, scalingY - 1];
+                    tiles[tile.X, scalingY - 1] = temp;
+                    tiles[tile.X, scalingY].isFalling = true;
+                    tiles[tile.X, scalingY - 1].isFalling = true;
+                    //print(scalingY + " if next one is error it must be " + tile.X + " or " + (scalingY-1));
 
                 }
-               
+
 
 
             }
@@ -507,8 +575,8 @@ public class TileManager : MonoBehaviour
     {
         if (!tiles[x, y].isDead)
         {
-            
-            Destroy(tiles[x, y].gameObject); 
+
+            Destroy(tiles[x, y].gameObject);
             //tiles[x, y].setIsDead();
 
             //THIS IS SO ALL BLOCK ABOVE FALL DOWN
@@ -664,8 +732,8 @@ public class TileManager : MonoBehaviour
         tile2.X = t1x;
         tile2.Y = t1y;
 
-        tiles[t1x,t1y] = tile2;
-        tiles[t2x,t2y] = tile1;
+        tiles[t1x, t1y] = tile2;
+        tiles[t2x, t2y] = tile1;
     }
 
     public void AddRowOfTiles()
@@ -698,22 +766,17 @@ public class TileManager : MonoBehaviour
                 isDead = true;
                 Destroy(t);
                 t.GetComponent<SpriteRenderer>().color = Color.red;
-            }else{
+            }
+            else
+            {
                 Destroy(t);
             }
         }
         return isDead;
     }
 
-    private void CheckIfTense()
+    public bool CheckIfTense()
     {
-        if (AmountOfFullRows() > Mathf.FloorToInt(0.75f * grid.gameHeight))
-        {
-            musicManager.tense = true;
-        }
-        else
-        {
-            musicManager.tense = false;
-        }
+        return AmountOfFullRows() >= Mathf.FloorToInt(0.75f * grid.gameHeight);
     }
 }

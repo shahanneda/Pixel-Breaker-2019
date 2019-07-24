@@ -4,90 +4,106 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    public AudioSource introSource;
+    public AudioSource intro;
+
+    [Space]
 
     public AudioSource sectionACalm;
     public AudioSource sectionBCalm;
 
+    [Space]
+
     public AudioSource sectionA;
     public AudioSource sectionB;
+
+    [Space]
 
     public AudioSource outroA;
     public AudioSource outroB;
 
+    [Space]
+
     public bool tense = false;
 
-    private AudioSource currentSource;
-    private AudioSource queuedClip;
+    [SerializeField] private AudioSource currentSong;
+    private AudioSource queuedSong;
 
-    private bool outroQueued = false;
+    private bool isOutroQueued = false;
+
+    private TileManager tileManager;
 
     private void Start()
     {
-        PlayClip(introSource);
-        QueueClip(sectionACalm);
+        queuedSong = intro;
+
+        PlayQueuedSong();
+        QueueSong(sectionACalm);
+
+        tileManager = FindObjectOfType<TileManager>();
     }
 
     private void Update()
     {
-        if (!currentSource.isPlaying)
+        if (!currentSong.isPlaying)
         {
-            CheckNextClip();
-            PlayClip(queuedClip);
+            CheckNextSong();
+            PlayQueuedSong();
         }
     }
 
-    private void CheckNextClip()
+    private void CheckNextSong()
     {
-        if (!outroQueued)
+        if (!isOutroQueued)
         {
+            tense = tileManager.CheckIfTense();
+
             if (tense)
             {
-                if (currentSource.Equals(sectionACalm) || currentSource.Equals(sectionA))
+                if (currentSong.Equals(intro) || currentSong.Equals(sectionACalm) || currentSong.Equals(sectionB))
                 {
-                    QueueClip(sectionB);
+                    QueueSong(sectionA);
                 }
-                else if (currentSource.Equals(sectionBCalm) || currentSource.Equals(sectionB))
+                else if (currentSong.Equals(sectionBCalm) || currentSong.Equals(sectionA))
                 {
-                    QueueClip(sectionA);
+                    QueueSong(sectionB);
                 }
             }
             else
             {
-                if (currentSource.Equals(sectionACalm) || currentSource.Equals(sectionA))
+                if (currentSong.Equals(sectionACalm) || currentSong.Equals(sectionA))
                 {
-                    QueueClip(sectionBCalm);
+                    QueueSong(sectionBCalm);
                 }
-                else if (currentSource.Equals(sectionBCalm) || currentSource.Equals(sectionB))
+                else if (currentSong.Equals(sectionBCalm) || currentSong.Equals(sectionB))
                 {
-                    QueueClip(sectionACalm);
+                    QueueSong(sectionACalm);
                 }
             }
         }
     }
 
-    private void PlayClip(AudioSource clip)
+    private void PlayQueuedSong()
     {
-        currentSource = clip;
-        clip.Play();
+        currentSong = queuedSong;
+        queuedSong.Play();
     }
 
-    public void QueueClip(AudioSource clipToQueue)
+    public void QueueSong(AudioSource songToQueue)
     {
-        queuedClip = clipToQueue;
+        queuedSong = songToQueue;
     }
 
     public void QueueOutro()
     {
-        outroQueued = true;
+        isOutroQueued = true;
 
-        if (introSource.clip.Equals(sectionACalm) || introSource.clip.Equals(sectionA))
+        if (currentSong.Equals(intro) || currentSong.Equals(sectionACalm) || currentSong.Equals(sectionA))
         {
-            QueueClip(outroA);
+            QueueSong(outroA);
         }
-        else if (introSource.clip.Equals(sectionBCalm) || introSource.clip.Equals(sectionB))
+        else if (currentSong.Equals(sectionBCalm) || currentSong.Equals(sectionB))
         {
-            QueueClip(outroB);
+            QueueSong(outroB);
         }
     }
 }
