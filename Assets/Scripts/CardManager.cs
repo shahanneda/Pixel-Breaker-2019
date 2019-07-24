@@ -4,25 +4,23 @@ using UnityEngine;
 
 public class CardManager : MonoBehaviour
 {
-    //NOTE: current cards avaliable are placeholders and are not meant to be in the positions they are currently at.
-
     public Animator cardsAnimator;
 
     public GameObject[] rotationCards;
     public GameObject[] translationCards;
     public GameObject[] conversionCards;
 
-    private GameObject[] previousCards = new GameObject[3];
+    private GameObject previousRotationCard;
+    private GameObject previousTranslationCard;
+    private GameObject previousConversionCard;
+
+    private TileManager tileManager;
 
     private void Start()
     {
         PickCards();
-    }
 
-    private void ReplacePreviousCard(int index, GameObject newCard)
-    {
-        if (previousCards[index] != null) previousCards[index].SetActive(false);
-        previousCards[index] = newCard;
+        tileManager = FindObjectOfType<TileManager>();
     }
 
     private IEnumerator CardsAnimationCoroutine()
@@ -47,46 +45,54 @@ public class CardManager : MonoBehaviour
         #region New Rotation Card
         GameObject newRotationCard = rotationCards[Random.Range(0, rotationCards.Length)];
 
-        if (previousCards[0] != null)
+        if (previousRotationCard != null)
         {
-            while (previousCards[0].Equals(newRotationCard))
+            while (previousRotationCard.Equals(newRotationCard))
             {
                 newRotationCard = rotationCards[Random.Range(0, rotationCards.Length)];
             }
         }
 
-        ReplacePreviousCard(0, newRotationCard);
+        if (previousRotationCard != null) previousRotationCard.SetActive(false);
+        previousRotationCard = newRotationCard;
         newRotationCard.SetActive(true);
         #endregion
 
         #region New Translation Card
         GameObject newTranslationCard = translationCards[Random.Range(0, translationCards.Length)];
 
-        if (previousCards[1] != null)
+        if (previousTranslationCard != null)
         {
-            while (previousCards[1].Equals(newTranslationCard))
+            while (previousTranslationCard.Equals(newTranslationCard))
             {
                 newTranslationCard = translationCards[Random.Range(0, translationCards.Length)];
             }
         }
 
-        ReplacePreviousCard(1, newTranslationCard);
+        if (previousTranslationCard != null) previousTranslationCard.SetActive(false);
+        previousTranslationCard = newTranslationCard;
         newTranslationCard.SetActive(true);
         #endregion
 
         #region New Conversion Card
         GameObject newConversionCard = conversionCards[Random.Range(0, conversionCards.Length)];
 
-        if (previousCards[2] != null)
+        if (previousConversionCard != null)
         {
-            while (previousCards[2].Equals(newConversionCard))
+            while (previousConversionCard.Equals(newConversionCard))
             {
                 newConversionCard = conversionCards[Random.Range(0, conversionCards.Length)];
             }
         }
 
-        ReplacePreviousCard(2, newConversionCard);
+        if (previousConversionCard != null) previousConversionCard.SetActive(false);
+        previousConversionCard = newConversionCard;
         newConversionCard.SetActive(true);
         #endregion
+    }
+
+    public void CancelCard()
+    {
+        tileManager.SetOption((int)GlobalEnums.Options.DestroyWithColors);
     }
 }
