@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+
 using System.Collections;
 /// <summary>
 /// All cards should inherit from this class which sets up the click animation.
@@ -11,14 +13,20 @@ public class Card : MonoBehaviour
 
     public virtual void Start(){
         animator = GetComponent<Animator>();
-        tileManager = FindObjectOfType<TileManager>();
+        tileManager = FindObjectOfType<TileManager>(); 
+        GetComponent<Button>().onClick.AddListener(Clicked);
     }
+
+    public void Clicked(){
+        Card.DeSelectAll();
+        SetSelect(true);
+    }
+
     public void SetSelect(bool state){
         animator.SetBool("isSelected", state);
     }
 
     public static void DeSelectAll(){
-        //FindObjectOfType<Card>();
         foreach(Card c in FindObjectsOfType<Card>()){
             c.SetSelect(false);
         }
