@@ -19,7 +19,7 @@ public class TileManager : MonoBehaviour
     [SerializeField] SelectionMode currentSelectionMode = SelectionMode.Single;
     TileGrid grid;
     TileActions tileActions;
-    TileGravity tileGravity;
+    public TileGravity tileGravity;
 
     List<Tile> SelectedTilesGroupOne = new List<Tile>();
     List<Tile> SelectedTilesGroupTwo = new List<Tile>();
@@ -234,7 +234,7 @@ public class TileManager : MonoBehaviour
 
     public void FlipBoard(FlipOptions flipOption)
     {
-        gravityQueue.Clear();
+        //gravityQueue.Clear();
         if (flipOption.Equals(FlipOptions.Horizontal))
         {
             for (int column = 0; column < Mathf.FloorToInt(grid.gameWidth / 2); column++)
@@ -398,29 +398,30 @@ public class TileManager : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < grid.gameHeight; i++)
-        {
-            try
-            {
-                gravityQueue.Add(tiles[group1[0].X, i]);
-                gravityQueue.Add(tiles[group1[1].X, i]);
-                gravityQueue.Add(tiles[group1[2].X, i]);
+        //for (int i = 0; i < grid.gameHeight; i++)
+        //{
+        //    try
+        //    {
+        //        gravityQueue.Add(tiles[group1[0].X, i]);
+        //        gravityQueue.Add(tiles[group1[1].X, i]);
+        //        gravityQueue.Add(tiles[group1[2].X, i]);
 
-                gravityQueue.Add(tiles[group2[0].X, i]);
-                gravityQueue.Add(tiles[group2[1].X, i]);
-                gravityQueue.Add(tiles[group2[2].X, i]);
-            }
-            catch
-            {
-                continue;
-            }
-        }
+        //        gravityQueue.Add(tiles[group2[0].X, i]);
+        //        gravityQueue.Add(tiles[group2[1].X, i]);
+        //        gravityQueue.Add(tiles[group2[2].X, i]);
+        //    }
+        //    catch
+        //    {
+        //        continue;
+        //    }
+        //}
 
         RedrawTilesFromLocal();
 
         yield return new WaitForSeconds(0.2f);
 
-        CheckForGravity();
+        //CheckForGravity();
+        tileGravity.RunCheck();
     }
 
     private void SelectTiles(Tile[] tilesToSelect, bool state)
@@ -473,58 +474,58 @@ public class TileManager : MonoBehaviour
     /// <summary>
     /// Queue of objects that need to be checked for gravity updates.
     /// </summary>
-    public List<Tile> gravityQueue = new List<Tile>();
+    //public List<Tile> gravityQueue = new List<Tile>();
 
     /// <summary>
     /// Metheod called by invoke
     /// </summary>
-    public void GravityInvoke()
-    {
-        CheckForGravity();
-    }
+    //public void GravityInvoke()
+    //{
+    //    CheckForGravity();
+    //}
 
-    private void CheckForGravity(int count = 0)
-    {
-        foreach (Tile tile in gravityQueue.ToArray())
-        {
-            if (tile.Y + 1 < tiles.GetLength(1) && !tiles[tile.X, tile.Y + 1].isDead && !gravityQueue.Contains(tiles[tile.X, tile.Y + 1]))
-            {
-                gravityQueue.Add(tiles[tile.X, tile.Y + 1]);//NOTE this line is adding multiple tiems @ preformance if needed
-            }
+    //private void CheckForGravity(int count = 0)
+    //{
+    //    foreach (Tile tile in gravityQueue.ToArray())
+    //    {
+    //        if (tile.Y + 1 < tiles.GetLength(1) && !tiles[tile.X, tile.Y + 1].isDead && !gravityQueue.Contains(tiles[tile.X, tile.Y + 1]))
+    //        {
+    //            gravityQueue.Add(tiles[tile.X, tile.Y + 1]);//NOTE this line is adding multiple tiems @ preformance if needed
+    //        }
 
-            if (tile.Y != 0)
-            {
+    //        if (tile.Y != 0)
+    //        {
 
-                for (int scalingY = tile.Y; tiles[tile.X, scalingY - 1].isDead; scalingY--)
-                {
+    //            for (int scalingY = tile.Y; tiles[tile.X, scalingY - 1].isDead; scalingY--)
+    //            {
 
-                    Tile temp = tiles[tile.X, scalingY];
-                    tiles[tile.X, scalingY] = tiles[tile.X, scalingY - 1];
-                    tiles[tile.X, scalingY - 1] = temp;
-                    tiles[tile.X, scalingY].isFalling = true;
-                    tiles[tile.X, scalingY - 1].isFalling = true;
-                    //print(scalingY + " if next one is error it must be " + tile.X + " or " + (scalingY-1));
+    //                Tile temp = tiles[tile.X, scalingY];
+    //                tiles[tile.X, scalingY] = tiles[tile.X, scalingY - 1];
+    //                tiles[tile.X, scalingY - 1] = temp;
+    //                tiles[tile.X, scalingY].isFalling = true;
+    //                tiles[tile.X, scalingY - 1].isFalling = true;
+    //                //print(scalingY + " if next one is error it must be " + tile.X + " or " + (scalingY-1));
 
-                }
+    //            }
 
 
 
-            }
-            if (count >= 3)
-            {
-                gravityQueue.Remove(tile);
-            }
-        }
+    //        }
+    //        if (count >= 3)
+    //        {
+    //            gravityQueue.Remove(tile);
+    //        }
+    //    }
 
-        if (count <= 3)
-        {
-            CheckForGravity(count + 1);
-        }
-        else
-        {
-            RedrawTilesFromLocal();
-        }
-    }
+    //    if (count <= 3)
+    //    {
+    //        CheckForGravity(count + 1);
+    //    }
+    //    else
+    //    {
+    //        RedrawTilesFromLocal();
+    //    }
+    //}
 
     private void DestroyAllTilesOfSameColorAround(int x, int y)
     {

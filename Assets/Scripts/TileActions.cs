@@ -36,10 +36,11 @@ public class TileActions : MonoBehaviour
         tiles[x - 1, y] = bottomMiddle;
         tiles[x - 1, y - 1] = bottomRight;
 
-        manager.gravityQueue.AddRange(new List<Tile> { tiles[x,y],tiles[x + 1, y + 1], tiles[x, y + 1], tiles[x - 1, y + 1], tiles[x - 1, y], tiles[x - 1, y - 1], tiles[x, y - 1],
-        tiles[x + 1, y - 1],tiles[x + 1, y]
-        });
-        Invoke("GravityInvoke", manager.gravityCheckFloat);
+        //manager.gravityQueue.AddRange(new List<Tile> { tiles[x,y],tiles[x + 1, y + 1], tiles[x, y + 1], tiles[x - 1, y + 1], tiles[x - 1, y], tiles[x - 1, y - 1], tiles[x, y - 1],
+        //tiles[x + 1, y - 1],tiles[x + 1, y]
+        //});
+        //Invoke("GravityInvoke", manager.gravityCheckFloat);
+        manager.tileGravity.RunCheckDelayed(manager.gravityCheckFloat);
         manager.RedrawTilesFromLocal();
     }
 
@@ -58,10 +59,12 @@ public class TileActions : MonoBehaviour
         tiles[x - 1, y + 1] = tiles[x, y + 1];
         tiles[x, y + 1] = tempTile;
 
-        manager.gravityQueue.AddRange(new List<Tile> { tiles[x,y],tiles[x + 1, y + 1], tiles[x, y + 1], tiles[x - 1, y + 1], tiles[x - 1, y], tiles[x - 1, y - 1], tiles[x, y - 1],
-        tiles[x + 1, y - 1],tiles[x + 1, y]
-        });
-        Invoke("GravityInvoke", manager.gravityCheckFloat);
+        //manager.gravityQueue.AddRange(new List<Tile> { tiles[x,y],tiles[x + 1, y + 1], tiles[x, y + 1], tiles[x - 1, y + 1], tiles[x - 1, y], tiles[x - 1, y - 1], tiles[x, y - 1],
+        //tiles[x + 1, y - 1],tiles[x + 1, y]
+        //});
+        manager.tileGravity.RunCheckDelayed(manager.gravityCheckFloat);
+
+        //Invoke("GravityInvoke", manager.gravityCheckFloat);
         manager.RedrawTilesFromLocal();
     }
 
@@ -79,14 +82,16 @@ public class TileActions : MonoBehaviour
         tiles[x + 1, y - 1] = tiles[x + 1, y];
         tiles[x + 1, y] = tempTile;
 
-        manager.gravityQueue.AddRange(new List<Tile> { tiles[x,y],tiles[x + 1, y + 1], tiles[x, y + 1], tiles[x - 1, y + 1], tiles[x - 1, y], tiles[x - 1, y - 1], tiles[x, y - 1],
-        tiles[x + 1, y - 1],tiles[x + 1, y]
-        });
-        Invoke("GravityInvoke", manager.gravityCheckFloat);
+        //manager.gravityQueue.AddRange(new List<Tile> { tiles[x,y],tiles[x + 1, y + 1], tiles[x, y + 1], tiles[x - 1, y + 1], tiles[x - 1, y], tiles[x - 1, y - 1], tiles[x, y - 1],
+        //tiles[x + 1, y - 1],tiles[x + 1, y]
+        //});
+        //Invoke("GravityInvoke", manager.gravityCheckFloat);
+        manager.tileGravity.RunCheckDelayed(manager.gravityCheckFloat);
+
         manager.RedrawTilesFromLocal();
     }
-    public void GravityInvoke()
-    {
-        manager.GravityInvoke();
-    }
+    //public void GravityInvoke()
+    //{
+    //    manager.GravityInvoke();
+    //}
 }
