@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 815098464460776127}
   - component: {fileID: 815098464460776125}
   - component: {fileID: 2446804177426131198}
-  - component: {fileID: 1303653703}
+  - component: {fileID: 1051819755}
   m_Layer: 5
   m_Name: Horizontal Flip Board
   m_TagString: Untagged
@@ -234,8 +234,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93b84bc7b78c9324ab443a8d319cc294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canSelect: 0
   flipOption: 1
---- !u!95 &1303653703
+--- !u!95 &1051819755
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
