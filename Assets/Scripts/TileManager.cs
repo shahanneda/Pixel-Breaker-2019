@@ -210,6 +210,38 @@ public class TileManager : MonoBehaviour
                         }
                     }
                     break;
+                case Options.HorizontalFlip2x2:
+                    try
+                    {
+                        SwitchTiles(tiles[tile.X, tile.Y + 1], tiles[tile.X + 1, tile.Y + 1]);
+                        SwitchTiles(tile, tiles[tile.X + 1, tile.Y]);
+
+                        RedrawTilesFromLocal();
+
+                        amountOfTurns++;
+                        CheckAmountOfTurns();
+                    }
+                    catch
+                    {
+                        break;
+                    }
+                    break;
+                case Options.VerticalFlip2x2:
+                    try
+                    {
+                        SwitchTiles(tiles[tile.X + 1, tile.Y], tiles[tile.X + 1, tile.Y + 1]);
+                        SwitchTiles(tiles[tile.X, tile.Y], tiles[tile.X, tile.Y + 1]);
+
+                        RedrawTilesFromLocal();
+
+                        amountOfTurns++;
+                        CheckAmountOfTurns();
+                    }
+                    catch
+                    {
+                        break;
+                    }
+                    break;
             }
 
             if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.TranslateOneTile) && !optionSelected.Equals(Options.SwitchAdjacentRows) && !optionSelected.Equals(Options.SwitchAdjacentColumns))
@@ -434,6 +466,7 @@ public class TileManager : MonoBehaviour
     /// Used from Unity UI Buttons
     /// </summary>
     /// <param name="opt">Opt.</param>
+
     public void SetOption(int opt)
     {
         optionSelected = (Options)opt;
