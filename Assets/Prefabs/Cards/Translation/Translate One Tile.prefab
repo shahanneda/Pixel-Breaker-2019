@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8224465929576772096}
   - component: {fileID: 8224465929576772099}
   - component: {fileID: 8224465929576772097}
-  - component: {fileID: 1690904114218021501}
+  - component: {fileID: 2247603037223581277}
   m_Layer: 5
   m_Name: Translate One Tile
   m_TagString: Untagged
@@ -121,8 +121,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1690904114218021501}
-        m_MethodName: Translate
+      - m_Target: {fileID: 2247603037223581277}
+        m_MethodName: SetOption
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -132,9 +132,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2247603037223581277}
+        m_MethodName: SetSelect
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &1690904114218021501
+--- !u!114 &2247603037223581277
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,10 +154,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8224465929576772101}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2db7be2eb4e10be4fbfcd11a7923e040, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f0f26c1cf7cb4230bbbedeea24e7ebf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amount: 1
+  option: 8
+  canSelect: 1
 --- !u!1 &8224465929597846600
 GameObject:
   m_ObjectHideFlags: 0

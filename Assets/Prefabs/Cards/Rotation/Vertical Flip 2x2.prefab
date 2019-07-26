@@ -509,8 +509,8 @@ GameObject:
   - component: {fileID: 2991781524133953968}
   - component: {fileID: 2991781524133953971}
   - component: {fileID: 2991781524133953969}
+  - component: {fileID: -8544107757341058896}
   - component: {fileID: 2991781524133953975}
-  - component: {fileID: 2991781524133953974}
   m_Layer: 5
   m_Name: Vertical Flip 2x2
   m_TagString: Untagged
@@ -619,7 +619,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2991781524133953974}
+      - m_Target: {fileID: -8544107757341058896}
         m_MethodName: SetOption
         m_Mode: 1
         m_Arguments:
@@ -630,7 +630,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2991781524133953974}
+      - m_Target: {fileID: -8544107757341058896}
         m_MethodName: SetSelect
         m_Mode: 6
         m_Arguments:
@@ -643,6 +643,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &-8544107757341058896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2991781524133953973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f0f26c1cf7cb4230bbbedeea24e7ebf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  option: 12
+  canSelect: 1
 --- !u!95 &2991781524133953975
 Animator:
   serializedVersion: 3
@@ -662,17 +676,3 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2991781524133953974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2991781524133953973}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebb76d50b5a6f2f4aa3e3d2045db4302, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canSelect: 1
-  option: 12

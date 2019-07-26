@@ -7,6 +7,8 @@ using System.Collections;
 /// </summary>
 public class Card : MonoBehaviour
 {
+    public GlobalEnums.Options option;
+
     public bool canSelect = true;
 
     protected Animator animator;
@@ -40,5 +42,10 @@ public class Card : MonoBehaviour
     public void OnDisable()
     {
         //Card.DeSelectAll();
+    }
+
+    public virtual void SetOption()
+    {
+        tileManager.SetOption((int)option);
     }
 }

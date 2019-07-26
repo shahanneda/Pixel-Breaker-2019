@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 6102618913713765389}
   - component: {fileID: 6102618913713765391}
   - component: {fileID: 8839028183422649530}
-  - component: {fileID: 8839028183422649533}
+  - component: {fileID: 6417218631600751091}
   m_Layer: 5
   m_Name: Switch Edge Columns
   m_TagString: Untagged
@@ -333,18 +333,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: SwitchEdgeColumns
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 8839028183422649533}
+      - m_Target: {fileID: 6417218631600751091}
         m_MethodName: SetSelect
         m_Mode: 6
         m_Arguments:
@@ -376,7 +365,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &8839028183422649533
+--- !u!114 &6417218631600751091
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -385,10 +374,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6102618913713765387}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0c7e7be851c14ba38366cecce044471, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f0f26c1cf7cb4230bbbedeea24e7ebf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canSelect: 0
+  option: 0
+  canSelect: 1
 --- !u!1 &6102618913726483014
 GameObject:
   m_ObjectHideFlags: 0

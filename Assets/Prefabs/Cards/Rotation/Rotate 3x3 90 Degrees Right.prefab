@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 1157979323634503618}
   - component: {fileID: 1157979323634503617}
   - component: {fileID: 1157979323634503619}
-  - component: {fileID: 2241343937134270168}
+  - component: {fileID: 5538083656217987212}
   m_Layer: 5
   m_Name: Rotate 3x3 90 Degrees Right
   m_TagString: Untagged
@@ -331,8 +331,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2241343937134270168}
-        m_MethodName: SetRotation
+      - m_Target: {fileID: 5538083656217987212}
+        m_MethodName: SetOption
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -342,9 +342,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5538083656217987212}
+        m_MethodName: SetSelect
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &2241343937134270168
+--- !u!114 &5538083656217987212
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -353,10 +364,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1157979323634503623}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0435e352ff6ca2b4ab071558023491d1, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f0f26c1cf7cb4230bbbedeea24e7ebf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amount: 90
+  option: 1
+  canSelect: 1
 --- !u!1 &1157979323814721930
 GameObject:
   m_ObjectHideFlags: 0

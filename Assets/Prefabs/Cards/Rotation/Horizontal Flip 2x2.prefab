@@ -509,8 +509,8 @@ GameObject:
   - component: {fileID: 4827794646213267163}
   - component: {fileID: 4827794646213267160}
   - component: {fileID: 4827794646213267162}
+  - component: {fileID: -8477621082609542056}
   - component: {fileID: 4827794646213267164}
-  - component: {fileID: 4827794646213267165}
   m_Layer: 5
   m_Name: Horizontal Flip 2x2
   m_TagString: Untagged
@@ -619,7 +619,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4827794646213267165}
+      - m_Target: {fileID: -8477621082609542056}
         m_MethodName: SetOption
         m_Mode: 1
         m_Arguments:
@@ -630,7 +630,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4827794646213267165}
+      - m_Target: {fileID: -8477621082609542056}
         m_MethodName: SetSelect
         m_Mode: 6
         m_Arguments:
@@ -643,6 +643,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &-8477621082609542056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4827794646213267166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f0f26c1cf7cb4230bbbedeea24e7ebf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  option: 11
+  canSelect: 1
 --- !u!95 &4827794646213267164
 Animator:
   serializedVersion: 3
@@ -662,17 +676,3 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4827794646213267165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4827794646213267166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebb76d50b5a6f2f4aa3e3d2045db4302, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canSelect: 1
-  option: 11
