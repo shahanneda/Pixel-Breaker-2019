@@ -23,11 +23,11 @@ public class Translation : Card
         }
         else if (amount == -1)
         {
-            tileManager.SetOption((int)GlobalEnums.Options.SwitchRows);
+            tileManager.SetOption((int)GlobalEnums.Options.SwitchAdjacentRows);
         }
         else if (amount == -2)
         {
-            tileManager.SetOption((int)GlobalEnums.Options.SwitchColumns);
+            tileManager.SetOption((int)GlobalEnums.Options.SwitchAdjacentColumns);
         }
     }
 }

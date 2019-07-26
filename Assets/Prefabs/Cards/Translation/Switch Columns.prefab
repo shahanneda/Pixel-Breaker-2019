@@ -433,6 +433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2db7be2eb4e10be4fbfcd11a7923e040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canSelect: 1
   amount: -2
 --- !u!1 &5410839159722725166
 GameObject:
@@ -643,4 +644,4 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Switch the positions of two columns.
+  m_Text: Switch the positions of two adjacent columns.

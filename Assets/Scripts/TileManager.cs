@@ -130,19 +130,22 @@ public class TileManager : MonoBehaviour
                         }
                         else
                         {
-                            selectedTile.setSelect(false);
+                            if (!tile.Equals(selectedTile))
+                            {
+                                selectedTile.setSelect(false);
 
-                            SwitchTiles(selectedTile, tile);
-                            selectedTile = null;
+                                SwitchTiles(selectedTile, tile);
+                                selectedTile = null;
 
-                            RedrawTilesFromLocal();
+                                RedrawTilesFromLocal();
 
-                            amountOfTurns++;
-                            CheckAmountOfTurns();
+                                amountOfTurns++;
+                                CheckAmountOfTurns();
+                            }
                         }
                     }
                     break;
-                case Options.SwitchRows:
+                case Options.SwitchAdjacentRows:
                     if (!tile.isDead)
                     {
                         if (selectedTile == null)
@@ -156,35 +159,26 @@ public class TileManager : MonoBehaviour
                         }
                         else
                         {
-                            for (int i = 0; i < grid.gameWidth; i++)
+                            if (Mathf.Abs(tile.Y - selectedTile.Y) == 1)
                             {
-                                tiles[i, selectedTile.Y].setSelect(false);
+                                for (int i = 0; i < grid.gameWidth; i++)
+                                {
+                                    tiles[i, selectedTile.Y].setSelect(false);
+                                }
+
+                                SwitchRowOfTiles(selectedTile.Y, tile.Y);
+                                selectedTile = null;
+
+                                tileGravity.RunCheckDelayed(0.4f);
+                                RedrawTilesFromLocal();
+
+                                amountOfTurns++;
+                                CheckAmountOfTurns();
                             }
-
-                            SwitchRowOfTiles(selectedTile.Y, tile.Y);
-                            selectedTile = null;
-
-                            tileGravity.RunCheckDelayed(0.4f);
-                            RedrawTilesFromLocal();
-
-                            amountOfTurns++;
-                            CheckAmountOfTurns();
-                        }
-                    }
-
-                    if (!tile.isDead)
-                    {
-                        if (selectedTile == null)
-                        {
-                            print("New selected tile");
-                        }
-                        else
-                        {
-                            print("Switching row " + selectedTile.Y + " with row " + tile.Y);
                         }
                     }
                     break;
-                case Options.SwitchColumns:
+                case Options.SwitchAdjacentColumns:
                     if (!tile.isDead)
                     {
                         if (selectedTile == null)
@@ -198,24 +192,27 @@ public class TileManager : MonoBehaviour
                         }
                         else
                         {
-                            for (int i = 0; i < grid.gameHeight; i++)
+                            if (Mathf.Abs(tile.X - selectedTile.X) == 1)
                             {
-                                tiles[selectedTile.X, i].setSelect(false);
+                                for (int i = 0; i < grid.gameHeight; i++)
+                                {
+                                    tiles[selectedTile.X, i].setSelect(false);
+                                }
+
+                                SwitchColumnOfTiles(selectedTile.X, tile.X);
+                                selectedTile = null;
+
+                                RedrawTilesFromLocal();
+
+                                amountOfTurns++;
+                                CheckAmountOfTurns();
                             }
-
-                            SwitchColumnOfTiles(selectedTile.X, tile.X);
-                            selectedTile = null;
-
-                            RedrawTilesFromLocal();
-
-                            amountOfTurns++;
-                            CheckAmountOfTurns();
                         }
                     }
                     break;
             }
 
-            if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.TranslateOneTile) && !optionSelected.Equals(Options.SwitchRows) && !optionSelected.Equals(Options.SwitchColumns))
+            if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.TranslateOneTile) && !optionSelected.Equals(Options.SwitchAdjacentRows) && !optionSelected.Equals(Options.SwitchAdjacentColumns))
             {
                 amountOfTurns++;
                 CheckAmountOfTurns();
@@ -454,8 +451,8 @@ public class TileManager : MonoBehaviour
                 break;
             case Options.ThreeByThreeSwitch:
             case Options.TranslateOneTile:
-            case Options.SwitchRows:
-            case Options.SwitchColumns:
+            case Options.SwitchAdjacentRows:
+            case Options.SwitchAdjacentColumns:
                 currentSelectionMode = SelectionMode.SaveSelection;
                 selectedTile = null;
                 SelectedTilesGroupOne.Clear();
