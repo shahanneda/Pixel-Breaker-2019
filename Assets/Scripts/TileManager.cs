@@ -106,6 +106,14 @@ public class TileManager : MonoBehaviour
                     tileActions.Rotate3x3Right90Degrees(tile.X, tile.Y);
                     tileActions.Rotate3x3Right90Degrees(tile.X, tile.Y);
                     break;
+                case Options.Rotate2x2Left90Degrees:
+                    tileActions.Rotate2x2Left90Degrees(tile.X, tile.Y);
+                    break;
+                case Options.Rotate2x2Left180Degrees:
+                    Vector2 tilePos = new Vector2(tile.X, tile.Y);
+                    tileActions.Rotate2x2Left90Degrees((int)tilePos.x, (int)tilePos.y);
+                    tileActions.Rotate2x2Left90Degrees((int)tilePos.x, (int)tilePos.y);
+                    break;
                 case Options.Destroy:
                     DestroyTile(tile.X, tile.Y, true);
                     break;
@@ -241,6 +249,28 @@ public class TileManager : MonoBehaviour
                     {
                         break;
                     }
+                    break;
+                case Options.HorizontalFlip3x3:
+                    SwitchTiles(tiles[tile.X - 1, tile.Y + 1], tiles[tile.X + 1, tile.Y + 1]);
+                    SwitchTiles(tiles[tile.X - 1, tile.Y], tiles[tile.X + 1, tile.Y]);
+                    SwitchTiles(tiles[tile.X - 1, tile.Y - 1], tiles[tile.X + 1, tile.Y - 1]);
+
+                    RedrawTilesFromLocal();
+
+                    amountOfTurns++;
+                    CheckAmountOfTurns();
+
+                    break;
+                case Options.VerticalFlip3x3:
+                    SwitchTiles(tiles[tile.X - 1, tile.Y + 1], tiles[tile.X - 1, tile.Y - 1]);
+                    SwitchTiles(tiles[tile.X, tile.Y + 1], tiles[tile.X, tile.Y - 1]);
+                    SwitchTiles(tiles[tile.X + 1, tile.Y + 1], tiles[tile.X + 1, tile.Y - 1]);
+
+                    RedrawTilesFromLocal();
+
+                    amountOfTurns++;
+                    CheckAmountOfTurns();
+
                     break;
             }
 
@@ -480,6 +510,8 @@ public class TileManager : MonoBehaviour
             case Options.Rotate3x3Right90Degrees:
             case Options.Rotate3x3Right180Degrees:
             case Options.Rotate3x3Left180Degrees:
+            case Options.HorizontalFlip3x3:
+            case Options.VerticalFlip3x3:
                 currentSelectionMode = SelectionMode.ThreeByThree;
                 break;
             case Options.ThreeByThreeSwitch:
@@ -496,6 +528,8 @@ public class TileManager : MonoBehaviour
                 break;
             case Options.HorizontalFlip2x2:
             case Options.VerticalFlip2x2:
+            case Options.Rotate2x2Left90Degrees:
+            case Options.Rotate2x2Left180Degrees:
                 currentSelectionMode = SelectionMode.TwoByTwo;
                 break;
         }
@@ -713,11 +747,17 @@ public class TileManager : MonoBehaviour
 
     private Tile[] GetTilesIn2x2(Tile tile)
     {
-        if (tile.X >= grid.gameWidth - 1 || tile.Y >= AmountOfFullRows() - 1) return new Tile[] { tile };
-        else
+        if (TwoByTwoPossible(tile))
         {
-            return new Tile[] { tile, tiles[tile.X + 1, tile.Y], tiles[tile.X, tile.Y + 1], tiles[tile.X + 1, tile.Y + 1] };
+            return new Tile[]
+            {
+                tile,
+                tiles[tile.X + 1, tile.Y],
+                tiles[tile.X, tile.Y + 1],
+                tiles[tile.X + 1, tile.Y + 1]
+            };
         }
+        else return new Tile[] { tile };
     }
 
     private Tile[] GetTilesIn3x3(Tile tile)
@@ -732,6 +772,11 @@ public class TileManager : MonoBehaviour
             tiles[tile.X-1,tile.Y  ], tiles[tile.X,tile.Y  ], tiles[tile.X+1,tile.Y  ],
             tiles[tile.X-1,tile.Y-1], tiles[tile.X,tile.Y-1], tiles[tile.X+1,tile.Y-1]
         };
+    }
+
+    public bool TwoByTwoPossible(Tile tile)
+    {
+        return !(tile.X >= grid.gameWidth - 1 || tile.Y >= AmountOfFullRows() - 1);
     }
 
     public bool TileIsOnEdge(Tile t)

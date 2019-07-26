@@ -90,6 +90,25 @@ public class TileActions : MonoBehaviour
 
         manager.RedrawTilesFromLocal();
     }
+
+    public void Rotate2x2Left90Degrees(int x, int y)
+    {
+        if (!manager.TwoByTwoPossible(tiles[x, y]))
+            return;
+        Tile tempTile = tiles[x, y];
+        tiles[x, y] = tiles[x, y + 1];
+        tiles[x, y + 1] = tiles[x + 1, y + 1];
+        tiles[x + 1, y + 1] = tiles[x + 1, y];
+        tiles[x + 1, y] = tempTile;
+
+        //manager.gravityQueue.AddRange(new List<Tile> { tiles[x,y],tiles[x + 1, y + 1], tiles[x, y + 1], tiles[x - 1, y + 1], tiles[x - 1, y], tiles[x - 1, y - 1], tiles[x, y - 1],
+        //tiles[x + 1, y - 1],tiles[x + 1, y]
+        //});
+        //Invoke("GravityInvoke", manager.gravityCheckFloat);
+        manager.tileGravity.RunCheckDelayed(manager.gravityCheckFloat);
+
+        manager.RedrawTilesFromLocal();
+    }
     //public void GravityInvoke()
     //{
     //    manager.GravityInvoke();
