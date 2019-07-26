@@ -15,8 +15,8 @@ public class TileManager : MonoBehaviour
 
     public MusicManager musicManager;
 
-    [SerializeField] Options optionSelected = Options.DestroyWithColors;
-    [SerializeField] SelectionMode currentSelectionMode = SelectionMode.Single;
+    Options optionSelected = Options.DestroyWithColors;
+    SelectionMode currentSelectionMode = SelectionMode.Single;
     TileGrid grid;
     TileActions tileActions;
     public TileGravity tileGravity;
@@ -494,6 +494,10 @@ public class TileManager : MonoBehaviour
             case Options.SwitchColorOfOne:
                 currentSelectionMode = SelectionMode.Single;
                 break;
+            case Options.HorizontalFlip2x2:
+            case Options.VerticalFlip2x2:
+                currentSelectionMode = SelectionMode.TwoByTwo;
+                break;
         }
 
     }
@@ -645,6 +649,12 @@ public class TileManager : MonoBehaviour
                         t.setHover(true);
                     }
                     break;
+                case SelectionMode.TwoByTwo:
+                    foreach (Tile t in GetTilesIn2x2(tile))
+                    {
+                        t.setHover(true);
+                    }
+                    break;
                 case SelectionMode.SaveSelection:
                     if (optionSelected.Equals(Options.ThreeByThreeSwitch))
                     {
@@ -679,6 +689,12 @@ public class TileManager : MonoBehaviour
                     t.setHover(false);
                 }
                 break;
+            case SelectionMode.TwoByTwo:
+                foreach (Tile t in GetTilesIn2x2(tile))
+                {
+                    t.setHover(false);
+                }
+                break;
             case SelectionMode.SaveSelection:
                 if (!SelectedTilesGroupOne.Contains(tile))
                 {
@@ -692,6 +708,15 @@ public class TileManager : MonoBehaviour
                     //tile.setSelect(false);
                 }
                 break;
+        }
+    }
+
+    private Tile[] GetTilesIn2x2(Tile tile)
+    {
+        if (tile.X >= grid.gameWidth - 1 || tile.Y >= AmountOfFullRows() - 1) return new Tile[] { tile };
+        else
+        {
+            return new Tile[] { tile, tiles[tile.X + 1, tile.Y], tiles[tile.X, tile.Y + 1], tiles[tile.X + 1, tile.Y + 1] };
         }
     }
 
