@@ -820,7 +820,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2049844223}
-        m_MethodName: SwitchColorOfOne
+        m_MethodName: SwitchColorOfTiles
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 21300000, guid: 337d4203a44569b4fba65ecb52681489,
@@ -1414,7 +1414,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2049844223}
-        m_MethodName: SwitchColorOfOne
+        m_MethodName: SwitchColorOfTiles
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 21300000, guid: e2f30057f938aed42b6463b14d453fd5,
@@ -1520,7 +1520,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2049844223}
-        m_MethodName: SwitchColorOfOne
+        m_MethodName: SwitchColorOfTiles
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 21300000, guid: 36f801c722c1f5145ae86af2a9dc4c24,
@@ -3289,7 +3289,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2049844223}
-        m_MethodName: SwitchColorOfOne
+        m_MethodName: SwitchColorOfTiles
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 21300000, guid: 9107c1d82073865408330976357fc17b,
@@ -3559,7 +3559,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2049844223}
-        m_MethodName: SwitchColorOfOne
+        m_MethodName: SwitchColorOfTiles
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 21300000, guid: 8f52aabb766456d418dd6fba2a12aef8,
@@ -3727,7 +3727,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2049844223}
-        m_MethodName: SwitchColorOfOne
+        m_MethodName: SwitchColorOfTiles
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 21300000, guid: d9e41af61a35cfb4c9243e88860661a3,

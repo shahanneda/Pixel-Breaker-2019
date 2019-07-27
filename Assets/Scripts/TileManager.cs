@@ -27,8 +27,7 @@ public class TileManager : MonoBehaviour
     private ScoreManager scoreManager;
     private CardManager cardManager;
 
-    private Tile selectedTile;
-    private Tile selectedTileTwo;
+    private List<Tile> savedTiles = new List<Tile>();
 
     private int amountOfTurns = 0;
 
@@ -125,26 +124,27 @@ public class TileManager : MonoBehaviour
                     ThreeByThreeSwitch(tile.X, tile.Y);
                     break;
                 case Options.SwitchColorOfOne:
-                    selectedTile = tile;
+                    //selectedTile = tile;
+                    savedTiles.Add(tile);
                     selectCardColorMenu.SetActive(true);
                     CanSelectTile = false;
                     break;
                 case Options.TranslateOneTile:
                     if (!tile.isDead)
                     {
-                        if (selectedTile == null)
+                        if (savedTiles.Count <= 0)
                         {
-                            selectedTile = tile;
-                            selectedTile.setSelect(true);
+                            savedTiles.Add(tile);
+                            tile.setSelect(true);
                         }
                         else
                         {
-                            if (!tile.Equals(selectedTile))
+                            if (!savedTiles.Contains(tile))
                             {
-                                selectedTile.setSelect(false);
+                                savedTiles[0].setSelect(false);
 
-                                SwitchTiles(selectedTile, tile);
-                                selectedTile = null;
+                                SwitchTiles(savedTiles[0], tile);
+                                savedTiles.Clear();
 
                                 RedrawTilesFromLocal();
 
@@ -157,26 +157,26 @@ public class TileManager : MonoBehaviour
                 case Options.SwitchAdjacentRows:
                     if (!tile.isDead)
                     {
-                        if (selectedTile == null)
+                        if (savedTiles.Count <= 0)
                         {
-                            selectedTile = tile;
+                            savedTiles.Add(tile);
 
                             for (int i = 0; i < grid.gameWidth; i++)
                             {
-                                tiles[i, selectedTile.Y].setSelect(true);
+                                tiles[i, savedTiles[0].Y].setSelect(true);
                             }
                         }
                         else
                         {
-                            if (Mathf.Abs(tile.Y - selectedTile.Y) == 1)
+                            if (Mathf.Abs(tile.Y - savedTiles[0].Y) == 1)
                             {
                                 for (int i = 0; i < grid.gameWidth; i++)
                                 {
-                                    tiles[i, selectedTile.Y].setSelect(false);
+                                    tiles[i, savedTiles[0].Y].setSelect(false);
                                 }
 
-                                SwitchRowOfTiles(selectedTile.Y, tile.Y);
-                                selectedTile = null;
+                                SwitchRowOfTiles(savedTiles[0].Y, tile.Y);
+                                savedTiles.Clear();
 
                                 tileGravity.RunCheckDelayed(0.4f);
                                 RedrawTilesFromLocal();
@@ -190,26 +190,26 @@ public class TileManager : MonoBehaviour
                 case Options.SwitchAdjacentColumns:
                     if (!tile.isDead)
                     {
-                        if (selectedTile == null)
+                        if (savedTiles.Count <= 0)
                         {
-                            selectedTile = tile;
+                            savedTiles.Add(tile);
 
                             for (int i = 0; i < grid.gameHeight; i++)
                             {
-                                tiles[selectedTile.X, i].setSelect(true);
+                                tiles[savedTiles[0].X, i].setSelect(true);
                             }
                         }
                         else
                         {
-                            if (Mathf.Abs(tile.X - selectedTile.X) == 1)
+                            if (Mathf.Abs(tile.X - savedTiles[0].X) == 1)
                             {
                                 for (int i = 0; i < grid.gameHeight; i++)
                                 {
-                                    tiles[selectedTile.X, i].setSelect(false);
+                                    tiles[savedTiles[0].X, i].setSelect(false);
                                 }
 
-                                SwitchColumnOfTiles(selectedTile.X, tile.X);
-                                selectedTile = null;
+                                SwitchColumnOfTiles(savedTiles[0].X, tile.X);
+                                savedTiles.Clear();
 
                                 RedrawTilesFromLocal();
 
@@ -276,16 +276,11 @@ public class TileManager : MonoBehaviour
                 case Options.SwitchColorOfTwo:
                     if (!tile.isDead)
                     {
-                        if (selectedTile == null)
-                        {
-                            selectedTile = tile;
-                            selectedTile.setSelect(true);
-                        }
-                        else
-                        {
-                            selectedTileTwo = tile;
-                            selectedTileTwo.setSelect(true);
+                        savedTiles.Add(tile);
+                        tile.setSelect(true);
 
+                        if (savedTiles.Count > 1)
+                        {
                             CanSelectTile = false;
                             selectCardColorMenu.SetActive(true);
                         }
@@ -301,18 +296,15 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    public void SwitchColorOfOne(Sprite newColor)
+    public void SwitchColorOfTiles(Sprite newColor)
     {
-        selectedTile.SetSprite(newColor);
-        selectedTile.setSelect(false);
-        selectedTile = null;
-
-        if (selectedTileTwo != null)
+        foreach (Tile tile in savedTiles)
         {
-            selectedTileTwo.SetSprite(newColor);
-            selectedTileTwo.setSelect(false);
-            selectedTileTwo = null;
+            tile.SetSprite(newColor);
+            tile.setSelect(false);
         }
+
+        savedTiles.Clear();
 
         CanSelectTile = true;
 
@@ -549,7 +541,7 @@ public class TileManager : MonoBehaviour
             case Options.SwitchAdjacentColumns:
             case Options.SwitchColorOfTwo:
                 currentSelectionMode = SelectionMode.SaveSelection;
-                selectedTile = null;
+                savedTiles.Clear();
                 SelectedTilesGroupOne.Clear();
                 SelectedTilesGroupTwo.Clear();
                 break;
