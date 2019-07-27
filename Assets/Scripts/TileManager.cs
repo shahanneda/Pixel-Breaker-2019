@@ -15,8 +15,8 @@ public class TileManager : MonoBehaviour
 
     public MusicManager musicManager;
 
-    Options optionSelected = Options.DestroyWithColors;
-    SelectionMode currentSelectionMode = SelectionMode.Single;
+    [SerializeField] Options optionSelected = Options.DestroyWithColors;
+    [SerializeField] SelectionMode currentSelectionMode = SelectionMode.Single;
     TileGrid grid;
     TileActions tileActions;
     public TileGravity tileGravity;
@@ -28,6 +28,7 @@ public class TileManager : MonoBehaviour
     private CardManager cardManager;
 
     private Tile selectedTile;
+    private Tile selectedTileTwo;
 
     private int amountOfTurns = 0;
 
@@ -272,9 +273,27 @@ public class TileManager : MonoBehaviour
                     CheckAmountOfTurns();
 
                     break;
+                case Options.SwitchColorOfTwo:
+                    if (!tile.isDead)
+                    {
+                        if (selectedTile == null)
+                        {
+                            selectedTile = tile;
+                            selectedTile.setSelect(true);
+                        }
+                        else
+                        {
+                            selectedTileTwo = tile;
+                            selectedTileTwo.setSelect(true);
+
+                            CanSelectTile = false;
+                            selectCardColorMenu.SetActive(true);
+                        }
+                    }
+                    break;
             }
 
-            if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.TranslateOneTile) && !optionSelected.Equals(Options.SwitchAdjacentRows) && !optionSelected.Equals(Options.SwitchAdjacentColumns))
+            if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.SwitchColorOfTwo) && !optionSelected.Equals(Options.TranslateOneTile) && !optionSelected.Equals(Options.SwitchAdjacentRows) && !optionSelected.Equals(Options.SwitchAdjacentColumns))
             {
                 amountOfTurns++;
                 CheckAmountOfTurns();
@@ -285,6 +304,16 @@ public class TileManager : MonoBehaviour
     public void SwitchColorOfOne(Sprite newColor)
     {
         selectedTile.SetSprite(newColor);
+        selectedTile.setSelect(false);
+        selectedTile = null;
+
+        if (selectedTileTwo != null)
+        {
+            selectedTileTwo.SetSprite(newColor);
+            selectedTileTwo.setSelect(false);
+            selectedTileTwo = null;
+        }
+
         CanSelectTile = true;
 
         amountOfTurns++;
@@ -518,6 +547,7 @@ public class TileManager : MonoBehaviour
             case Options.TranslateOneTile:
             case Options.SwitchAdjacentRows:
             case Options.SwitchAdjacentColumns:
+            case Options.SwitchColorOfTwo:
                 currentSelectionMode = SelectionMode.SaveSelection;
                 selectedTile = null;
                 SelectedTilesGroupOne.Clear();
