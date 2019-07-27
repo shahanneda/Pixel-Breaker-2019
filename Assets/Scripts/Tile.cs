@@ -71,7 +71,7 @@ public class Tile : MonoBehaviour
 
     public void ChooseRandomSprite()
     {
-        sprite = manager.sprites[Random.Range(0, manager.sprites.Length - 1)];
+        sprite = manager.sprites[Random.Range(0, manager.sprites.Length)];
         spriteRenderer.sprite = sprite;
     }
 

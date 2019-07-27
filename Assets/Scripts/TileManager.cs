@@ -28,6 +28,7 @@ public class TileManager : MonoBehaviour
     private CardManager cardManager;
 
     private List<Tile> savedTiles = new List<Tile>();
+    private Sprite colorOfSwitch;
 
     private int amountOfTurns = 0;
 
@@ -279,7 +280,23 @@ public class TileManager : MonoBehaviour
                         savedTiles.Add(tile);
                         tile.setSelect(true);
 
-                        if (savedTiles.Count > 1)
+                        if (savedTiles.Count == 2)
+                        {
+                            CanSelectTile = false;
+                            selectCardColorMenu.SetActive(true);
+                        }
+                    }
+                    break;
+                case Options.SwitchColorOfThree:
+                    if (!tile.isDead)
+                    {
+                        if (tile.sprite.Equals(colorOfSwitch))
+                        {
+                            savedTiles.Add(tile);
+                            tile.setSelect(true);
+                        }
+
+                        if (savedTiles.Count == 3)
                         {
                             CanSelectTile = false;
                             selectCardColorMenu.SetActive(true);
@@ -288,7 +305,7 @@ public class TileManager : MonoBehaviour
                     break;
             }
 
-            if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.SwitchColorOfTwo) && !optionSelected.Equals(Options.TranslateOneTile) && !optionSelected.Equals(Options.SwitchAdjacentRows) && !optionSelected.Equals(Options.SwitchAdjacentColumns))
+            if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.SwitchColorOfTwo) && !optionSelected.Equals(Options.SwitchColorOfThree) && !optionSelected.Equals(Options.TranslateOneTile) && !optionSelected.Equals(Options.SwitchAdjacentRows) && !optionSelected.Equals(Options.SwitchAdjacentColumns))
             {
                 amountOfTurns++;
                 CheckAmountOfTurns();
@@ -518,6 +535,11 @@ public class TileManager : MonoBehaviour
     /// </summary>
     /// <param name="opt">Opt.</param>
 
+    public void SetColorOfSwitch(Sprite color)
+    {
+        colorOfSwitch = color;
+    }
+
     public void SetOption(int opt)
     {
         optionSelected = (Options)opt;
@@ -540,6 +562,7 @@ public class TileManager : MonoBehaviour
             case Options.SwitchAdjacentRows:
             case Options.SwitchAdjacentColumns:
             case Options.SwitchColorOfTwo:
+            case Options.SwitchColorOfThree:
                 currentSelectionMode = SelectionMode.SaveSelection;
                 savedTiles.Clear();
                 SelectedTilesGroupOne.Clear();
