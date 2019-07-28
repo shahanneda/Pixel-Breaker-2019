@@ -84,7 +84,6 @@ public class TileManager : MonoBehaviour
     {
         if (CanSelectTile)
         {
-            Card.DeSelectAll();
             switch (optionSelected)
             {
                 case Options.Rotate3x3Left90Degrees:
@@ -147,10 +146,7 @@ public class TileManager : MonoBehaviour
                                 SwitchTiles(savedTiles[0], tile);
                                 savedTiles.Clear();
 
-                                RedrawTilesFromLocal();
-
-                                amountOfTurns++;
-                                CheckAmountOfTurns();
+                                AfterTurnChecks();
                             }
                         }
                     }
@@ -180,10 +176,7 @@ public class TileManager : MonoBehaviour
                                 savedTiles.Clear();
 
                                 tileGravity.RunCheckDelayed(0.4f);
-                                RedrawTilesFromLocal();
-
-                                amountOfTurns++;
-                                CheckAmountOfTurns();
+                                AfterTurnChecks();
                             }
                         }
                     }
@@ -212,10 +205,7 @@ public class TileManager : MonoBehaviour
                                 SwitchColumnOfTiles(savedTiles[0].X, tile.X);
                                 savedTiles.Clear();
 
-                                RedrawTilesFromLocal();
-
-                                amountOfTurns++;
-                                CheckAmountOfTurns();
+                                AfterTurnChecks();
                             }
                         }
                     }
@@ -226,10 +216,7 @@ public class TileManager : MonoBehaviour
                         SwitchTiles(tiles[tile.X, tile.Y + 1], tiles[tile.X + 1, tile.Y + 1]);
                         SwitchTiles(tile, tiles[tile.X + 1, tile.Y]);
 
-                        RedrawTilesFromLocal();
-
-                        amountOfTurns++;
-                        CheckAmountOfTurns();
+                        AfterTurnChecks();
                     }
                     catch
                     {
@@ -242,10 +229,7 @@ public class TileManager : MonoBehaviour
                         SwitchTiles(tiles[tile.X + 1, tile.Y], tiles[tile.X + 1, tile.Y + 1]);
                         SwitchTiles(tiles[tile.X, tile.Y], tiles[tile.X, tile.Y + 1]);
 
-                        RedrawTilesFromLocal();
-
-                        amountOfTurns++;
-                        CheckAmountOfTurns();
+                        AfterTurnChecks();
                     }
                     catch
                     {
@@ -257,10 +241,7 @@ public class TileManager : MonoBehaviour
                     SwitchTiles(tiles[tile.X - 1, tile.Y], tiles[tile.X + 1, tile.Y]);
                     SwitchTiles(tiles[tile.X - 1, tile.Y - 1], tiles[tile.X + 1, tile.Y - 1]);
 
-                    RedrawTilesFromLocal();
-
-                    amountOfTurns++;
-                    CheckAmountOfTurns();
+                    AfterTurnChecks();
 
                     break;
                 case Options.VerticalFlip3x3:
@@ -268,10 +249,7 @@ public class TileManager : MonoBehaviour
                     SwitchTiles(tiles[tile.X, tile.Y + 1], tiles[tile.X, tile.Y - 1]);
                     SwitchTiles(tiles[tile.X + 1, tile.Y + 1], tiles[tile.X + 1, tile.Y - 1]);
 
-                    RedrawTilesFromLocal();
-
-                    amountOfTurns++;
-                    CheckAmountOfTurns();
+                    AfterTurnChecks();
 
                     break;
                 case Options.SwitchColorOfTwo:
@@ -307,10 +285,19 @@ public class TileManager : MonoBehaviour
 
             if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.SwitchColorOfTwo) && !optionSelected.Equals(Options.SwitchColorOfThree) && !optionSelected.Equals(Options.TranslateOneTile) && !optionSelected.Equals(Options.SwitchAdjacentRows) && !optionSelected.Equals(Options.SwitchAdjacentColumns))
             {
-                amountOfTurns++;
-                CheckAmountOfTurns();
+                AfterTurnChecks();
             }
         }
+    }
+
+    private void AfterTurnChecks()
+    {
+        Card.DeSelectAll();
+
+        amountOfTurns++;
+        CheckAmountOfTurns();
+
+        RedrawTilesFromLocal();
     }
 
     public void SwitchColorOfTiles(Sprite newColor)
@@ -325,8 +312,7 @@ public class TileManager : MonoBehaviour
 
         CanSelectTile = true;
 
-        amountOfTurns++;
-        CheckAmountOfTurns();
+        AfterTurnChecks();
     }
 
     public void FlipBoard(FlipOptions flipOption)
@@ -350,11 +336,8 @@ public class TileManager : MonoBehaviour
         }
 
 
-        RedrawTilesFromLocal();
         tileGravity.RunCheckDelayed(0.5f);
-
-        amountOfTurns++;
-        CheckAmountOfTurns();
+        AfterTurnChecks();
     }
 
     public void ThreeByThreeSwitch(int x, int y)
@@ -385,24 +368,16 @@ public class TileManager : MonoBehaviour
     {
         SwitchRowOfTiles(0, AmountOfFullRows() - 1);
 
-
-        RedrawTilesFromLocal();
         tileGravity.RunCheckDelayed(0.5f);
-
-
-        amountOfTurns++;
-        CheckAmountOfTurns();
+        AfterTurnChecks();
     }
 
     public void SwitchEdgeColumns()
     {
         SwitchColumnOfTiles(0, grid.gameWidth - 1);
 
-        RedrawTilesFromLocal();
         tileGravity.RunCheckDelayed(0.5f);
-
-        amountOfTurns++;
-        CheckAmountOfTurns();
+        AfterTurnChecks();
     }
 
     private int AmountOfFullRows()
