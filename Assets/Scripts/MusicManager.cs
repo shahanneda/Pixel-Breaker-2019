@@ -50,6 +50,7 @@ public class MusicManager : MonoBehaviour
             if (!ending)
             {
                 currentSong.volume -= Time.deltaTime / 1.5f;
+                tileManager.isPlaying = false;
 
                 if (currentSong.volume <= 0)
                 {

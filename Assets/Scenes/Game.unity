@@ -2157,7 +2157,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1174850309}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1288020361}
+        m_MethodName: ReloadScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1174850309
@@ -2357,6 +2368,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1288020359}
   - component: {fileID: 1288020360}
+  - component: {fileID: 1288020361}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2392,6 +2404,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOverScreen: {fileID: 898105698}
   gameOverScoreText: {fileID: 1087678716}
+--- !u!114 &1288020361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288020358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ae282e9bceeb3e4b87a725db2b12c78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1302813907
 GameObject:
   m_ObjectHideFlags: 0
@@ -3388,7 +3412,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1624715174}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1288020361}
+        m_MethodName: LoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Menu
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1624715174
@@ -6596,6 +6631,11 @@ PrefabInstance:
       propertyPath: selectCardColorMenu
       value: 
       objectReference: {fileID: 195431614}
+    - target: {fileID: 4856161527363955973, guid: 02129982551e844cd9cc802c8a5b0056,
+        type: 3}
+      propertyPath: currentSelectionMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1167758087, guid: 02129982551e844cd9cc802c8a5b0056, type: 3}
       propertyPath: board
       value: 

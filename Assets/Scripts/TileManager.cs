@@ -15,8 +15,8 @@ public class TileManager : MonoBehaviour
 
     public MusicManager musicManager;
 
-    [SerializeField] Options optionSelected = Options.DestroyWithColors;
-    [SerializeField] SelectionMode currentSelectionMode = SelectionMode.Single;
+    Options optionSelected = Options.DestroyWithColors;
+    SelectionMode currentSelectionMode = SelectionMode.Single;
     TileGrid grid;
     TileActions tileActions;
     public TileGravity tileGravity;
