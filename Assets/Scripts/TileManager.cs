@@ -34,6 +34,8 @@ public class TileManager : MonoBehaviour
 
     public bool CanSelectTile { get; set; }
 
+    public bool isPlaying = true;
+
     void Start()
     {
         Tile.manager = this;
@@ -82,7 +84,7 @@ public class TileManager : MonoBehaviour
     /// <param name="tile">The tile clicked</param>
     public void HandleTileClick(Tile tile)
     {
-        if (CanSelectTile && !tile.isDead)
+        if (CanSelectTile && !tile.isDead && isPlaying)
         {
             switch (optionSelected)
             {
@@ -737,7 +739,7 @@ public class TileManager : MonoBehaviour
     /// <param name="tile">Tile.</param>
     public void HandleTileMouseOver(Tile tile)
     {
-        if (CanSelectTile)
+        if (CanSelectTile && isPlaying)
         {
             switch (currentSelectionMode)
             {

@@ -29,6 +29,7 @@ public class MusicManager : MonoBehaviour
     private AudioSource queuedSong;
 
     private bool isOutroQueued = false;
+    private bool ending;
 
     private TileManager tileManager;
 
@@ -44,10 +45,30 @@ public class MusicManager : MonoBehaviour
 
     private void Update()
     {
-        if (!currentSong.isPlaying)
+        if (isOutroQueued)
         {
-            CheckNextSong();
-            PlayQueuedSong();
+            if (!ending)
+            {
+                currentSong.volume -= Time.deltaTime / 1.5f;
+
+                if (currentSong.volume <= 0)
+                {
+                    FindObjectOfType<GameManager>().GameOver();
+
+                    PlayQueuedSong();
+
+                    ending = true;
+                    enabled = false;
+                }
+            }
+        }
+        else
+        {
+            if (!currentSong.isPlaying)
+            {
+                CheckNextSong();
+                PlayQueuedSong();
+            }
         }
     }
 

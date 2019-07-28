@@ -7,7 +7,7 @@ public class ScoreManager : MonoBehaviour
 {
     public Text scoreText;
 
-    private int score = 0;
+    public int Score { get; private set; } = 0;
 
     private ScoreTextEffect scoreTextEffect;
 
@@ -18,8 +18,8 @@ public class ScoreManager : MonoBehaviour
 
     public void AddScore(int addScore)
     {
-        score += addScore;
-        scoreText.text = score.ToString();
+        Score += addScore;
+        scoreText.text = Score.ToString();
 
         scoreTextEffect.DisplayScore(addScore);
     }
