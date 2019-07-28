@@ -312,6 +312,19 @@ public class TileManager : MonoBehaviour
                         AfterTurnChecks();
                     }
                     break;
+                case Options.Move2x2ToTop:
+                    if (TwoByTwoPossible(tile))
+                    {
+                        Tile[] tiles2x2 = GetTilesIn2x2(tile);
+
+                        SwitchTiles(tiles2x2[0], tiles[tiles2x2[0].X, grid.gameHeight - 2]);
+                        SwitchTiles(tiles2x2[1], tiles[tiles2x2[1].X, grid.gameHeight - 2]);
+                        SwitchTiles(tiles2x2[2], tiles[tiles2x2[2].X, grid.gameHeight - 1]);
+                        SwitchTiles(tiles2x2[3], tiles[tiles2x2[3].X, grid.gameHeight - 1]);
+
+                        tileGravity.RunCheck();
+                    }
+                    break;
             }
 
             if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.SwitchColorOfTwo) && !optionSelected.Equals(Options.SwitchColorOfThree) && !optionSelected.Equals(Options.TranslateOneTile) && !optionSelected.Equals(Options.SwitchAdjacentRows) && !optionSelected.Equals(Options.SwitchAdjacentColumns) && !optionSelected.Equals(Options.SwitchAdjacent2x2) && !optionSelected.Equals(Options.Move3ToTop))
@@ -583,6 +596,7 @@ public class TileManager : MonoBehaviour
             case Options.Rotate2x2Left90Degrees:
             case Options.Rotate2x2Left180Degrees:
             case Options.SwitchAdjacent2x2:
+            case Options.Move2x2ToTop:
                 currentSelectionMode = SelectionMode.TwoByTwo;
                 break;
         }
