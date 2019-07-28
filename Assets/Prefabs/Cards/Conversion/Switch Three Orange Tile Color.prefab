@@ -209,7 +209,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Switch the color of two tiles
+  m_Text: Switch the color of any three orange tiles.
 --- !u!1 &6962970532335798874
 GameObject:
   m_ObjectHideFlags: 0
