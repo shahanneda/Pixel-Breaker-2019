@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public GameObject gameOverScreen;
     public Text gameOverScoreText;
+    public Text gameOverHighScoreText;
 
     public void GameOver()
     {
@@ -14,6 +15,18 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<TileManager>().enabled = false;
 
         gameOverScreen.SetActive(true);
-        gameOverScoreText.text += FindObjectOfType<ScoreManager>().Score.ToString();
+
+        int score = FindObjectOfType<ScoreManager>().Score;
+        int highScore = FileSaver.Load().highScore;
+
+        if (score > highScore)
+        {
+            highScore = score;
+            FileSaver.Save(highScore);
+        }
+
+        gameOverScoreText.text += score.ToString();
+        gameOverHighScoreText.text += highScore.ToString();
     }
 }
+
