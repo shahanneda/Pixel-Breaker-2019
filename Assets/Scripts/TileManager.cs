@@ -82,7 +82,7 @@ public class TileManager : MonoBehaviour
     /// <param name="tile">The tile clicked</param>
     public void HandleTileClick(Tile tile)
     {
-        if (CanSelectTile)
+        if (CanSelectTile && !tile.isDead)
         {
             switch (optionSelected)
             {
@@ -130,83 +130,74 @@ public class TileManager : MonoBehaviour
                     CanSelectTile = false;
                     break;
                 case Options.TranslateOneTile:
-                    if (!tile.isDead)
+                    if (savedTiles.Count <= 0)
                     {
-                        if (savedTiles.Count <= 0)
+                        savedTiles.Add(tile);
+                        tile.setSelect(true);
+                    }
+                    else
+                    {
+                        if (!savedTiles.Contains(tile))
                         {
-                            savedTiles.Add(tile);
-                            tile.setSelect(true);
-                        }
-                        else
-                        {
-                            if (!savedTiles.Contains(tile))
-                            {
-                                savedTiles[0].setSelect(false);
+                            savedTiles[0].setSelect(false);
 
-                                SwitchTiles(savedTiles[0], tile);
-                                savedTiles.Clear();
+                            SwitchTiles(savedTiles[0], tile);
+                            savedTiles.Clear();
 
-                                AfterTurnChecks();
-                            }
+                            AfterTurnChecks();
                         }
                     }
                     break;
                 case Options.SwitchAdjacentRows:
-                    if (!tile.isDead)
+                    if (savedTiles.Count <= 0)
                     {
-                        if (savedTiles.Count <= 0)
-                        {
-                            savedTiles.Add(tile);
+                        savedTiles.Add(tile);
 
+                        for (int i = 0; i < grid.gameWidth; i++)
+                        {
+                            tiles[i, savedTiles[0].Y].setSelect(true);
+                        }
+                    }
+                    else
+                    {
+                        if (Mathf.Abs(tile.Y - savedTiles[0].Y) == 1)
+                        {
                             for (int i = 0; i < grid.gameWidth; i++)
                             {
-                                tiles[i, savedTiles[0].Y].setSelect(true);
+                                tiles[i, savedTiles[0].Y].setSelect(false);
                             }
-                        }
-                        else
-                        {
-                            if (Mathf.Abs(tile.Y - savedTiles[0].Y) == 1)
-                            {
-                                for (int i = 0; i < grid.gameWidth; i++)
-                                {
-                                    tiles[i, savedTiles[0].Y].setSelect(false);
-                                }
 
-                                SwitchRowOfTiles(savedTiles[0].Y, tile.Y);
-                                savedTiles.Clear();
+                            SwitchRowOfTiles(savedTiles[0].Y, tile.Y);
+                            savedTiles.Clear();
 
-                                tileGravity.RunCheckDelayed(0.4f);
-                                AfterTurnChecks();
-                            }
+                            tileGravity.RunCheckDelayed(0.4f);
+                            AfterTurnChecks();
                         }
                     }
                     break;
                 case Options.SwitchAdjacentColumns:
-                    if (!tile.isDead)
+                    if (savedTiles.Count <= 0)
                     {
-                        if (savedTiles.Count <= 0)
-                        {
-                            savedTiles.Add(tile);
+                        savedTiles.Add(tile);
 
+                        for (int i = 0; i < grid.gameHeight; i++)
+                        {
+                            tiles[savedTiles[0].X, i].setSelect(true);
+                        }
+                    }
+                    else
+                    {
+                        if (Mathf.Abs(tile.X - savedTiles[0].X) == 1)
+                        {
                             for (int i = 0; i < grid.gameHeight; i++)
                             {
-                                tiles[savedTiles[0].X, i].setSelect(true);
+                                tiles[savedTiles[0].X, i].setSelect(false);
                             }
-                        }
-                        else
-                        {
-                            if (Mathf.Abs(tile.X - savedTiles[0].X) == 1)
-                            {
-                                for (int i = 0; i < grid.gameHeight; i++)
-                                {
-                                    tiles[savedTiles[0].X, i].setSelect(false);
-                                }
 
-                                SwitchColumnOfTiles(savedTiles[0].X, tile.X);
-                                savedTiles.Clear();
+                            SwitchColumnOfTiles(savedTiles[0].X, tile.X);
+                            savedTiles.Clear();
 
-                                AfterTurnChecks();
-                            }
+                            AfterTurnChecks();
                         }
                     }
                     break;
@@ -253,37 +244,59 @@ public class TileManager : MonoBehaviour
 
                     break;
                 case Options.SwitchColorOfTwo:
-                    if (!tile.isDead)
-                    {
-                        savedTiles.Add(tile);
-                        tile.setSelect(true);
+                    savedTiles.Add(tile);
+                    tile.setSelect(true);
 
-                        if (savedTiles.Count == 2)
-                        {
-                            CanSelectTile = false;
-                            selectCardColorMenu.SetActive(true);
-                        }
+                    if (savedTiles.Count == 2)
+                    {
+                        CanSelectTile = false;
+                        selectCardColorMenu.SetActive(true);
                     }
                     break;
                 case Options.SwitchColorOfThree:
-                    if (!tile.isDead)
+                    if (tile.sprite.Equals(colorOfSwitch))
                     {
-                        if (tile.sprite.Equals(colorOfSwitch))
+                        savedTiles.Add(tile);
+                        tile.setSelect(true);
+                    }
+
+                    if (savedTiles.Count == 3)
+                    {
+                        CanSelectTile = false;
+                        selectCardColorMenu.SetActive(true);
+                    }
+                    break;
+                case Options.SwitchAdjacent2x2:
+                    if (savedTiles.Count == 0 || Vector2.Distance(new Vector2(tile.X, tile.Y), new Vector2(savedTiles[0].X, savedTiles[0].Y)) <= 2)
+                    {
+                        if (savedTiles.Count == 1)
                         {
-                            savedTiles.Add(tile);
-                            tile.setSelect(true);
+                            Tile[] tileGroup1 = GetTilesIn2x2(savedTiles[0]);
+                            Tile[] tileGroup2 = GetTilesIn2x2(tile);
+
+                            for (int i = 0; i < 4; i++)
+                            {
+                                tileGroup1[i].setSelect(false);
+                                SwitchTiles(tileGroup1[i], tileGroup2[i]);
+                            }
+
+                            savedTiles.Clear();
+
+                            AfterTurnChecks();
+                            break;
                         }
 
-                        if (savedTiles.Count == 3)
+                        savedTiles.Add(tile);
+
+                        foreach (Tile t in GetTilesIn2x2(tile))
                         {
-                            CanSelectTile = false;
-                            selectCardColorMenu.SetActive(true);
+                            t.setSelect(true);
                         }
                     }
                     break;
             }
 
-            if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.SwitchColorOfTwo) && !optionSelected.Equals(Options.SwitchColorOfThree) && !optionSelected.Equals(Options.TranslateOneTile) && !optionSelected.Equals(Options.SwitchAdjacentRows) && !optionSelected.Equals(Options.SwitchAdjacentColumns))
+            if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.SwitchColorOfTwo) && !optionSelected.Equals(Options.SwitchColorOfThree) && !optionSelected.Equals(Options.TranslateOneTile) && !optionSelected.Equals(Options.SwitchAdjacentRows) && !optionSelected.Equals(Options.SwitchAdjacentColumns) && !optionSelected.Equals(Options.SwitchAdjacent2x2))
             {
                 AfterTurnChecks();
             }
@@ -550,6 +563,7 @@ public class TileManager : MonoBehaviour
             case Options.VerticalFlip2x2:
             case Options.Rotate2x2Left90Degrees:
             case Options.Rotate2x2Left180Degrees:
+            case Options.SwitchAdjacent2x2:
                 currentSelectionMode = SelectionMode.TwoByTwo;
                 break;
         }
