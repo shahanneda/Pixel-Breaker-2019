@@ -294,9 +294,27 @@ public class TileManager : MonoBehaviour
                         }
                     }
                     break;
+                case Options.Move3ToTop:
+                    savedTiles.Add(tile);
+                    tile.setSelect(true);
+
+                    if (savedTiles.Count == 3)
+                    {
+                        foreach (Tile t in savedTiles)
+                        {
+                            t.setSelect(false);
+                            SwitchTiles(t, tiles[t.X, grid.gameHeight - 1]);
+                        }
+
+                        savedTiles.Clear();
+
+                        tileGravity.RunCheck();
+                        AfterTurnChecks();
+                    }
+                    break;
             }
 
-            if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.SwitchColorOfTwo) && !optionSelected.Equals(Options.SwitchColorOfThree) && !optionSelected.Equals(Options.TranslateOneTile) && !optionSelected.Equals(Options.SwitchAdjacentRows) && !optionSelected.Equals(Options.SwitchAdjacentColumns) && !optionSelected.Equals(Options.SwitchAdjacent2x2))
+            if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.SwitchColorOfTwo) && !optionSelected.Equals(Options.SwitchColorOfThree) && !optionSelected.Equals(Options.TranslateOneTile) && !optionSelected.Equals(Options.SwitchAdjacentRows) && !optionSelected.Equals(Options.SwitchAdjacentColumns) && !optionSelected.Equals(Options.SwitchAdjacent2x2) && !optionSelected.Equals(Options.Move3ToTop))
             {
                 AfterTurnChecks();
             }
@@ -551,6 +569,7 @@ public class TileManager : MonoBehaviour
             case Options.SwitchAdjacentColumns:
             case Options.SwitchColorOfTwo:
             case Options.SwitchColorOfThree:
+            case Options.Move3ToTop:
                 currentSelectionMode = SelectionMode.SaveSelection;
                 savedTiles.Clear();
                 SelectedTilesGroupOne.Clear();
