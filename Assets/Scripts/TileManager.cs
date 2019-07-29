@@ -570,71 +570,102 @@ public class TileManager : MonoBehaviour
 
     public void SetOption(int opt)
     {
-        switch ((Options)opt)
+        Options option = (Options)opt;
+        print(option);
+
+        if (option.Equals(Options.FlipHorizontal) || option.Equals(Options.FlipVertical) || option.Equals(Options.SwitchEdgeRows) || option.Equals(Options.SwitchEdgeColumns))
         {
-            case Options.Destroy:
-            case Options.DestroyWithColors:
-                currentSelectionMode = SelectionMode.Single;
-                break;
-            case Options.Rotate3x3Left90Degrees:
-            case Options.Rotate3x3Right90Degrees:
-            case Options.Rotate3x3Right180Degrees:
-            case Options.Rotate3x3Left180Degrees:
-            case Options.HorizontalFlip3x3:
-            case Options.VerticalFlip3x3:
-                currentSelectionMode = SelectionMode.ThreeByThree;
-                break;
-            case Options.ThreeByThreeSwitch:
-            case Options.TranslateOneTile:
-            case Options.SwitchAdjacentRows:
-            case Options.SwitchAdjacentColumns:
-            case Options.SwitchColorOfTwo:
-            case Options.SwitchColorOfThree:
-            case Options.Move3ToTop:
-                currentSelectionMode = SelectionMode.SaveSelection;
-                savedTiles.Clear();
-                SelectedTilesGroupOne.Clear();
-                SelectedTilesGroupTwo.Clear();
-                break;
-            case Options.SwitchColorOfOne:
-                currentSelectionMode = SelectionMode.Single;
-                break;
-            case Options.HorizontalFlip2x2:
-            case Options.VerticalFlip2x2:
-            case Options.Rotate2x2Left90Degrees:
-            case Options.Rotate2x2Left180Degrees:
-            case Options.SwitchAdjacent2x2:
-            case Options.Move2x2ToTop:
-                currentSelectionMode = SelectionMode.TwoByTwo;
-                break;
-            case Options.FlipHorizontal:
-                if (optionSelected.Equals(Options.FlipHorizontal))
-                {
-                    FlipBoard(FlipOptions.Horizontal);
-                }
-                break;
-            case Options.FlipVertical:
-                if (optionSelected.Equals(Options.FlipVertical))
-                {
-                    FlipBoard(FlipOptions.Vertical);
-                }
-                break;
-            case Options.SwitchEdgeRows:
-                if (optionSelected.Equals(Options.SwitchEdgeRows))
-                {
-                    SwitchEdgeRows();
-                }
-                break;
-            case Options.SwitchEdgeColumns:
-                if (optionSelected.Equals(Options.SwitchEdgeColumns))
-                {
-                    SwitchEdgeColumns();
-                }
-                break;
+            switch (option)
+            {
+                case Options.FlipHorizontal:
+                    if (optionSelected.Equals(Options.FlipHorizontal))
+                    {
+                        FlipBoard(FlipOptions.Horizontal);
+                        SetOption((int)Options.DestroyWithColors);
+                    }
+                    else
+                    {
+                        optionSelected = option;
+                    }
+                    break;
+                case Options.FlipVertical:
+                    if (optionSelected.Equals(Options.FlipVertical))
+                    {
+                        FlipBoard(FlipOptions.Vertical);
+                        SetOption((int)Options.DestroyWithColors);
+                    }
+                    else
+                    {
+                        optionSelected = option;
+                    }
+                    break;
+                case Options.SwitchEdgeRows:
+                    if (optionSelected.Equals(Options.SwitchEdgeRows))
+                    {
+                        SwitchEdgeRows();
+                        SetOption((int)Options.DestroyWithColors);
+                    }
+                    else
+                    {
+                        optionSelected = option;
+                    }
+                    break;
+                case Options.SwitchEdgeColumns:
+                    if (optionSelected.Equals(Options.SwitchEdgeColumns))
+                    {
+                        SwitchEdgeColumns();
+                        SetOption((int)Options.DestroyWithColors);
+                    }
+                    else
+                    {
+                        optionSelected = option;
+                    }
+                    break;
+            }
         }
+        else
+        {
+            optionSelected = option;
 
-        optionSelected = (Options)opt;
-
+            switch (optionSelected)
+            {
+                case Options.Destroy:
+                case Options.DestroyWithColors:
+                    currentSelectionMode = SelectionMode.Single;
+                    break;
+                case Options.Rotate3x3Left90Degrees:
+                case Options.Rotate3x3Right90Degrees:
+                case Options.Rotate3x3Right180Degrees:
+                case Options.Rotate3x3Left180Degrees:
+                case Options.HorizontalFlip3x3:
+                case Options.VerticalFlip3x3:
+                    currentSelectionMode = SelectionMode.ThreeByThree;
+                    break;
+                case Options.ThreeByThreeSwitch:
+                case Options.TranslateOneTile:
+                case Options.SwitchAdjacentRows:
+                case Options.SwitchAdjacentColumns:
+                case Options.SwitchColorOfTwo:
+                case Options.SwitchColorOfThree:
+                case Options.Move3ToTop:
+                    currentSelectionMode = SelectionMode.SaveSelection;
+                    savedTiles.Clear();
+                    SelectedTilesGroupOne.Clear();
+                    SelectedTilesGroupTwo.Clear();
+                    break;
+                case Options.SwitchColorOfOne:
+                    currentSelectionMode = SelectionMode.Single;
+                    break;
+                case Options.HorizontalFlip2x2:
+                case Options.VerticalFlip2x2:
+                case Options.Rotate2x2Left90Degrees:
+                case Options.Rotate2x2Left180Degrees:
+                case Options.SwitchAdjacent2x2:
+                case Options.Move2x2ToTop:
+                    currentSelectionMode = SelectionMode.TwoByTwo;
+                    break;
+            }
+        }
     }
     /// <summary>
     /// Queue of objects that need to be destroyed
