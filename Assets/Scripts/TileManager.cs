@@ -32,6 +32,7 @@ public class TileManager : MonoBehaviour
 
     private int amountOfTurns = 0;
     private int amountOfTurnsToAddRow = 5;
+    private int addRowCounter;
 
     public bool CanSelectTile { get; set; }
 
@@ -122,6 +123,7 @@ public class TileManager : MonoBehaviour
                     break;
                 case Options.DestroyWithColors:
                     DestroyAllTilesOfSameColorAround(tile.X, tile.Y);
+                    AddRowCounter();
                     break;
                 case Options.ThreeByThreeSwitch:
                     ThreeByThreeSwitch(tile.X, tile.Y);
@@ -457,9 +459,20 @@ public class TileManager : MonoBehaviour
         }
     }
 
+    private void AddRowCounter()
+    {
+        addRowCounter++;
+
+        if (addRowCounter >= 10)
+        {
+            DecreaseTimeBetweenAddRow();
+            addRowCounter = 0;
+        }
+    }
+
     public void DecreaseTimeBetweenAddRow()
     {
-        if (amountOfTurnsToAddRow > 1) amountOfTurnsToAddRow--;
+        if (amountOfTurnsToAddRow > 2) amountOfTurnsToAddRow--;
         print(amountOfTurnsToAddRow);
     }
 
@@ -571,7 +584,6 @@ public class TileManager : MonoBehaviour
     public void SetOption(int opt)
     {
         Options option = (Options)opt;
-        print(option);
 
         if (option.Equals(Options.FlipHorizontal) || option.Equals(Options.FlipVertical) || option.Equals(Options.SwitchEdgeRows) || option.Equals(Options.SwitchEdgeColumns))
         {

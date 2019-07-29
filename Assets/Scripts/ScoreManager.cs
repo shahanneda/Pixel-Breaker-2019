@@ -9,14 +9,10 @@ public class ScoreManager : MonoBehaviour
 
     public int Score { get; private set; } = 0;
 
-    private TileManager tileManager;
     private ScoreTextEffect scoreTextEffect;
-
-    private int addRowCounter;
 
     private void Start()
     {
-        tileManager = FindObjectOfType<TileManager>();
         scoreTextEffect = FindObjectOfType<ScoreTextEffect>();
     }
 
@@ -26,11 +22,5 @@ public class ScoreManager : MonoBehaviour
         scoreText.text = Score.ToString();
 
         scoreTextEffect.DisplayScore(addScore);
-
-        if (Mathf.FloorToInt(Score / 200) > addRowCounter)
-        {
-            tileManager.DecreaseTimeBetweenAddRow();
-            addRowCounter++;
-        }
     }
 }
