@@ -31,6 +31,7 @@ public class TileManager : MonoBehaviour
     private Sprite colorOfSwitch;
 
     private int amountOfTurns = 0;
+    private int amountOfTurnsToAddRow = 5;
 
     public bool CanSelectTile { get; set; }
 
@@ -450,10 +451,16 @@ public class TileManager : MonoBehaviour
         SetOption((int)Options.DestroyWithColors);
         cardManager.PlayCardsAnimation();
 
-        if (amountOfTurns % 5 == 0)
+        if (amountOfTurns % amountOfTurnsToAddRow == 0)
         {
             AddRowOfTiles();
         }
+    }
+
+    public void DecreaseTimeBetweenAddRow()
+    {
+        if (amountOfTurnsToAddRow > 1) amountOfTurnsToAddRow--;
+        print(amountOfTurnsToAddRow);
     }
 
     private void SwitchTiles(Tile[] group1, Tile[] group2)
