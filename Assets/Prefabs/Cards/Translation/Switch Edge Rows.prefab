@@ -543,8 +543,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: SwitchEdgeRows
+      - m_Target: {fileID: 1187066884998927247}
+        m_MethodName: SetOption
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -598,7 +598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f0f26c1cf7cb4230bbbedeea24e7ebf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  option: 0
+  option: 24
   canSelect: 1
 --- !u!1 &8839028184607910898
 GameObject:

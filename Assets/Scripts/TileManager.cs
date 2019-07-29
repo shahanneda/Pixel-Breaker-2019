@@ -563,8 +563,7 @@ public class TileManager : MonoBehaviour
 
     public void SetOption(int opt)
     {
-        optionSelected = (Options)opt;
-        switch (optionSelected)
+        switch ((Options)opt)
         {
             case Options.Destroy:
             case Options.DestroyWithColors:
@@ -601,7 +600,33 @@ public class TileManager : MonoBehaviour
             case Options.Move2x2ToTop:
                 currentSelectionMode = SelectionMode.TwoByTwo;
                 break;
+            case Options.FlipHorizontal:
+                if (optionSelected.Equals(Options.FlipHorizontal))
+                {
+                    FlipBoard(FlipOptions.Horizontal);
+                }
+                break;
+            case Options.FlipVertical:
+                if (optionSelected.Equals(Options.FlipVertical))
+                {
+                    FlipBoard(FlipOptions.Vertical);
+                }
+                break;
+            case Options.SwitchEdgeRows:
+                if (optionSelected.Equals(Options.SwitchEdgeRows))
+                {
+                    SwitchEdgeRows();
+                }
+                break;
+            case Options.SwitchEdgeColumns:
+                if (optionSelected.Equals(Options.SwitchEdgeColumns))
+                {
+                    SwitchEdgeColumns();
+                }
+                break;
         }
+
+        optionSelected = (Options)opt;
 
     }
     /// <summary>

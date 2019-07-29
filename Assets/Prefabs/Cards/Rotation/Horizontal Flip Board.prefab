@@ -88,8 +88,8 @@ GameObject:
   - component: {fileID: 815098464460776124}
   - component: {fileID: 815098464460776127}
   - component: {fileID: 815098464460776125}
-  - component: {fileID: 2446804177426131198}
   - component: {fileID: 1051819755}
+  - component: {fileID: 366121510212684309}
   m_Layer: 5
   m_Name: Horizontal Flip Board
   m_TagString: Untagged
@@ -198,8 +198,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2446804177426131198}
-        m_MethodName: Flip
+      - m_Target: {fileID: 366121510212684309}
+        m_MethodName: SetOption
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -209,7 +209,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2446804177426131198}
+      - m_Target: {fileID: 366121510212684309}
         m_MethodName: SetSelect
         m_Mode: 6
         m_Arguments:
@@ -222,20 +222,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &2446804177426131198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 815098464460776121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93b84bc7b78c9324ab443a8d319cc294, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canSelect: 0
-  flipOption: 1
 --- !u!95 &1051819755
 Animator:
   serializedVersion: 3
@@ -255,6 +241,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &366121510212684309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 815098464460776121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f0f26c1cf7cb4230bbbedeea24e7ebf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  option: 22
+  canSelect: 1
 --- !u!1 &815098464578942380
 GameObject:
   m_ObjectHideFlags: 0
