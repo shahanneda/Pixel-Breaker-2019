@@ -11,20 +11,30 @@ public class Card : MonoBehaviour
 
     public bool canSelect = true;
 
+    public AudioClip selectClip;
+
     protected Animator animator;
     protected TileManager tileManager;
+
+    private AudioSource sfxSource;
 
     public virtual void Start()
     {
         animator = GetComponent<Animator>();
         tileManager = FindObjectOfType<TileManager>();
         GetComponent<Button>().onClick.AddListener(Clicked);
+
+        sfxSource = GameObject.FindGameObjectWithTag("SFX").GetComponent<AudioSource>();
     }
 
     public void Clicked()
     {
         Card.DeSelectAll();
-        if (canSelect) SetSelect(true);
+        if (canSelect)
+        {
+            SetSelect(true);
+            sfxSource.PlayOneShot(selectClip);
+        }
     }
 
     public void SetSelect(bool state)
