@@ -473,7 +473,6 @@ public class TileManager : MonoBehaviour
     public void DecreaseTimeBetweenAddRow()
     {
         if (amountOfTurnsToAddRow > 2) amountOfTurnsToAddRow--;
-        print(amountOfTurnsToAddRow);
     }
 
     private void SwitchTiles(Tile[] group1, Tile[] group2)
@@ -984,7 +983,8 @@ public class TileManager : MonoBehaviour
 
     public void AddRowOfTiles()
     {
-        CheckIfTense();
+        musicManager.CheckNextSong();
+
         CheckForIsLastRowFilledAndDeleteDeadTiles();
 
         for (int row = tiles.GetLength(1) - 1; row > 0; row--)

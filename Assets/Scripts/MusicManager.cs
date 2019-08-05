@@ -24,6 +24,7 @@ public class MusicManager : MonoBehaviour
     [Space]
 
     public bool tense = false;
+    private bool previousTense = false;
 
     [SerializeField] private AudioSource currentSong;
     private AudioSource queuedSong;
@@ -63,31 +64,27 @@ public class MusicManager : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            if (!currentSong.isPlaying)
-            {
-                CheckNextSong();
-                PlayQueuedSong();
-            }
-        }
     }
 
-    private void CheckNextSong()
+    public void CheckNextSong()
     {
         if (!isOutroQueued)
         {
             tense = tileManager.CheckIfTense();
+            print(tense);
 
             if (tense)
             {
-                if (currentSong.Equals(intro) || currentSong.Equals(sectionACalm) || currentSong.Equals(sectionB))
+                if (tense != previousTense)
                 {
-                    QueueSong(sectionA);
-                }
-                else if (currentSong.Equals(sectionBCalm) || currentSong.Equals(sectionA))
-                {
-                    QueueSong(sectionB);
+                    if (currentSong.Equals(intro) || currentSong.Equals(sectionACalm) || currentSong.Equals(sectionB))
+                    {
+                        QueueSong(sectionA);
+                    }
+                    else if ((currentSong.Equals(sectionBCalm) || currentSong.Equals(sectionA)) && !currentSong.isPlaying)
+                    {
+                        QueueSong(sectionB);
+                    }
                 }
             }
             else
@@ -101,13 +98,30 @@ public class MusicManager : MonoBehaviour
                     QueueSong(sectionACalm);
                 }
             }
+
+            previousTense = tense;
+            PlayQueuedSong();
         }
     }
 
     private void PlayQueuedSong()
     {
-        currentSong = queuedSong;
-        queuedSong.Play();
+        if (queuedSong != currentSong)
+        {
+            float percentDone = 0;
+
+            if (currentSong != null && !isOutroQueued)
+            {
+                percentDone = currentSong.time / currentSong.clip.length;
+                currentSong.Stop();
+            }
+
+            float newSongTime = queuedSong.clip.length * percentDone;
+
+            currentSong = queuedSong;
+            queuedSong.time = newSongTime;
+            queuedSong.Play();
+        }
     }
 
     public void QueueSong(AudioSource songToQueue)
