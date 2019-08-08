@@ -15,6 +15,9 @@ public class TileManager : MonoBehaviour
 
     public MusicManager musicManager;
 
+    public AudioSource sfxSource;
+    public AudioClip tileActionClip;
+
     Options optionSelected = Options.DestroyWithColors;
     SelectionMode currentSelectionMode = SelectionMode.Single;
     TileGrid grid;
@@ -48,6 +51,8 @@ public class TileManager : MonoBehaviour
         scoreManager = FindObjectOfType<ScoreManager>();
         cardManager = FindObjectOfType<CardManager>();
         musicManager = FindObjectOfType<MusicManager>();
+
+        sfxSource = GameObject.FindGameObjectWithTag("SFX").GetComponent<AudioSource>();
 
         tileGravity = GetComponent<TileGravity>();
         grid = GetComponent<TileGrid>();
@@ -331,6 +336,8 @@ public class TileManager : MonoBehaviour
                     }
                     break;
             }
+
+            sfxSource.PlayOneShot(tileActionClip);
 
             if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.SwitchColorOfTwo) && !optionSelected.Equals(Options.SwitchColorOfThree) && !optionSelected.Equals(Options.TranslateOneTile) && !optionSelected.Equals(Options.SwitchAdjacentRows) && !optionSelected.Equals(Options.SwitchAdjacentColumns) && !optionSelected.Equals(Options.SwitchAdjacent2x2) && !optionSelected.Equals(Options.Move3ToTop))
             {

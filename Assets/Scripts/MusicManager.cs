@@ -71,7 +71,6 @@ public class MusicManager : MonoBehaviour
         if (!isOutroQueued)
         {
             tense = tileManager.CheckIfTense();
-            print(tense);
 
             if (tense)
             {

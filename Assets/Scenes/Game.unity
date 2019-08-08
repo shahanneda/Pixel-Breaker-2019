@@ -6995,6 +6995,11 @@ PrefabInstance:
       propertyPath: currentSelectionMode
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4856161527363955973, guid: 02129982551e844cd9cc802c8a5b0056,
+        type: 3}
+      propertyPath: tileActionClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 58ef2fed8a489364e93d7f8c5971fcfa, type: 3}
     - target: {fileID: 1167758087, guid: 02129982551e844cd9cc802c8a5b0056, type: 3}
       propertyPath: board
       value: 
