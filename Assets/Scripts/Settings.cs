@@ -46,7 +46,7 @@ public class Settings : MonoBehaviour
         SetUpMusic();
         SetUpSFX();
 
-        if (settingsFile != null)
+        if (settingsFileExists)
         {
             ApplySettings();
         }
