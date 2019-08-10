@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static GlobalEnums;
 
 public class TileManager : MonoBehaviour
@@ -17,6 +18,8 @@ public class TileManager : MonoBehaviour
 
     public AudioSource sfxSource;
     public AudioClip tileActionClip;
+
+    public Text movesUntilNextRow;
 
     Options optionSelected = Options.DestroyWithColors;
     SelectionMode currentSelectionMode = SelectionMode.Single;
@@ -459,6 +462,8 @@ public class TileManager : MonoBehaviour
     {
         SetOption((int)Options.DestroyWithColors);
         cardManager.PlayCardsAnimation();
+
+        movesUntilNextRow.text = (amountOfTurnsToAddRow - amountOfTurns % amountOfTurnsToAddRow).ToString();
 
         if (amountOfTurns % amountOfTurnsToAddRow == 0)
         {
