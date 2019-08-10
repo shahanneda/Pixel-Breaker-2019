@@ -27,6 +27,8 @@ public class Settings : MonoBehaviour
     public Text sfxVolumeText;
     public Slider sfxVolumeSlider;
 
+    public Toggle showCardTextToggle;
+
     private string filePath;
 
     private void Start()
@@ -45,6 +47,8 @@ public class Settings : MonoBehaviour
 
         SetUpMusic();
         SetUpSFX();
+
+        SetUpCardText();
 
         if (settingsFileExists)
         {
@@ -127,6 +131,18 @@ public class Settings : MonoBehaviour
         }
     }
 
+    private void SetUpCardText()
+    {
+        if (!settingsFileExists)
+        {
+            showCardTextToggle.isOn = false;
+        }
+        else
+        {
+            showCardTextToggle.isOn = settingsFile.showCardText;
+        }
+    }
+
     private void ApplyResolutionAndFullscreen()
     {
         Resolution newResolution = resolutions[resolutionsDropdown.value];
@@ -146,7 +162,7 @@ public class Settings : MonoBehaviour
     public void SaveSettings()
     {
         settingsFile = new SettingsFile();
-        settingsFile.SetSettings(resolutions[resolutionsDropdown.value], fullscreenToggle.isOn, (int)musicVolumeSlider.value, (int)sfxVolumeSlider.value);
+        settingsFile.SetSettings(resolutions[resolutionsDropdown.value], fullscreenToggle.isOn, (int)musicVolumeSlider.value, (int)sfxVolumeSlider.value, showCardTextToggle.isOn);
 
         string json = JsonUtility.ToJson(settingsFile);
         File.WriteAllText(filePath, json);
@@ -201,12 +217,14 @@ public class SettingsFile
     public int musicVolume;
     public int sfxVolume;
 
+    public bool showCardText;
+
     public SettingsFile()
     {
 
     }
 
-    public SettingsFile(int width, int height, bool fullscreen, int musicVolume, int sfxVolume)
+    public SettingsFile(int width, int height, bool fullscreen, int musicVolume, int sfxVolume, bool showCardText)
     {
         this.width = width;
         this.height = height;
@@ -214,9 +232,11 @@ public class SettingsFile
 
         this.musicVolume = musicVolume;
         this.sfxVolume = sfxVolume;
+
+        this.showCardText = showCardText;
     }
 
-    public void SetSettings(Resolution resolution, bool fullscreen, int musicVolume, int sfxVolume)
+    public void SetSettings(Resolution resolution, bool fullscreen, int musicVolume, int sfxVolume, bool showCardText)
     {
         width = resolution.width;
         height = resolution.height;
@@ -224,5 +244,7 @@ public class SettingsFile
 
         this.musicVolume = musicVolume;
         this.sfxVolume = sfxVolume;
+
+        this.showCardText = showCardText;
     }
 }

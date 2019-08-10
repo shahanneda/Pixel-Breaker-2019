@@ -13,8 +13,12 @@ public class Card : MonoBehaviour
 
     public AudioClip selectClip;
 
+    public GameObject cardtext;
+
     protected Animator animator;
     protected TileManager tileManager;
+
+    private GameManager gameManager;
 
     private AudioSource sfxSource;
 
@@ -22,9 +26,13 @@ public class Card : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         tileManager = FindObjectOfType<TileManager>();
+        gameManager = FindObjectOfType<GameManager>();
         GetComponent<Button>().onClick.AddListener(Clicked);
 
         sfxSource = GameObject.FindGameObjectWithTag("SFX").GetComponent<AudioSource>();
+
+        cardtext = transform.GetChild(1).gameObject;
+        cardtext.SetActive(gameManager.settingsFile.showCardText);
     }
 
     public void Clicked()
