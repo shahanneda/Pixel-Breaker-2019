@@ -12,6 +12,13 @@ public class GameManager : MonoBehaviour
 
     public SettingsFile settingsFile;
 
+    public GameObject pauseMenu;
+
+    private TileManager tileManager;
+    private MusicManager musicManager;
+
+    private bool paused;
+
     private void Start()
     {
         string settingsPath = Application.persistentDataPath + "/Settings.json";
@@ -21,6 +28,38 @@ public class GameManager : MonoBehaviour
             string json = File.ReadAllText(settingsPath);
             settingsFile = JsonUtility.FromJson<SettingsFile>(json);
         }
+
+        tileManager = FindObjectOfType<TileManager>();
+        musicManager = FindObjectOfType<MusicManager>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (paused) ResumeGame();
+            else PauseGame();
+        }
+    }
+
+    public void PauseGame()
+    {
+        paused = true;
+
+        tileManager.isPlaying = false;
+        musicManager.ToggleMusic(false);
+
+        pauseMenu.SetActive(true);
+    }
+
+    public void ResumeGame()
+    {
+        paused = false;
+
+        tileManager.isPlaying = true;
+        musicManager.ToggleMusic(true);
+
+        pauseMenu.SetActive(false);
     }
 
     public void GameOver()

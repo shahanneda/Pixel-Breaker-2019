@@ -37,9 +37,10 @@ public class Card : MonoBehaviour
 
     public void Clicked()
     {
-        Card.DeSelectAll();
-        if (canSelect)
+        if (tileManager.isPlaying)
         {
+            Card.DeSelectAll();
+
             SetSelect(true);
             sfxSource.PlayOneShot(selectClip);
         }

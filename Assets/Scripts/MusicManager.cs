@@ -141,4 +141,16 @@ public class MusicManager : MonoBehaviour
             QueueSong(outroB);
         }
     }
+
+    public void ToggleMusic(bool isOn)
+    {
+        if (isOn)
+        {
+            currentSong.UnPause();
+        }
+        else
+        {
+            currentSong.Pause();
+        }
+    }
 }
