@@ -352,6 +352,7 @@ public class TileManager : MonoBehaviour
     private void AfterTurnChecks()
     {
         Card.DeSelectAll();
+        Card.CanSelect(true);
 
         amountOfTurns++;
         CheckAmountOfTurns();

@@ -95,5 +95,6 @@ public class CardManager : MonoBehaviour
     {
         tileManager.SetOption((int)GlobalEnums.Options.DestroyWithColors);
         Card.DeSelectAll();
+        Card.CanSelect(true);
     }
 }

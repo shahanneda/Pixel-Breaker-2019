@@ -10,6 +10,7 @@ public class Card : MonoBehaviour
     public GlobalEnums.Options option;
 
     public bool canSelect = true;
+    private bool isSelected = false;
 
     public AudioClip selectClip;
 
@@ -35,19 +36,23 @@ public class Card : MonoBehaviour
         cardtext.SetActive(gameManager.settingsFile.showCardText);
     }
 
-    public void Clicked()
+    private void Clicked()
     {
-        if (tileManager.isPlaying)
+        if (tileManager.isPlaying && (canSelect || isSelected))
         {
             Card.DeSelectAll();
+            Card.CanSelect(false);
 
             SetSelect(true);
+            SetOption();
+
             sfxSource.PlayOneShot(selectClip);
         }
     }
 
     public void SetSelect(bool state)
     {
+        isSelected = state;
         animator.SetBool("isSelected", state);
     }
 
@@ -58,9 +63,13 @@ public class Card : MonoBehaviour
             c.SetSelect(false);
         }
     }
-    public void OnDisable()
+
+    public static void CanSelect(bool canSelect)
     {
-        //Card.DeSelectAll();
+        foreach (Card card in FindObjectsOfType<Card>())
+        {
+            card.canSelect = canSelect;
+        }
     }
 
     public virtual void SetOption()
