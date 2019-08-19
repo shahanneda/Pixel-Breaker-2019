@@ -371,6 +371,8 @@ public class TileManager : MonoBehaviour
         Card.DeSelectAll();
         Card.CanSelect(true);
 
+        musicManager.CheckNextSong();
+
         amountOfTurns++;
         CheckAmountOfTurns();
 
@@ -1013,8 +1015,6 @@ public class TileManager : MonoBehaviour
 
     public void AddRowOfTiles()
     {
-        musicManager.CheckNextSong();
-
         CheckForIsLastRowFilledAndDeleteDeadTiles();
 
         for (int row = tiles.GetLength(1) - 1; row > 0; row--)
