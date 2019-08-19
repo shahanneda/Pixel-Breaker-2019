@@ -257,26 +257,42 @@ public class TileManager : MonoBehaviour
 
                     break;
                 case Options.SwitchColorOfTwo:
-                    savedTiles.Add(tile);
-                    tile.setSelect(true);
-
-                    if (savedTiles.Count == 2)
+                    if (savedTiles.Contains(tile))
                     {
-                        CanSelectTile = false;
-                        selectCardColorMenu.SetActive(true);
+                        savedTiles.Remove(tile);
+                        tile.setSelect(false);
                     }
-                    break;
-                case Options.SwitchColorOfThree:
-                    if (tile.sprite.Equals(colorOfSwitch))
+                    else
                     {
                         savedTiles.Add(tile);
                         tile.setSelect(true);
-                    }
 
-                    if (savedTiles.Count == 3)
+                        if (savedTiles.Count == 2)
+                        {
+                            CanSelectTile = false;
+                            selectCardColorMenu.SetActive(true);
+                        }
+                    }
+                    break;
+                case Options.SwitchColorOfThree:
+                    if (savedTiles.Contains(tile))
                     {
-                        CanSelectTile = false;
-                        selectCardColorMenu.SetActive(true);
+                        savedTiles.Remove(tile);
+                        tile.setSelect(false);
+                    }
+                    else
+                    {
+                        if (tile.sprite.Equals(colorOfSwitch))
+                        {
+                            savedTiles.Add(tile);
+                            tile.setSelect(true);
+                        }
+
+                        if (savedTiles.Count == 3)
+                        {
+                            CanSelectTile = false;
+                            selectCardColorMenu.SetActive(true);
+                        }
                     }
                     break;
                 case Options.SwitchAdjacent2x2:

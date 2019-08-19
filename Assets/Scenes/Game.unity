@@ -8267,7 +8267,7 @@ PrefabInstance:
     - target: {fileID: 8781823547325395972, guid: e1aa8da6046126d4f971690cd0b55b04,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8781823547325395972, guid: e1aa8da6046126d4f971690cd0b55b04,
         type: 3}
@@ -8278,7 +8278,28 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 349706804}
+      objectReference: {fileID: 2049844223}
+    - target: {fileID: 8781823547325395972, guid: e1aa8da6046126d4f971690cd0b55b04,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetColorOfSwitch
+      objectReference: {fileID: 0}
+    - target: {fileID: 8781823547325395972, guid: e1aa8da6046126d4f971690cd0b55b04,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Sprite, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8781823547325395972, guid: e1aa8da6046126d4f971690cd0b55b04,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8781823547325395972, guid: e1aa8da6046126d4f971690cd0b55b04,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 21300000, guid: 36f801c722c1f5145ae86af2a9dc4c24,
+        type: 3}
     - target: {fileID: 2603496385561216954, guid: e1aa8da6046126d4f971690cd0b55b04,
         type: 3}
       propertyPath: selectClip
@@ -8889,7 +8910,7 @@ PrefabInstance:
     - target: {fileID: 2679617289693957027, guid: 4b61d67a909a9a547990b07534cef21f,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2679617289693957027, guid: 4b61d67a909a9a547990b07534cef21f,
         type: 3}
@@ -8900,7 +8921,28 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 349706804}
+      objectReference: {fileID: 2049844223}
+    - target: {fileID: 2679617289693957027, guid: 4b61d67a909a9a547990b07534cef21f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetColorOfSwitch
+      objectReference: {fileID: 0}
+    - target: {fileID: 2679617289693957027, guid: 4b61d67a909a9a547990b07534cef21f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Sprite, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2679617289693957027, guid: 4b61d67a909a9a547990b07534cef21f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2679617289693957027, guid: 4b61d67a909a9a547990b07534cef21f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 21300000, guid: 9107c1d82073865408330976357fc17b,
+        type: 3}
     - target: {fileID: 8705984116684388381, guid: 4b61d67a909a9a547990b07534cef21f,
         type: 3}
       propertyPath: selectClip
@@ -9330,7 +9372,7 @@ PrefabInstance:
     - target: {fileID: 6962970532751402297, guid: 8ec49faca03dec7438b9b1e6207ca79c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6962970532751402297, guid: 8ec49faca03dec7438b9b1e6207ca79c,
         type: 3}
@@ -9341,7 +9383,28 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 349706804}
+      objectReference: {fileID: 2049844223}
+    - target: {fileID: 6962970532751402297, guid: 8ec49faca03dec7438b9b1e6207ca79c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetColorOfSwitch
+      objectReference: {fileID: 0}
+    - target: {fileID: 6962970532751402297, guid: 8ec49faca03dec7438b9b1e6207ca79c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Sprite, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6962970532751402297, guid: 8ec49faca03dec7438b9b1e6207ca79c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6962970532751402297, guid: 8ec49faca03dec7438b9b1e6207ca79c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 21300000, guid: 337d4203a44569b4fba65ecb52681489,
+        type: 3}
     - target: {fileID: 4422331532525868679, guid: 8ec49faca03dec7438b9b1e6207ca79c,
         type: 3}
       propertyPath: selectClip
@@ -11136,7 +11199,7 @@ PrefabInstance:
     - target: {fileID: 4290378339591115174, guid: a91b422ae289bb14a8867a5eaaeff149,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4290378339591115174, guid: a91b422ae289bb14a8867a5eaaeff149,
         type: 3}
@@ -11147,7 +11210,28 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 349706804}
+      objectReference: {fileID: 2049844223}
+    - target: {fileID: 4290378339591115174, guid: a91b422ae289bb14a8867a5eaaeff149,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetColorOfSwitch
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290378339591115174, guid: a91b422ae289bb14a8867a5eaaeff149,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Sprite, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290378339591115174, guid: a91b422ae289bb14a8867a5eaaeff149,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290378339591115174, guid: a91b422ae289bb14a8867a5eaaeff149,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 21300000, guid: d9e41af61a35cfb4c9243e88860661a3,
+        type: 3}
     - target: {fileID: 7382608743537943064, guid: a91b422ae289bb14a8867a5eaaeff149,
         type: 3}
       propertyPath: selectClip
@@ -11606,7 +11690,7 @@ PrefabInstance:
     - target: {fileID: 8694002517602714052, guid: 2a5c74965dffc3b489c73bebd7dcf4f0,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8694002517602714052, guid: 2a5c74965dffc3b489c73bebd7dcf4f0,
         type: 3}
@@ -11617,7 +11701,28 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 349706804}
+      objectReference: {fileID: 2049844223}
+    - target: {fileID: 8694002517602714052, guid: 2a5c74965dffc3b489c73bebd7dcf4f0,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetColorOfSwitch
+      objectReference: {fileID: 0}
+    - target: {fileID: 8694002517602714052, guid: 2a5c74965dffc3b489c73bebd7dcf4f0,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Sprite, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8694002517602714052, guid: 2a5c74965dffc3b489c73bebd7dcf4f0,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8694002517602714052, guid: 2a5c74965dffc3b489c73bebd7dcf4f0,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 21300000, guid: e2f30057f938aed42b6463b14d453fd5,
+        type: 3}
     - target: {fileID: 2691317414197572218, guid: 2a5c74965dffc3b489c73bebd7dcf4f0,
         type: 3}
       propertyPath: selectClip
@@ -11847,7 +11952,7 @@ PrefabInstance:
     - target: {fileID: 6775832547239044975, guid: e83de5fc479d72a47bfae398fcec5c93,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6775832547239044975, guid: e83de5fc479d72a47bfae398fcec5c93,
         type: 3}
@@ -11858,7 +11963,28 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 349706804}
+      objectReference: {fileID: 2049844223}
+    - target: {fileID: 6775832547239044975, guid: e83de5fc479d72a47bfae398fcec5c93,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetColorOfSwitch
+      objectReference: {fileID: 0}
+    - target: {fileID: 6775832547239044975, guid: e83de5fc479d72a47bfae398fcec5c93,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Sprite, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6775832547239044975, guid: e83de5fc479d72a47bfae398fcec5c93,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6775832547239044975, guid: e83de5fc479d72a47bfae398fcec5c93,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 21300000, guid: 8f52aabb766456d418dd6fba2a12aef8,
+        type: 3}
     - target: {fileID: 285591662240519377, guid: e83de5fc479d72a47bfae398fcec5c93,
         type: 3}
       propertyPath: selectClip
