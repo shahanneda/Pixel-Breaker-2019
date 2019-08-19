@@ -311,6 +311,7 @@ public class TileManager : MonoBehaviour
 
                             savedTiles.Clear();
 
+                            tileGravity.RunCheck();
                             AfterTurnChecks();
                             break;
                         }
