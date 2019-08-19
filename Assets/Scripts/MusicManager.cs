@@ -29,6 +29,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private AudioSource currentSong;
     private AudioSource queuedSong;
 
+    private string currentSection = "A";
     private bool isOutroQueued = false;
     private bool ending;
 
@@ -64,6 +65,16 @@ public class MusicManager : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            if (!currentSong.isPlaying)
+            {
+                if (currentSection == "A") currentSection = "B";
+                else currentSection = "A";
+
+                CheckNextSong();
+            }
+        }
     }
 
     public void CheckNextSong()
@@ -76,26 +87,43 @@ public class MusicManager : MonoBehaviour
             {
                 if (tense != previousTense)
                 {
-                    if (currentSong.Equals(intro) || currentSong.Equals(sectionACalm) || currentSong.Equals(sectionB))
+                    if (currentSection == "A")
+                    {
+                        QueueSong(sectionA);
+                    }
+                    else
+                    {
+                        QueueSong(sectionB);
+                    }
+
+                    /*if (currentSong.Equals(sectionACalm) || currentSong.Equals(sectionB))
                     {
                         QueueSong(sectionA);
                     }
                     else if ((currentSong.Equals(sectionBCalm) || currentSong.Equals(sectionA)) && !currentSong.isPlaying)
                     {
                         QueueSong(sectionB);
-                    }
+                    }*/
                 }
             }
             else
             {
-                if (currentSong.Equals(sectionACalm) || currentSong.Equals(sectionA))
+                if (currentSection == "A")
+                {
+                    QueueSong(sectionACalm);
+                }
+                else
+                {
+                    QueueSong(sectionBCalm);
+                }
+                /*if (currentSong.Equals(sectionACalm) || currentSong.Equals(sectionA))
                 {
                     QueueSong(sectionBCalm);
                 }
                 else if (currentSong.Equals(sectionBCalm) || currentSong.Equals(sectionB))
                 {
                     QueueSong(sectionACalm);
-                }
+                }*/
             }
 
             previousTense = tense;
