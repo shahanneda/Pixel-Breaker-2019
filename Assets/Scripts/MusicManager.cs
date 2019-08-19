@@ -24,7 +24,6 @@ public class MusicManager : MonoBehaviour
     [Space]
 
     public bool tense = false;
-    private bool previousTense = false;
 
     [SerializeField] private AudioSource currentSong;
     private AudioSource queuedSong;
@@ -47,6 +46,11 @@ public class MusicManager : MonoBehaviour
 
     private void Update()
     {
+        if (!currentSong.isPlaying)
+        {
+            SwitchSection();
+            CheckNextSong();
+        }
         if (isOutroQueued)
         {
             if (!ending)
@@ -65,16 +69,12 @@ public class MusicManager : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            if (!currentSong.isPlaying)
-            {
-                if (currentSection == "A") currentSection = "B";
-                else currentSection = "A";
+    }
 
-                CheckNextSong();
-            }
-        }
+    private void SwitchSection()
+    {
+        if (currentSection == "A") currentSection = "B";
+        else currentSection = "A";
     }
 
     public void CheckNextSong()
@@ -85,25 +85,13 @@ public class MusicManager : MonoBehaviour
 
             if (tense)
             {
-                if (tense != previousTense)
+                if (currentSection == "A")
                 {
-                    if (currentSection == "A")
-                    {
-                        QueueSong(sectionA);
-                    }
-                    else
-                    {
-                        QueueSong(sectionB);
-                    }
-
-                    /*if (currentSong.Equals(sectionACalm) || currentSong.Equals(sectionB))
-                    {
-                        QueueSong(sectionA);
-                    }
-                    else if ((currentSong.Equals(sectionBCalm) || currentSong.Equals(sectionA)) && !currentSong.isPlaying)
-                    {
-                        QueueSong(sectionB);
-                    }*/
+                    QueueSong(sectionA);
+                }
+                else
+                {
+                    QueueSong(sectionB);
                 }
             }
             else
@@ -116,17 +104,8 @@ public class MusicManager : MonoBehaviour
                 {
                     QueueSong(sectionBCalm);
                 }
-                /*if (currentSong.Equals(sectionACalm) || currentSong.Equals(sectionA))
-                {
-                    QueueSong(sectionBCalm);
-                }
-                else if (currentSong.Equals(sectionBCalm) || currentSong.Equals(sectionB))
-                {
-                    QueueSong(sectionACalm);
-                }*/
             }
 
-            previousTense = tense;
             PlayQueuedSong();
         }
     }
@@ -142,6 +121,8 @@ public class MusicManager : MonoBehaviour
                 percentDone = currentSong.time / currentSong.clip.length;
                 currentSong.Stop();
             }
+
+            if (percentDone >= 1.0f) percentDone = 0;
 
             float newSongTime = queuedSong.clip.length * percentDone;
 
