@@ -79,34 +79,37 @@ public class MusicManager : MonoBehaviour
 
     public void CheckNextSong()
     {
-        if (!isOutroQueued)
+        if ((currentSong.Equals(intro) && !currentSong.isPlaying) || !currentSong.Equals(intro))
         {
-            tense = tileManager.CheckIfTense();
-
-            if (tense)
+            if (!isOutroQueued)
             {
-                if (currentSection == "A")
+                tense = tileManager.CheckIfTense();
+
+                if (tense)
                 {
-                    QueueSong(sectionA);
+                    if (currentSection == "A")
+                    {
+                        QueueSong(sectionA);
+                    }
+                    else
+                    {
+                        QueueSong(sectionB);
+                    }
                 }
                 else
                 {
-                    QueueSong(sectionB);
+                    if (currentSection == "A")
+                    {
+                        QueueSong(sectionACalm);
+                    }
+                    else
+                    {
+                        QueueSong(sectionBCalm);
+                    }
                 }
-            }
-            else
-            {
-                if (currentSection == "A")
-                {
-                    QueueSong(sectionACalm);
-                }
-                else
-                {
-                    QueueSong(sectionBCalm);
-                }
-            }
 
-            PlayQueuedSong();
+                PlayQueuedSong();
+            }
         }
     }
 
