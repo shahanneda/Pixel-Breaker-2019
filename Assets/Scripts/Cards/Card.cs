@@ -19,6 +19,8 @@ public class Card : MonoBehaviour
     protected Animator animator;
     protected TileManager tileManager;
 
+    private GameObject infoPanel;
+
     private GameManager gameManager;
 
     private AudioSource sfxSource;
@@ -29,6 +31,8 @@ public class Card : MonoBehaviour
         tileManager = FindObjectOfType<TileManager>();
         gameManager = FindObjectOfType<GameManager>();
         GetComponent<Button>().onClick.AddListener(Clicked);
+
+        infoPanel = transform.Find("Info Panel").gameObject;
 
         sfxSource = GameObject.FindGameObjectWithTag("SFX").GetComponent<AudioSource>();
 
@@ -54,6 +58,11 @@ public class Card : MonoBehaviour
     {
         isSelected = state;
         animator.SetBool("isSelected", state);
+    }
+
+    public void ToggleInfoPanel()
+    {
+        infoPanel.SetActive(!infoPanel.activeInHierarchy);
     }
 
     public static void DeSelectAll()
