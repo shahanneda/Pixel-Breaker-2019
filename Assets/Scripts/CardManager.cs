@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class CardManager : MonoBehaviour
 {
-    public Animator cardsAnimator;
-
     public GameObject[] rotationCards;
     public GameObject[] translationCards;
     public GameObject[] conversionCards;
+
+    public RectTransform cardsContainer;
 
     private GameObject previousRotationCard;
     private GameObject previousTranslationCard;
     private GameObject previousConversionCard;
 
     public Transform cancelButton;
+
+    private bool inAnim = false;
+    private bool animComingBack = false;
+    private float cardAnimationLimit;
+    private float cardAnimationSpeed = 0f;
 
     private TileManager tileManager;
 
@@ -30,25 +35,48 @@ public class CardManager : MonoBehaviour
         }
 
         cancelButton.localScale = new Vector3(cardScale, cardScale, 1);
+        cardAnimationLimit = Screen.width / 8f;
+        cardAnimationSpeed = 9f * Screen.width / 32f + 80f;
 
         PickCards();
     }
 
+    private void Update()
+    {
+        if (inAnim)
+        {
+            if (cardsContainer.anchoredPosition.x <= 0)
+            {
+                inAnim = false;
+                animComingBack = false;
+            }
+            else if (animComingBack)
+            {
+                cardsContainer.anchoredPosition -= new Vector2(cardAnimationSpeed * Time.deltaTime, 0);
+            }
+            else
+            {
+                if (cardsContainer.anchoredPosition.x <= cardAnimationLimit)
+                    cardsContainer.anchoredPosition += new Vector2(cardAnimationSpeed * Time.deltaTime, 0);
+
+                else
+                    animComingBack = true;
+            }
+        }
+    }
+
     private IEnumerator CardsAnimationCoroutine()
     {
-        cardsAnimator.enabled = false;
-        cardsAnimator.enabled = true;
-
-        cardsAnimator.Play("Switch Cards");
-
         yield return new WaitForSeconds(0.35f);
-
         PickCards();
     }
 
     public void PlayCardsAnimation()
     {
         StartCoroutine(CardsAnimationCoroutine());
+
+        cardsContainer.anchoredPosition = new Vector2(0.1f, 0);
+        inAnim = true;
     }
 
     public void PickCards()
