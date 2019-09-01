@@ -524,7 +524,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Rotate a 2x2 area by 180\xB0 left"
+  m_Text: Rotate a 2x2 area by 180 degress left
 --- !u!1 &3609973665254581
 GameObject:
   m_ObjectHideFlags: 0
