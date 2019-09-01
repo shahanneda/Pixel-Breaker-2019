@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
 
     private bool paused;
 
-    private void Start()
+    private void Awake()
     {
         string settingsPath = Application.persistentDataPath + "/Settings.json";
 
