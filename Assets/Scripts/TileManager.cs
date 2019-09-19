@@ -270,6 +270,7 @@ public class TileManager : MonoBehaviour
                     SwitchTiles(tiles[tile.X, tile.Y + 1], tiles[tile.X, tile.Y - 1]);
                     SwitchTiles(tiles[tile.X + 1, tile.Y + 1], tiles[tile.X + 1, tile.Y - 1]);
 
+                    tileGravity.RunCheckDelayed(0.2f);
                     AfterTurnChecks();
 
                     break;
@@ -328,7 +329,7 @@ public class TileManager : MonoBehaviour
 
                             savedTiles.Clear();
 
-                            tileGravity.RunCheck();
+                            tileGravity.RunCheckDelayed(0.2f);
                             AfterTurnChecks();
                             break;
                         }
