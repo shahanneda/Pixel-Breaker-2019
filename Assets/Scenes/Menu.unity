@@ -250,6 +250,7 @@ MonoBehaviour:
   sfxVolumeText: {fileID: 687635140}
   sfxVolumeSlider: {fileID: 1549307508}
   showCardTextToggle: {fileID: 1058482816}
+  minimumVolume: 30
 --- !u!1 &47409288
 GameObject:
   m_ObjectHideFlags: 0

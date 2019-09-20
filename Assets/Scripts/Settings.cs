@@ -29,6 +29,8 @@ public class Settings : MonoBehaviour
 
     public Toggle showCardTextToggle;
 
+    public float minimumVolume = 40f;
+
     private string filePath;
 
     private void Start()
@@ -107,7 +109,7 @@ public class Settings : MonoBehaviour
         {
             musicMixer.GetFloat("Volume", out float volume);
 
-            musicVolumeSlider.value = (volume + 80) * 100;
+            musicVolumeSlider.value = (volume + minimumVolume) * 100;
             ChangeMusicVolume(musicVolumeSlider.value);
         }
         else
@@ -122,7 +124,7 @@ public class Settings : MonoBehaviour
         {
             sfxMixer.GetFloat("Volume", out float volume);
 
-            sfxVolumeSlider.value = (volume + 80) * 100;
+            sfxVolumeSlider.value = (volume + minimumVolume) * 100;
             ChangeSFXVolume(sfxVolumeSlider.value);
         }
         else
@@ -151,12 +153,12 @@ public class Settings : MonoBehaviour
 
     private void ApplyMusicVolume()
     {
-        musicMixer.SetFloat("Volume", 0.8f * musicVolumeSlider.value - 80);
+        musicMixer.SetFloat("Volume", (musicVolumeSlider.value > 0) ? minimumVolume * (musicVolumeSlider.value - 100f) / 100f : -100f);
     }
 
     private void ApplySFXVolume()
     {
-        sfxMixer.SetFloat("Volume", 0.8f * sfxVolumeSlider.value - 80);
+        sfxMixer.SetFloat("Volume", (sfxVolumeSlider.value > 0) ? minimumVolume * (sfxVolumeSlider.value - 100f) / 100f : -100f);
     }
 
     public void SaveSettings()
