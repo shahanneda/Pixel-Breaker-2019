@@ -133,6 +133,9 @@ public class CardManager : MonoBehaviour
     public void CancelCard()
     {
         tileManager.SetOption((int)GlobalEnums.Options.DestroyWithColors);
+        tileManager.DeSelectAllTiles();
+        tileManager.selectCardColorMenu.SetActive(false);
+
         Card.DeSelectAll();
         Card.CanSelect(true);
     }

@@ -1044,4 +1044,14 @@ public class TileManager : MonoBehaviour
 
         return amount;
     }
+
+    public void DeSelectAllTiles()
+    {
+        foreach(Tile tile in savedTiles)
+        {
+            tile.setSelect(false);
+        }
+
+        savedTiles.Clear();
+    }
 }
