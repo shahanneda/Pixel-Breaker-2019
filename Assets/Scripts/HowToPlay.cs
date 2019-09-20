@@ -13,6 +13,7 @@ public class HowToPlay : MonoBehaviour
     {
         videoPlayer.gameObject.SetActive(true);
         videoPlayer.clip = videoClip;
+        videoPlayer.aspectRatio = VideoAspectRatio.FitOutside;
         videoPlayer.Play();
     }
 
