@@ -31,6 +31,7 @@ public class MusicManager : MonoBehaviour
     private string currentSection = "A";
     private bool isOutroQueued = false;
     private bool ending;
+    private bool isPaused;
 
     private TileManager tileManager;
 
@@ -79,7 +80,7 @@ public class MusicManager : MonoBehaviour
 
     public void CheckNextSong()
     {
-        if ((currentSong.Equals(intro) && !currentSong.isPlaying) || !currentSong.Equals(intro))
+        if (((currentSong.Equals(intro) && !currentSong.isPlaying) || !currentSong.Equals(intro)) && !isPaused)
         {
             if (!isOutroQueued)
             {
@@ -156,6 +157,8 @@ public class MusicManager : MonoBehaviour
 
     public void ToggleMusic(bool isOn)
     {
+        isPaused = !isOn;
+
         if (isOn)
         {
             currentSong.UnPause();
