@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public Text gameOverScoreText;
     public Text gameOverHighScoreText;
 
+    public Text timeText;
+
     public SettingsFile settingsFile;
 
     public GameObject pauseMenu;
@@ -18,6 +20,10 @@ public class GameManager : MonoBehaviour
     private MusicManager musicManager;
 
     private bool paused;
+
+    private int gameSeconds = 0;
+    private int gameMinutes = 0;
+    private bool countingTime = true;
 
     private void Awake()
     {
@@ -31,6 +37,8 @@ public class GameManager : MonoBehaviour
 
         tileManager = FindObjectOfType<TileManager>();
         musicManager = FindObjectOfType<MusicManager>();
+
+        StartCoroutine(CountTime());
     }
 
     private void Update()
@@ -42,6 +50,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private IEnumerator CountTime()
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        if (countingTime)
+        {
+            gameSeconds++;
+
+            if (gameSeconds >= 60)
+            {
+                gameMinutes++;
+                gameSeconds = 0;
+            }
+
+            timeText.text = string.Format("{00:00}:{01:00}", gameMinutes, gameSeconds);
+
+            StartCoroutine(CountTime());
+        }
+    }
+
     public void PauseGame()
     {
         paused = true;
@@ -50,6 +78,9 @@ public class GameManager : MonoBehaviour
         musicManager.ToggleMusic(false);
 
         pauseMenu.SetActive(true);
+
+        countingTime = false;
+        StopCoroutine(CountTime());
     }
 
     public void ResumeGame()
@@ -60,6 +91,9 @@ public class GameManager : MonoBehaviour
         musicManager.ToggleMusic(true);
 
         pauseMenu.SetActive(false);
+
+        countingTime = true;
+        StartCoroutine(CountTime());
     }
 
     public void GameOver()
