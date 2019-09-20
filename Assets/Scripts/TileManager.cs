@@ -37,7 +37,7 @@ public class TileManager : MonoBehaviour
     private Sprite colorOfSwitch;
 
     private int amountOfTurns = 0;
-    private int amountOfTurnsToAddRow = 4;
+    [SerializeField]private int amountOfTurnsToAddRow = 4;
     private int addRowCounter;
 
     public bool CanSelectTile { get; set; }
@@ -306,7 +306,7 @@ public class TileManager : MonoBehaviour
                             tile.setSelect(true);
                         }
 
-                        if (savedTiles.Count == 3)
+                        if (savedTiles.Count == 3 || amountOfTilesWithColor(colorOfSwitch) == savedTiles.Count)
                         {
                             CanSelectTile = false;
                             selectCardColorMenu.SetActive(true);
@@ -1019,5 +1019,29 @@ public class TileManager : MonoBehaviour
     public bool CheckIfTense()
     {
         return AmountOfFullRows() >= Mathf.FloorToInt(0.75f * grid.gameHeight);
+    }
+
+    public bool tileWithColorExists(Sprite sprite)
+    {
+        foreach(Tile tile in tiles)
+        {
+            if (tile.sprite.Equals(sprite))
+                return true;
+        }
+
+        return false;
+    }
+
+    public int amountOfTilesWithColor(Sprite sprite)
+    {
+        int amount = 0;
+
+        foreach(Tile tile in tiles)
+        {
+            if (tile.sprite.Equals(sprite))
+                amount++;
+        }
+
+        return amount;
     }
 }
