@@ -37,7 +37,7 @@ public class TileManager : MonoBehaviour
     private Sprite colorOfSwitch;
 
     private int amountOfTurns = 0;
-    [SerializeField]private int amountOfTurnsToAddRow = 4;
+    private int amountOfTurnsToAddRow = 4;
     private int addRowCounter;
 
     public bool CanSelectTile { get; set; }

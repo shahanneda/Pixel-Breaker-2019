@@ -16,10 +16,13 @@ public class GameManager : MonoBehaviour
 
     public GameObject pauseMenu;
 
+
     private TileManager tileManager;
     private MusicManager musicManager;
+    private SceneLoader sceneLoader;
 
     private bool paused;
+    private bool isConfirmActionMenu = true;
 
     private int gameSeconds = 0;
     private int gameMinutes = 0;
@@ -37,6 +40,7 @@ public class GameManager : MonoBehaviour
 
         tileManager = FindObjectOfType<TileManager>();
         musicManager = FindObjectOfType<MusicManager>();
+        sceneLoader = FindObjectOfType<SceneLoader>();
 
         StartCoroutine(CountTime());
     }
@@ -114,6 +118,23 @@ public class GameManager : MonoBehaviour
 
         gameOverScoreText.text += score.ToString();
         gameOverHighScoreText.text += highScore.ToString();
+    }
+
+    public void PauseMenuConfirm()
+    {
+        if (isConfirmActionMenu)
+        {
+            sceneLoader.LoadScene("Menu");
+        }
+        else
+        {
+            sceneLoader.Quit();
+        }
+    }
+
+    public void SetConfirmAction(bool isConfirmActionMenu)
+    {
+        this.isConfirmActionMenu = isConfirmActionMenu;
     }
 }
 
