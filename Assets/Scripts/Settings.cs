@@ -33,6 +33,26 @@ public class Settings : MonoBehaviour
 
     private string filePath;
 
+    private void Awake()
+    {
+        StartCoroutine(AwakeAudioSources(FindObjectsOfType<AudioSource>()));
+    }
+
+    private IEnumerator AwakeAudioSources(AudioSource[] audioSources)
+    {
+        foreach(AudioSource source in audioSources)
+        {
+            source.enabled = false;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        foreach (AudioSource source in audioSources)
+        {
+            source.enabled = true;
+        }
+    }
+
     private void Start()
     {
         filePath = Application.persistentDataPath + "/Settings.json";
