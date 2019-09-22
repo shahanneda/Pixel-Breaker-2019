@@ -148,7 +148,6 @@ public class TileManager : MonoBehaviour
                     break;
                 case Options.DestroyWithColors:
                     DestroyAllTilesOfSameColorAround(tile.X, tile.Y);
-                    AddRowCounter();
                     break;
                 case Options.ThreeByThreeSwitch:
                     ThreeByThreeSwitch(tile.X, tile.Y);
@@ -547,19 +546,19 @@ public class TileManager : MonoBehaviour
         SetOption((int)Options.DestroyWithColors);
         cardManager.PlayCardsAnimation();
 
-        movesUntilNextRow.text = (amountOfTurnsToAddRow - amountOfTurns % amountOfTurnsToAddRow).ToString();
-
         if (amountOfTurns % amountOfTurnsToAddRow == 0)
         {
             AddRowOfTiles();
         }
+
+        movesUntilNextRow.text = (amountOfTurnsToAddRow - amountOfTurns % amountOfTurnsToAddRow).ToString();
     }
 
     private void AddRowCounter()
     {
         addRowCounter++;
 
-        if (addRowCounter >= 10)
+        if (addRowCounter >= 3)
         {
             DecreaseTimeBetweenAddRow();
             addRowCounter = 0;
@@ -980,6 +979,7 @@ public class TileManager : MonoBehaviour
 
     public void AddRowOfTiles()
     {
+        AddRowCounter();
         CheckForIsLastRowFilledAndDeleteDeadTiles();
 
         for (int row = tiles.GetLength(1) - 1; row > 0; row--)
