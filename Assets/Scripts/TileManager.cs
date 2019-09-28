@@ -17,7 +17,9 @@ public class TileManager : MonoBehaviour
     public MusicManager musicManager;
 
     public AudioSource sfxSource;
-    public AudioClip tileActionClip;
+    public AudioClip tileActionSmallClip;
+    public AudioClip tileActionBigClip;
+    private AudioClip currentTileActionClip;
 
     public Text movesUntilNextRow;
 
@@ -99,6 +101,8 @@ public class TileManager : MonoBehaviour
     {
         if (CanSelectTile && !tile.isDead && isPlaying)
         {
+            currentTileActionClip = tileActionSmallClip;
+
             switch (optionSelected)
             {
                 case Options.FlipHorizontal:
@@ -386,7 +390,7 @@ public class TileManager : MonoBehaviour
                     break;
             }
 
-            sfxSource.PlayOneShot(tileActionClip);
+            sfxSource.PlayOneShot(currentTileActionClip);
 
             if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.SwitchColorOfTwo) && !optionSelected.Equals(Options.SwitchColorOfThree) && !optionSelected.Equals(Options.TranslateOneTile) && !optionSelected.Equals(Options.SwitchAdjacentRows) && !optionSelected.Equals(Options.SwitchAdjacentColumns) && !optionSelected.Equals(Options.SwitchAdjacent2x2) && !optionSelected.Equals(Options.Move3ToTop))
             {
@@ -756,6 +760,11 @@ public class TileManager : MonoBehaviour
     private void ApplyDestructionQueue()
     {
         scoreManager.AddScore((int)Mathf.Pow(destructionQueue.Count, 2));
+
+        if (destructionQueue.Count > 10)
+        {
+            currentTileActionClip = tileActionBigClip;
+        }
 
         foreach (Tile t in destructionQueue.ToArray())
         {
