@@ -36,9 +36,12 @@ public class TileManager : MonoBehaviour
     private List<Tile> savedTiles = new List<Tile>();
     private Sprite colorOfSwitch;
 
-    private int amountOfTurns = 0;
-    private int amountOfTurnsToAddRow = 4;
-    private int addRowCounter;
+    private int amountOfTurnsUntilAddRow = 5;
+    private int actionCounter = 0;
+    private int addRowReductionCounter = 0;
+
+    private delegate void AddRow();
+    private AddRow addRowAction = null;
 
     public bool CanSelectTile { get; set; }
 
@@ -147,6 +150,15 @@ public class TileManager : MonoBehaviour
                     DestroyTile(tile.X, tile.Y, true);
                     break;
                 case Options.DestroyWithColors:
+                    if (addRowReductionCounter == 3 && addRowAction == null)
+                    {
+                        addRowAction += DecreaseActionsBetweenAddRow;
+                    }
+                    else
+                    {
+                        addRowReductionCounter++;
+                    }
+
                     DestroyAllTilesOfSameColorAround(tile.X, tile.Y);
                     break;
                 case Options.ThreeByThreeSwitch:
@@ -436,7 +448,7 @@ public class TileManager : MonoBehaviour
 
         musicManager.CheckNextSong();
 
-        amountOfTurns++;
+        actionCounter++;
         CheckAmountOfTurns();
 
         RedrawTilesFromLocal();
@@ -546,28 +558,29 @@ public class TileManager : MonoBehaviour
         SetOption((int)Options.DestroyWithColors);
         cardManager.PlayCardsAnimation();
 
-        if (amountOfTurns % amountOfTurnsToAddRow == 0)
+        if (actionCounter % amountOfTurnsUntilAddRow == 0)
         {
             AddRowOfTiles();
         }
 
-        movesUntilNextRow.text = (amountOfTurnsToAddRow - amountOfTurns % amountOfTurnsToAddRow).ToString();
+        movesUntilNextRow.text = (amountOfTurnsUntilAddRow - actionCounter).ToString();
     }
 
     private void AddRowCounter()
     {
-        addRowCounter++;
+        actionCounter++;
 
-        if (addRowCounter >= 3)
+        if (actionCounter >= 3)
         {
-            DecreaseTimeBetweenAddRow();
-            addRowCounter = 0;
+            actionCounter = 0;
         }
     }
 
-    public void DecreaseTimeBetweenAddRow()
+    public void DecreaseActionsBetweenAddRow()
     {
-        if (amountOfTurnsToAddRow > 2) amountOfTurnsToAddRow--;
+        if (amountOfTurnsUntilAddRow > 2) amountOfTurnsUntilAddRow--;
+        movesUntilNextRow.text = (amountOfTurnsUntilAddRow - actionCounter).ToString();
+        addRowReductionCounter = 0;
     }
 
     private void SwitchTiles(Tile[] group1, Tile[] group2)
@@ -979,6 +992,12 @@ public class TileManager : MonoBehaviour
 
     public void AddRowOfTiles()
     {
+        if (addRowAction != null)
+        {
+            addRowAction.Invoke();
+            addRowAction = null;
+        }
+
         AddRowCounter();
         CheckForIsLastRowFilledAndDeleteDeadTiles();
 
@@ -1023,7 +1042,7 @@ public class TileManager : MonoBehaviour
 
     public bool tileWithColorExists(Sprite sprite)
     {
-        foreach(Tile tile in tiles)
+        foreach (Tile tile in tiles)
         {
             if (tile.sprite.Equals(sprite))
                 return true;
@@ -1036,7 +1055,7 @@ public class TileManager : MonoBehaviour
     {
         int amount = 0;
 
-        foreach(Tile tile in tiles)
+        foreach (Tile tile in tiles)
         {
             if (tile.sprite.Equals(sprite))
                 amount++;
@@ -1047,7 +1066,7 @@ public class TileManager : MonoBehaviour
 
     public void DeSelectAllTiles()
     {
-        foreach(Tile tile in savedTiles)
+        foreach (Tile tile in savedTiles)
         {
             tile.setSelect(false);
         }
