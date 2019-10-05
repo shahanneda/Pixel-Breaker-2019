@@ -19,9 +19,9 @@ public class TileGravity : MonoBehaviour
                     Tile above = findHighestTileThatIsNotDead(i, j);
                     if (above != null)
                     {
+                        above.isFalling = true;
                         manager.SwitchTiles(tiles[i, j], above);
                     }
-
                 }
             }
 

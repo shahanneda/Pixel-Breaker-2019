@@ -29,6 +29,9 @@ public class TileManager : MonoBehaviour
     TileActions tileActions;
     public TileGravity tileGravity;
 
+    public Animator uiHolderAnim;
+    public Animator bgAnim;
+
     List<Tile> SelectedTilesGroupOne = new List<Tile>();
     List<Tile> SelectedTilesGroupTwo = new List<Tile>();
 
@@ -582,7 +585,7 @@ public class TileManager : MonoBehaviour
 
     public void DecreaseActionsBetweenAddRow()
     {
-        if (amountOfTurnsUntilAddRow > 2) amountOfTurnsUntilAddRow--;
+        if (amountOfTurnsUntilAddRow > 10) amountOfTurnsUntilAddRow--;
         movesUntilNextRow.text = (amountOfTurnsUntilAddRow - actionCounter).ToString();
         addRowReductionCounter = 0;
     }
@@ -764,6 +767,8 @@ public class TileManager : MonoBehaviour
         if (destructionQueue.Count > 10)
         {
             currentTileActionClip = tileActionBigClip;
+            uiHolderAnim.Play("Shake");
+            bgAnim.Play("Shake");
         }
 
         foreach (Tile t in destructionQueue.ToArray())

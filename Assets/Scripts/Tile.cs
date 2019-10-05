@@ -137,7 +137,8 @@ public class Tile : MonoBehaviour
 
         Destroy(GetComponent<BoxCollider2D>());
     }
-    public void MarkForDebug(){
+    public void MarkForDebug()
+    {
         spriteRenderer.color = Color.black;
     }
 }
