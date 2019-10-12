@@ -619,8 +619,8 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: If a row is added that sends a tile over the top of
-              the board, the game is lost.
+            m_StringArgument: When a tile goes over the top of the board, you lose
+              the game, try to avoid this.
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
@@ -1227,9 +1227,9 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: 'Every 5 turns a new row of blocks will be added to
-              the bottom of the board. This number gets decreased ever [3] breaks,
-              down to 2 turns per row. '
+            m_StringArgument: Every 5 turns a new row of blocks will be added to the
+              bottom of the board. This number gets decreased ever 3 breaks, down
+              to 2 turns per row.
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
@@ -1763,8 +1763,8 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: 'Rotation cards affect the position of blocks. Used
-              to move key pieces or flatten the top of the board. '
+            m_StringArgument: Rotation cards affect the position of blocks. Used to
+              move key pieces or flatten the top of the board.
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
@@ -1914,8 +1914,8 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: 'Translation cards affect the position of blocks. Used
-              to set up large combos or manipulate large parts of the board. '
+            m_StringArgument: Translation cards affect the position of blocks. Used
+              to set up large combos or manipulate large parts of the board.
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
@@ -2348,8 +2348,8 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: 'Click on a card to activate it, clicking on the triangle
-              will show what the card does. Click on tiles to perform actions. '
+            m_StringArgument: Click on a card to activate it, clicking on the triangle
+              will show what the card does. Click on tiles to perform actions.
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
@@ -2915,8 +2915,8 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: 'Conversion cards affect the colour of blocks. Used
-              to set up large combos or to increase the size of combos '
+            m_StringArgument: Conversion cards affect the colour of blocks. Used to
+              set up large combos or to increase the size of combos.
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
@@ -5371,9 +5371,9 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: 'Clicking on a tile will break it and all surrounding
+            m_StringArgument: Clicking on a tile will break it and all surrounding
               tiles of the same colour. Gain score equal to number of tiles broken
-              squared. '
+              squared.
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
