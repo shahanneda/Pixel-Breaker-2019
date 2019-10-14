@@ -326,8 +326,8 @@ public class TileManager : MonoBehaviour
                             savedTiles.Add(tile);
                             tile.setSelect(true);
                         }
-                        print("got Here!");
-                        if (savedTiles.Count == 3)//|| amountOfTilesWithColor(colorOfSwitch) == savedTiles.Count
+
+                        if (savedTiles.Count == 3 || amountOfTilesWithColor(colorOfSwitch) == savedTiles.Count)
                         {
                             CanSelectTile = false;
                             selectCardColorMenu.SetActive(true);
@@ -588,7 +588,7 @@ public class TileManager : MonoBehaviour
 
     public void DecreaseActionsBetweenAddRow()
     {
-        if (amountOfTurnsUntilAddRow > 10) amountOfTurnsUntilAddRow--;
+        if (amountOfTurnsUntilAddRow > 2) amountOfTurnsUntilAddRow--;
         movesUntilNextRow.text = (amountOfTurnsUntilAddRow - actionCounter).ToString();
         addRowReductionCounter = 0;
     }
