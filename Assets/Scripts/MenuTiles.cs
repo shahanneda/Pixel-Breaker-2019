@@ -10,6 +10,8 @@ public class MenuTiles : MonoBehaviour
     private float maxX = 0;
     private float maxY = 0;
 
+    public float minTime = 2f;
+    public float maxTime = 6f;
     private int previousIndex = -1;
 
     private void Start()
@@ -22,7 +24,7 @@ public class MenuTiles : MonoBehaviour
 
     private IEnumerator ShowTile()
     {
-        yield return new WaitForSeconds(Random.Range(3f, 8f));
+        yield return new WaitForSeconds(Random.Range(minTime,maxTime));
 
         int index = Random.Range(0, tiles.Length);
 
