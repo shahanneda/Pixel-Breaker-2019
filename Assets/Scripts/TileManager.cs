@@ -254,7 +254,7 @@ public class TileManager : MonoBehaviour
                     {
                         SwitchTiles(tiles[tile.X, tile.Y + 1], tiles[tile.X + 1, tile.Y + 1]);
                         SwitchTiles(tile, tiles[tile.X + 1, tile.Y]);
-
+                        DeSelectTiles(GetTilesIn2x2(tile));
                         AfterTurnChecks();
                     }
                     catch
@@ -268,6 +268,7 @@ public class TileManager : MonoBehaviour
                         SwitchTiles(tiles[tile.X + 1, tile.Y], tiles[tile.X + 1, tile.Y + 1]);
                         SwitchTiles(tiles[tile.X, tile.Y], tiles[tile.X, tile.Y + 1]);
 
+                        DeSelectTiles(GetTilesIn3x3(tile));
                         AfterTurnChecks();
                     }
                     catch
@@ -280,6 +281,7 @@ public class TileManager : MonoBehaviour
                     SwitchTiles(tiles[tile.X - 1, tile.Y], tiles[tile.X + 1, tile.Y]);
                     SwitchTiles(tiles[tile.X - 1, tile.Y - 1], tiles[tile.X + 1, tile.Y - 1]);
 
+                    DeSelectTiles(GetTilesIn3x3(tile));
                     AfterTurnChecks();
 
                     break;
@@ -288,6 +290,7 @@ public class TileManager : MonoBehaviour
                     SwitchTiles(tiles[tile.X, tile.Y + 1], tiles[tile.X, tile.Y - 1]);
                     SwitchTiles(tiles[tile.X + 1, tile.Y + 1], tiles[tile.X + 1, tile.Y - 1]);
 
+                    DeSelectTiles(GetTilesIn3x3(tile));
                     tileGravity.RunCheckDelayed(0.4f);
                     AfterTurnChecks();
 
@@ -346,6 +349,7 @@ public class TileManager : MonoBehaviour
                             }
 
                             savedTiles.Clear();
+                            DeSelectTiles(GetTilesIn3x3(tile));
 
                             tileGravity.RunCheckDelayed(0.2f);
                             AfterTurnChecks();
@@ -1087,8 +1091,10 @@ public class TileManager : MonoBehaviour
 
         savedTiles.Clear();
     }
-    public void DeSelectTiles(Tile[]  tiles){
-        foreach(Tile tile in tiles){
+    public void DeSelectTiles(Tile[] tiles)
+    {
+        foreach (Tile tile in tiles)
+        {
             tile.setSelect(false);
             tile.setHover(false);
         }
