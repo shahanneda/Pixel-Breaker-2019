@@ -1108,7 +1108,6 @@ public class TileManager : MonoBehaviour
         try
         {
             tileSpriteGrouping[tile.sprite].Remove(tile);
-            print("Bye");
         }
         catch { }
     }
@@ -1116,7 +1115,5 @@ public class TileManager : MonoBehaviour
     public void addTileToColorGroup(Tile tile)
     {
         tileSpriteGrouping[tile.sprite].Remove(tile);
-        print("Hi");
     }
-
 }
