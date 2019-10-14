@@ -600,7 +600,7 @@ public class TileManager : MonoBehaviour
 
     public void DecreaseActionsBetweenAddRow()
     {
-        if (amountOfTurnsUntilAddRow > 10) amountOfTurnsUntilAddRow--;
+        if (amountOfTurnsUntilAddRow > 2) amountOfTurnsUntilAddRow--;
         movesUntilNextRow.text = (amountOfTurnsUntilAddRow - actionCounter).ToString();
         addRowReductionCounter = 0;
     }
