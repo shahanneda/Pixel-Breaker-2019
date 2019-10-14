@@ -1028,7 +1028,6 @@ public class TileManager : MonoBehaviour
         }
 
         AddRowCounter();
-        CheckForIsLastRowFilledAndDeleteDeadTiles();
 
         for (int row = tiles.GetLength(1) - 1; row > 0; row--)
         {
@@ -1039,6 +1038,8 @@ public class TileManager : MonoBehaviour
         grid.fillTileLoadingArea();
 
         RedrawTilesFromLocal();
+        CheckForIsLastRowFilledAndDeleteDeadTiles();
+
     }
 
     private bool CheckForIsLastRowFilledAndDeleteDeadTiles()
