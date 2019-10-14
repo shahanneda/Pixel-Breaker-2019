@@ -63,7 +63,7 @@ public class TileGrid : MonoBehaviour
     public Tile AddTile(int x, int y, Sprite sprite)
     {
         AddTile(x, y);
-        tiles[x, y].SetSprite(sprite);
+        tiles[x, y].InitializeTile(sprite);
         return tiles[x, y];
     }
     public Tile GetNewTile(int x, int y){

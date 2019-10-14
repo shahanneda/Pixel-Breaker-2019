@@ -77,7 +77,16 @@ public class Tile : MonoBehaviour
 
     public void SetSprite(Sprite newSprite)
     {
+        manager.removeTileFromColorGroup(this);
+
         sprite = newSprite;
+        spriteRenderer.sprite = sprite;
+        manager.addTileToColorGroup(this);
+    }
+
+    public void InitializeTile(Sprite sprite)
+    {
+        this.sprite = sprite;
         spriteRenderer.sprite = sprite;
     }
 
@@ -121,7 +130,8 @@ public class Tile : MonoBehaviour
             anim.SetBool("Selected", state);
             print("Setting selection");
         }
-        if(!state){
+        if (!state)
+        {
             setHover(false);//This might be a bad idea, but it fixes the selection bug
         }
     }
@@ -134,10 +144,8 @@ public class Tile : MonoBehaviour
     public void setIsDead()
     {
         isDead = true;
-
-
+        manager.removeTileFromColorGroup(this);
         GetComponent<SpriteRenderer>().sprite = null;
-
         Destroy(GetComponent<BoxCollider2D>());
     }
     public void MarkForDebug()

@@ -9,6 +9,7 @@ public class TileManager : MonoBehaviour
     public static Tile[,] tiles;
     public float gravityCheckFloat = 0.1f;
     public Sprite[] sprites;
+    public Dictionary<Sprite, List<Tile>> tileSpriteGrouping = new Dictionary<Sprite, List<Tile>>();
 
     public Transform board;
 
@@ -71,6 +72,17 @@ public class TileManager : MonoBehaviour
         grid.SetUp();
 
         CanSelectTile = true;
+
+        foreach (Sprite sprite in sprites)
+        {
+            tileSpriteGrouping.Add(sprite, new List<Tile>());
+        }
+
+        foreach (Tile tile in tiles)
+        {
+            if (!tile.isDead)
+                tileSpriteGrouping[tile.sprite].Add(tile);
+        }
     }
 
     /// <summary>
@@ -326,8 +338,8 @@ public class TileManager : MonoBehaviour
                             savedTiles.Add(tile);
                             tile.setSelect(true);
                         }
-                        print("got Here!");
-                        if (savedTiles.Count == 3)//|| amountOfTilesWithColor(colorOfSwitch) == savedTiles.Count
+
+                        if (savedTiles.Count == 3 || amountOfTilesWithColor(colorOfSwitch) == savedTiles.Count)
                         {
                             CanSelectTile = false;
                             selectCardColorMenu.SetActive(true);
@@ -814,7 +826,7 @@ public class TileManager : MonoBehaviour
     {
         if (!tiles[x, y].isDead)
         {
-
+            removeTileFromColorGroup(tiles[x, y]);
             Destroy(tiles[x, y].gameObject);
             //tiles[x, y].setIsDead();
 
@@ -1070,15 +1082,7 @@ public class TileManager : MonoBehaviour
 
     public int amountOfTilesWithColor(Sprite sprite)
     {
-        int amount = 0;
-
-        foreach (Tile tile in tiles)
-        {
-            if (tile.sprite.Equals(sprite))
-                amount++;
-        }
-
-        return amount;
+        return tileSpriteGrouping[sprite].Count;
     }
 
     public void DeSelectAllTilesInSelectionBuffer()
@@ -1098,4 +1102,21 @@ public class TileManager : MonoBehaviour
             tile.setHover(false);
         }
     }
+
+    public void removeTileFromColorGroup(Tile tile)
+    {
+        try
+        {
+            tileSpriteGrouping[tile.sprite].Remove(tile);
+            print("Bye");
+        }
+        catch { }
+    }
+
+    public void addTileToColorGroup(Tile tile)
+    {
+        tileSpriteGrouping[tile.sprite].Remove(tile);
+        print("Hi");
+    }
+
 }
