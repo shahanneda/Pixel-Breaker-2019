@@ -121,6 +121,9 @@ public class Tile : MonoBehaviour
             anim.SetBool("Selected", state);
             print("Setting selection");
         }
+        if(!state){
+            setHover(false);//This might be a bad idea, but it fixes the selection bug
+        }
     }
 
     public bool getInSelect()
