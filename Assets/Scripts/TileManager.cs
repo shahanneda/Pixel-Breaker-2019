@@ -326,8 +326,8 @@ public class TileManager : MonoBehaviour
                             savedTiles.Add(tile);
                             tile.setSelect(true);
                         }
-
-                        if (savedTiles.Count == 3 || amountOfTilesWithColor(colorOfSwitch) == savedTiles.Count)
+                        print("got Here!");
+                        if (savedTiles.Count == 3)//|| amountOfTilesWithColor(colorOfSwitch) == savedTiles.Count
                         {
                             CanSelectTile = false;
                             selectCardColorMenu.SetActive(true);
