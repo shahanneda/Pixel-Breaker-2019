@@ -1,0 +1,17 @@
+{
+"companyName": "Paper Crown Studios",
+"productName": "Pixel-Breaker-2019",
+"productVersion": "1",
+"dataUrl": "Pixel-Breaker-2019.data.unityweb",
+"wasmCodeUrl": "Pixel-Breaker-2019.wasm.code.unityweb",
+"wasmFrameworkUrl": "Pixel-Breaker-2019.wasm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0","WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"backgroundUrl": "Pixel-Breaker-2019.jpg",
+"splashScreenStyle": "Dark",
+"backgroundColor": "#FFFFFF",
+"cacheControl": {"default": "must-revalidate"},
+"developmentBuild": false,
+"multithreading": false,
+"unityVersion": "2019.1.6f1"
+}
