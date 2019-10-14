@@ -254,7 +254,7 @@ public class TileManager : MonoBehaviour
                     {
                         SwitchTiles(tiles[tile.X, tile.Y + 1], tiles[tile.X + 1, tile.Y + 1]);
                         SwitchTiles(tile, tiles[tile.X + 1, tile.Y]);
-                        DeSelectTiles(GetTilesIn2x2(tile));
+                        DeSelectTiles(GetTilesIn3x3(tile));
                         AfterTurnChecks();
                     }
                     catch
@@ -391,7 +391,6 @@ public class TileManager : MonoBehaviour
                         SwitchTiles(tiles2x2[1], tiles[tiles2x2[1].X, grid.gameHeight - 2]);
                         SwitchTiles(tiles2x2[2], tiles[tiles2x2[2].X, grid.gameHeight - 1]);
                         SwitchTiles(tiles2x2[3], tiles[tiles2x2[3].X, grid.gameHeight - 1]);
-
                         tileGravity.RunCheck();
                     }
                     break;
