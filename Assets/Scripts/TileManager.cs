@@ -926,7 +926,7 @@ public class TileManager : MonoBehaviour
         else return new Tile[] { tile };
     }
 
-    private Tile[] GetTilesIn3x3(Tile tile)
+    public Tile[] GetTilesIn3x3(Tile tile)
     {
         if (TileIsOnEdge(tile))
         {
@@ -1078,7 +1078,7 @@ public class TileManager : MonoBehaviour
         return amount;
     }
 
-    public void DeSelectAllTiles()
+    public void DeSelectAllTilesInSelectionBuffer()
     {
         foreach (Tile tile in savedTiles)
         {
@@ -1086,5 +1086,11 @@ public class TileManager : MonoBehaviour
         }
 
         savedTiles.Clear();
+    }
+    public void DeSelectTiles(Tile[]  tiles){
+        foreach(Tile tile in tiles){
+            tile.setSelect(false);
+            tile.setHover(false);
+        }
     }
 }

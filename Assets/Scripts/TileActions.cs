@@ -40,9 +40,9 @@ public class TileActions : MonoBehaviour
         //tiles[x + 1, y - 1],tiles[x + 1, y]
         //});
         //Invoke("GravityInvoke", manager.gravityCheckFloat);
-        manager.tileGravity.RunCheckDelayed(manager.gravityCheckFloat);
-        manager.RedrawTilesFromLocal();
+        TileRotationEndingActions(x,y);
     }
+
 
     //@ADAM, create the other ones of these from the design doc, draw it out on paper to help you lundersd which one is which, and be ready to be frustrated 
     public void Rotate3x3Left90Degrees(int x, int y)
@@ -62,10 +62,8 @@ public class TileActions : MonoBehaviour
         //manager.gravityQueue.AddRange(new List<Tile> { tiles[x,y],tiles[x + 1, y + 1], tiles[x, y + 1], tiles[x - 1, y + 1], tiles[x - 1, y], tiles[x - 1, y - 1], tiles[x, y - 1],
         //tiles[x + 1, y - 1],tiles[x + 1, y]
         //});
-        manager.tileGravity.RunCheckDelayed(manager.gravityCheckFloat);
 
-        //Invoke("GravityInvoke", manager.gravityCheckFloat);
-        manager.RedrawTilesFromLocal();
+        TileRotationEndingActions(x,y);
     }
 
     public void Rotate3x3Right90Degrees(int x, int y)
@@ -86,9 +84,8 @@ public class TileActions : MonoBehaviour
         //tiles[x + 1, y - 1],tiles[x + 1, y]
         //});
         //Invoke("GravityInvoke", manager.gravityCheckFloat);
-        manager.tileGravity.RunCheckDelayed(manager.gravityCheckFloat);
+        TileRotationEndingActions(x,y);
 
-        manager.RedrawTilesFromLocal();
     }
 
     public void Rotate2x2Left90Degrees(int x, int y)
@@ -105,9 +102,16 @@ public class TileActions : MonoBehaviour
         //tiles[x + 1, y - 1],tiles[x + 1, y]
         //});
         //Invoke("GravityInvoke", manager.gravityCheckFloat);
-        manager.tileGravity.RunCheckDelayed(manager.gravityCheckFloat);
+        TileRotationEndingActions(x,y);
+    }
 
+    private void TileRotationEndingActions(int x, int y)
+    {
+        manager.tileGravity.RunCheckDelayed(manager.gravityCheckFloat);
+        manager.DeSelectTiles(manager.GetTilesIn3x3(tiles[x,y]));
         manager.RedrawTilesFromLocal();
+
+
     }
     //public void GravityInvoke()
     //{
