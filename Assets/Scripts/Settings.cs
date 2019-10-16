@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -40,7 +39,7 @@ public class Settings : MonoBehaviour
 
     private IEnumerator AwakeAudioSources(AudioSource[] audioSources)
     {
-        foreach(AudioSource source in audioSources)
+        foreach (AudioSource source in audioSources)
         {
             source.enabled = false;
         }
@@ -186,18 +185,24 @@ public class Settings : MonoBehaviour
         settingsFile = new SettingsFile();
         settingsFile.SetSettings(resolutions[resolutionsDropdown.value], fullscreenToggle.isOn, (int)musicVolumeSlider.value, (int)sfxVolumeSlider.value, showCardTextToggle.isOn);
 
-        string json = JsonUtility.ToJson(settingsFile);
-        File.WriteAllText(filePath, json);
+        PlayerPrefs.SetInt("Width", settingsFile.width);
+        PlayerPrefs.SetInt("Height", settingsFile.height);
+        PlayerPrefs.SetString("Fullscreen", settingsFile.fullscreen ? "true" : "false");
+        PlayerPrefs.SetInt("MusicVolume", settingsFile.musicVolume);
+        PlayerPrefs.SetInt("SFXVolume", settingsFile.sfxVolume);
+        PlayerPrefs.SetString("ShowCardText", settingsFile.showCardText ? "true" : "false");
     }
 
     private void LoadSettings()
     {
-        if (File.Exists(filePath))
+        try
         {
-            string json = File.ReadAllText(filePath);
-            settingsFile = JsonUtility.FromJson<SettingsFile>(json);
-
+            settingsFile = new SettingsFile(PlayerPrefs.GetInt("Width"), PlayerPrefs.GetInt("Height"), (PlayerPrefs.GetString("Fullscreen") == "true") ? true : false, PlayerPrefs.GetInt("MusicVolume"), PlayerPrefs.GetInt("SFXVolume"), (PlayerPrefs.GetString("ShowCardText") == "true") ? true : false);
             settingsFileExists = true;
+        }
+        catch
+        {
+            settingsFileExists = false;
         }
     }
 

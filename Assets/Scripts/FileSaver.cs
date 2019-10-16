@@ -1,31 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.IO;
+﻿using UnityEngine;
 
 public class FileSaver : MonoBehaviour
 {
     public static void Save(int highScore)
     {
-        GameSave gameSave = new GameSave(highScore);
-
-        string path = Application.persistentDataPath + "/PixelBreakerSave.json";
-        string json = JsonUtility.ToJson(gameSave);
-        File.WriteAllText(path, json);
+        PlayerPrefs.SetInt("HighScore", highScore);
     }
 
     public static GameSave Load()
     {
-        string path = Application.persistentDataPath + "/PixelBreakerSave.json";
-
-        if (File.Exists(path))
+        try
         {
-            string json = File.ReadAllText(path);
-            return JsonUtility.FromJson<GameSave>(json);
+            return new GameSave(PlayerPrefs.GetInt("HighScore"));
         }
-        else
+        catch
         {
-            return new GameSave();
+            return null;
         }
     }
 }
