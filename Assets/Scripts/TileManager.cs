@@ -1021,28 +1021,34 @@ public class TileManager : MonoBehaviour
 
     public void AddRowOfTiles()
     {
-        if (addRowAction != null)
+        if (AmountOfFullRows() >= grid.gameHeight)
         {
-            addRowAction.Invoke();
-            addRowAction = null;
+            PlayerDead();
         }
-
-        AddRowCounter();
-
-        for (int row = tiles.GetLength(1) - 1; row > 0; row--)
+        else
         {
-            SwitchRowOfTiles(row, row - 1);
+            if (addRowAction != null)
+            {
+                addRowAction.Invoke();
+                addRowAction = null;
+            }
+
+            AddRowCounter();
+
+            for (int row = tiles.GetLength(1) - 1; row > 0; row--)
+            {
+                SwitchRowOfTiles(row, row - 1);
+            }
+
+            grid.SwitchTilesFromLoadingAreaToLastRow();
+            grid.fillTileLoadingArea();
+
+            RedrawTilesFromLocal();
         }
-
-        grid.SwitchTilesFromLoadingAreaToLastRow();
-        grid.fillTileLoadingArea();
-
-        RedrawTilesFromLocal();
-        CheckForIsLastRowFilledAndDeleteDeadTiles();
 
     }
 
-    private bool CheckForIsLastRowFilledAndDeleteDeadTiles()
+    /*private bool CheckForIsLastRowFilledAndDeleteDeadTiles()
     {
         bool isDead = false;
         for (int i = 0; i < tiles.GetLength(0); i++)
@@ -1063,6 +1069,20 @@ public class TileManager : MonoBehaviour
             }
         }
         return isDead;
+    }*/
+
+    public void PlayerDead()
+    {
+        musicManager.QueueOutro();
+        print("PLAYER DEAD");
+
+        for (int i = 0; i < tiles.GetLength(0); i++)
+        {
+            Tile t = tiles[i, AmountOfFullRows() - 1];
+
+            if (!t.isDead)
+                t.GetComponent<SpriteRenderer>().color = Color.red;
+        }
     }
 
     public bool CheckIfTense()
