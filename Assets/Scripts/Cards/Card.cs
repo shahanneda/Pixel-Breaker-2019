@@ -42,7 +42,7 @@ public class Card : MonoBehaviour
 
     private void Clicked()
     {
-        if (tileManager.isPlaying && (canSelect || isSelected))
+        if (tileManager.isPlaying && (!isSelected))//Remove canselect so able tp select
         {
             Card.DeSelectAll();
             Card.CanSelect(false);
@@ -51,6 +51,12 @@ public class Card : MonoBehaviour
             SetOption();
 
             sfxSource.PlayOneShot(selectClip);
+        }else if (isSelected){
+            SetSelect(false);
+            Card.DeSelectAll();
+            tileManager.SetOption((int)GlobalEnums.Options.DestroyWithColors);
+            tileManager.DeSelectAllTilesInSelectionBuffer();
+            tileManager.selectCardColorMenu.SetActive(false);
         }
     }
 
