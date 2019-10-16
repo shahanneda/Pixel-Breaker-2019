@@ -15,7 +15,7 @@ public class FileSaver : MonoBehaviour
         }
         catch
         {
-            return null;
+            return new GameSave(0);
         }
     }
 }
