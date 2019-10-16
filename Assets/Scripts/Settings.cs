@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -32,6 +33,13 @@ public class Settings : MonoBehaviour
 
     private string filePath;
 
+    private const string playerPrefReseloutionWidthStringString = "s_res_w";
+    private const string playerPrefReseloutionHeightStringString = "s_res_h";
+    private const string playerPrefMusicVolumeString = "s_mv";
+    private const string playerPrefSfxVolString = "s_sfxv";
+    private const string playerPrefFullscreenString= "s_fullscreen";
+    private const string playerPrefShowText = "s_showT";
+
     private void Awake()
     {
         StartCoroutine(AwakeAudioSources(FindObjectsOfType<AudioSource>()));
@@ -39,7 +47,7 @@ public class Settings : MonoBehaviour
 
     private IEnumerator AwakeAudioSources(AudioSource[] audioSources)
     {
-        foreach (AudioSource source in audioSources)
+        foreach(AudioSource source in audioSources)
         {
             source.enabled = false;
         }
@@ -184,25 +192,33 @@ public class Settings : MonoBehaviour
     {
         settingsFile = new SettingsFile();
         settingsFile.SetSettings(resolutions[resolutionsDropdown.value], fullscreenToggle.isOn, (int)musicVolumeSlider.value, (int)sfxVolumeSlider.value, showCardTextToggle.isOn);
-
-        PlayerPrefs.SetInt("Width", settingsFile.width);
-        PlayerPrefs.SetInt("Height", settingsFile.height);
-        PlayerPrefs.SetString("Fullscreen", settingsFile.fullscreen ? "true" : "false");
-        PlayerPrefs.SetInt("MusicVolume", settingsFile.musicVolume);
-        PlayerPrefs.SetInt("SFXVolume", settingsFile.sfxVolume);
-        PlayerPrefs.SetString("ShowCardText", settingsFile.showCardText ? "true" : "false");
+        PlayerPrefs.SetInt(playerPrefReseloutionWidthStringString, settingsFile.width);
+        PlayerPrefs.SetInt(playerPrefReseloutionHeightStringString, settingsFile.height);
+        PlayerPrefs.SetInt(playerPrefMusicVolumeString, settingsFile.musicVolume);
+        PlayerPrefs.SetInt(playerPrefSfxVolString, settingsFile.sfxVolume);
+        PlayerPrefs.SetInt(playerPrefFullscreenString,settingsFile.fullscreen == true ? 1 : 0);
+        PlayerPrefs.SetInt(playerPrefShowText, settingsFile.showCardText == true ? 1 : 0);
+        //string json = JsonUtility.ToJson(settingsFile);
+        //File.WriteAllText(filePath, json);
     }
 
     private void LoadSettings()
     {
-        try
+        if (PlayerPrefs.HasKey(playerPrefMusicVolumeString))
         {
-            settingsFile = new SettingsFile(PlayerPrefs.GetInt("Width"), PlayerPrefs.GetInt("Height"), (PlayerPrefs.GetString("Fullscreen") == "true") ? true : false, PlayerPrefs.GetInt("MusicVolume"), PlayerPrefs.GetInt("SFXVolume"), (PlayerPrefs.GetString("ShowCardText") == "true") ? true : false);
+
+            //string json = File.ReadAllText(filePath);
+            //settingsFile = JsonUtility.FromJson<SettingsFile>(json);
+            settingsFile = new SettingsFile();
+            settingsFile.SetSettings(
+                PlayerPrefs.GetInt(playerPrefReseloutionWidthStringString),
+                PlayerPrefs.GetInt(playerPrefReseloutionHeightStringString),
+                PlayerPrefs.GetInt(playerPrefFullscreenString) == 1 ? true : false,
+                PlayerPrefs.GetInt(playerPrefMusicVolumeString),
+                PlayerPrefs.GetInt(playerPrefSfxVolString),
+                PlayerPrefs.GetInt(playerPrefShowText) == 1 ? true : false
+            );
             settingsFileExists = true;
-        }
-        catch
-        {
-            settingsFileExists = false;
         }
     }
 
@@ -215,7 +231,7 @@ public class Settings : MonoBehaviour
     {
         sfxVolumeText.text = "SOUNDS VOLUME: " + (int)volume + "%";
     }
-
+     
     public void ApplySettings()
     {
         ApplyResolutionAndFullscreen();
@@ -267,6 +283,17 @@ public class SettingsFile
     {
         width = resolution.width;
         height = resolution.height;
+        this.fullscreen = fullscreen;
+
+        this.musicVolume = musicVolume;
+        this.sfxVolume = sfxVolume;
+
+        this.showCardText = showCardText;
+    }
+    public void SetSettings(int width, int height, bool fullscreen, int musicVolume, int sfxVolume, bool showCardText)
+    {
+        this.width = width;
+        this.height = height;
         this.fullscreen = fullscreen;
 
         this.musicVolume = musicVolume;
