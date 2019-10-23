@@ -30,6 +30,7 @@ public class Settings : MonoBehaviour
 
     public float minimumVolume = 40f;
 
+    private bool noRes = false;
     private string filePath;
 
     private void Awake()
@@ -79,6 +80,10 @@ public class Settings : MonoBehaviour
 
     private void SetUpResolutions()
     {
+        if(Application.platform == RuntimePlatform.WebGLPlayer){
+            noRes = true;
+            resolutionsDropdown.gameObject.SetActive(false);
+        }
         resolutions = Screen.resolutions.Select(resolution => new Resolution { width = resolution.width, height = resolution.height }).Distinct().ToArray();
 
         List<string> resolutionOptions = new List<string>();
@@ -166,6 +171,10 @@ public class Settings : MonoBehaviour
 
     private void ApplyResolutionAndFullscreen()
     {
+        if(noRes)
+        {
+            return;
+        }
         Resolution newResolution = resolutions[resolutionsDropdown.value];
         Screen.SetResolution(newResolution.width, newResolution.height, fullscreenToggle.isOn);
     }
@@ -218,7 +227,9 @@ public class Settings : MonoBehaviour
 
     public void ApplySettings()
     {
-        ApplyResolutionAndFullscreen();
+        if(!noRes){
+            ApplyResolutionAndFullscreen();
+        }
 
         ApplyMusicVolume();
         ApplySFXVolume();
@@ -267,6 +278,7 @@ public class SettingsFile
     {
         width = resolution.width;
         height = resolution.height;
+
         this.fullscreen = fullscreen;
 
         this.musicVolume = musicVolume;
