@@ -192,7 +192,13 @@ public class Settings : MonoBehaviour
     public void SaveSettings()
     {
         settingsFile = new SettingsFile();
-        settingsFile.SetSettings(resolutions[resolutionsDropdown.value], fullscreenToggle.isOn, (int)musicVolumeSlider.value, (int)sfxVolumeSlider.value, showCardTextToggle.isOn);
+        if(noRes){
+            settingsFile.SetSettings(1000,1000, fullscreenToggle.isOn, (int)musicVolumeSlider.value, (int)sfxVolumeSlider.value, showCardTextToggle.isOn);
+        }
+        else
+        {
+            settingsFile.SetSettings(resolutions[resolutionsDropdown.value], fullscreenToggle.isOn, (int)musicVolumeSlider.value, (int)sfxVolumeSlider.value, showCardTextToggle.isOn);
+        }
 
         PlayerPrefs.SetInt("Width", settingsFile.width);
         PlayerPrefs.SetInt("Height", settingsFile.height);
@@ -278,6 +284,18 @@ public class SettingsFile
     {
         width = resolution.width;
         height = resolution.height;
+
+        this.fullscreen = fullscreen;
+
+        this.musicVolume = musicVolume;
+        this.sfxVolume = sfxVolume;
+
+        this.showCardText = showCardText;
+    }
+    public void SetSettings( int width, int height, bool fullscreen, int musicVolume, int sfxVolume, bool showCardText)
+    {
+        this.width = width;
+        this.height =height;
 
         this.fullscreen = fullscreen;
 
