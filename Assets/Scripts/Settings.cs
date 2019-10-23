@@ -82,7 +82,7 @@ public class Settings : MonoBehaviour
     {
         if(Application.platform == RuntimePlatform.WebGLPlayer){
             noRes = true;
-            resolutionsDropdown.gameObject.SetActive(false);
+            resolutionsDropdown.transform.parent.gameObject.SetActive(false);
         }
         resolutions = Screen.resolutions.Select(resolution => new Resolution { width = resolution.width, height = resolution.height }).Distinct().ToArray();
 
