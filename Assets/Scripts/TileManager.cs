@@ -315,8 +315,11 @@ public class TileManager : MonoBehaviour
                     }
                     else
                     {
-                        savedTiles.Add(tile);
-                        tile.setSelect(true);
+                        if (savedTiles.Count == 0 || (savedTiles.Count > 0 && savedTiles[0].sprite.Equals(tile.sprite)))
+                        {
+                            savedTiles.Add(tile);
+                            tile.setSelect(true);
+                        }
 
                         if (savedTiles.Count == 2)
                         {
