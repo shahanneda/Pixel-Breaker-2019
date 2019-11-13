@@ -24,7 +24,7 @@ public class TileManager : MonoBehaviour
 
     public Text movesUntilNextRow;
 
-    Options optionSelected = Options.DestroyWithColors;
+    [SerializeField] Options optionSelected = Options.DestroyWithColors;
     SelectionMode currentSelectionMode = SelectionMode.Single;
     TileGrid grid;
     TileActions tileActions;
@@ -98,7 +98,7 @@ public class TileManager : MonoBehaviour
                 float mouseX = Camera.main.ScreenToWorldPoint(Input.mousePosition).x;
                 float distanceFromTile = mouseX - t.transform.position.x;
 
-                if(optionSelected.Equals(Options.Move1x2Left))
+                if (optionSelected.Equals(Options.Move1x2Left))
                 {
                     if (distanceFromTile >= -1.5 && distanceFromTile < 0)
                     {
@@ -109,10 +109,10 @@ public class TileManager : MonoBehaviour
                         SwitchTiles(tiles[x - 1, y + 1], tiles[x, y + 1]);
                         savedTiles.Clear();
 
-                        AfterTurnChecks();
+                        AfterTurnChecksDelayed(0.02f);
                     }
                 }
-                else if(optionSelected.Equals(Options.Move1x3Left))
+                else if (optionSelected.Equals(Options.Move1x3Left))
                 {
                     if (distanceFromTile >= -1.5 && distanceFromTile < 0)
                     {
@@ -124,10 +124,10 @@ public class TileManager : MonoBehaviour
                         SwitchTiles(tiles[x - 1, y + 2], tiles[x, y + 2]);
                         savedTiles.Clear();
 
-                        AfterTurnChecks();
+                        AfterTurnChecksDelayed(0.02f);
                     }
                 }
-                else if(optionSelected.Equals(Options.Move1x2Right))
+                else if (optionSelected.Equals(Options.Move1x2Right))
                 {
                     if (distanceFromTile <= 1.5 && distanceFromTile > 0)
                     {
@@ -138,10 +138,10 @@ public class TileManager : MonoBehaviour
                         SwitchTiles(tiles[x + 1, y + 1], tiles[x, y + 1]);
                         savedTiles.Clear();
 
-                        AfterTurnChecks();
+                        AfterTurnChecksDelayed(0.02f);
                     }
                 }
-                else if(optionSelected.Equals(Options.Move1x3Right))
+                else if (optionSelected.Equals(Options.Move1x3Right))
                 {
                     if (distanceFromTile <= 1.5 && distanceFromTile > 0)
                     {
@@ -153,7 +153,7 @@ public class TileManager : MonoBehaviour
                         SwitchTiles(tiles[x + 1, y + 2], tiles[x, y + 2]);
                         savedTiles.Clear();
 
-                        AfterTurnChecks();
+                        AfterTurnChecksDelayed(0.02f);
                     }
                 }
 
@@ -606,6 +606,11 @@ public class TileManager : MonoBehaviour
         CheckAmountOfTurns();
 
         RedrawTilesFromLocal();
+    }
+
+    private void AfterTurnChecksDelayed(float time)
+    {
+        Invoke("AfterTurnChecks", time);
     }
 
     public void SwitchColorOfTiles(Sprite newColor)
