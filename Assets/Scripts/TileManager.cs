@@ -85,6 +85,83 @@ public class TileManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (savedTiles.Count > 0)
+            {
+                Tile t = savedTiles[0];
+                int x = t.X;
+                int y = t.Y;
+
+                float mouseX = Camera.main.ScreenToWorldPoint(Input.mousePosition).x;
+                float distanceFromTile = mouseX - t.transform.position.x;
+
+                if(optionSelected.Equals(Options.Move1x2Left))
+                {
+                    if (distanceFromTile >= -1.5 && distanceFromTile < 0)
+                    {
+                        t.setSelect(false);
+                        tiles[x, y + 1].setSelect(false);
+
+                        SwitchTiles(tiles[x - 1, y], t);
+                        SwitchTiles(tiles[x - 1, y + 1], tiles[x, y + 1]);
+                        savedTiles.Clear();
+
+                        AfterTurnChecks();
+                    }
+                }
+                else if(optionSelected.Equals(Options.Move1x3Left))
+                {
+                    if (distanceFromTile >= -1.5 && distanceFromTile < 0)
+                    {
+                        t.setSelect(false);
+                        tiles[x, y + 1].setSelect(false);
+
+                        SwitchTiles(tiles[x - 1, y], t);
+                        SwitchTiles(tiles[x - 1, y + 1], tiles[x, y + 1]);
+                        SwitchTiles(tiles[x - 1, y + 2], tiles[x, y + 2]);
+                        savedTiles.Clear();
+
+                        AfterTurnChecks();
+                    }
+                }
+                else if(optionSelected.Equals(Options.Move1x2Right))
+                {
+                    if (distanceFromTile <= 1.5 && distanceFromTile > 0)
+                    {
+                        t.setSelect(false);
+                        tiles[x, y + 1].setSelect(false);
+
+                        SwitchTiles(tiles[x + 1, y], t);
+                        SwitchTiles(tiles[x + 1, y + 1], tiles[x, y + 1]);
+                        savedTiles.Clear();
+
+                        AfterTurnChecks();
+                    }
+                }
+                else if(optionSelected.Equals(Options.Move1x3Right))
+                {
+                    if (distanceFromTile <= 1.5 && distanceFromTile > 0)
+                    {
+                        t.setSelect(false);
+                        tiles[x, y + 1].setSelect(false);
+
+                        SwitchTiles(tiles[x + 1, y], t);
+                        SwitchTiles(tiles[x + 1, y + 1], tiles[x, y + 1]);
+                        SwitchTiles(tiles[x + 1, y + 2], tiles[x, y + 2]);
+                        savedTiles.Clear();
+
+                        AfterTurnChecks();
+                    }
+                }
+
+                tileGravity.RunCheckDelayed(0.1f);
+            }
+        }
+    }
+
     /// <summary>
     /// summary: this method is suppsued to move all of the tiles to their correct position in the game world after
     /// we rotate the local grid or something
@@ -419,22 +496,6 @@ public class TileManager : MonoBehaviour
                             tiles[tile.X, tile.Y + 1].setSelect(true);
                             tiles[tile.X, tile.Y + 2].setSelect(true);
                         }
-                        else
-                        {
-                            if(savedTiles[0].X - tile.X == -1)
-                            {
-                                savedTiles[0].setSelect(false);
-                                tiles[savedTiles[0].X, savedTiles[0].Y + 1].setSelect(false);
-                                tiles[savedTiles[0].X, savedTiles[0].Y + 2].setSelect(false);
-
-                                SwitchTiles(tile, savedTiles[0]);
-                                SwitchTiles(tiles[tile.X, tile.Y + 1], tiles[savedTiles[0].X, savedTiles[0].Y + 1]);
-                                SwitchTiles(tiles[tile.X, tile.Y + 2], tiles[savedTiles[0].X, savedTiles[0].Y + 2]);
-                                savedTiles.Clear();
-
-                                AfterTurnChecks();
-                            } 
-                        }
                     }
 
                     break;
@@ -448,22 +509,6 @@ public class TileManager : MonoBehaviour
                             tiles[tile.X, tile.Y + 1].setSelect(true);
                             tiles[tile.X, tile.Y + 2].setSelect(true);
                         }
-                        else
-                        {
-                            if(savedTiles[0].X - tile.X == 1)
-                            {
-                                savedTiles[0].setSelect(false);
-                                tiles[savedTiles[0].X, savedTiles[0].Y + 1].setSelect(false);
-                                tiles[savedTiles[0].X, savedTiles[0].Y + 2].setSelect(false);
-
-                                SwitchTiles(tile, savedTiles[0]);
-                                SwitchTiles(tiles[tile.X, tile.Y + 1], tiles[savedTiles[0].X, savedTiles[0].Y + 1]);
-                                SwitchTiles(tiles[tile.X, tile.Y + 2], tiles[savedTiles[0].X, savedTiles[0].Y + 2]);
-                                savedTiles.Clear();
-
-                                AfterTurnChecks();
-                            } 
-                        }
                     }
 
                     break;
@@ -476,20 +521,6 @@ public class TileManager : MonoBehaviour
                             tile.setSelect(true);
                             tiles[tile.X, tile.Y + 1].setSelect(true);
                         }
-                        else
-                        {
-                            if(savedTiles[0].X - tile.X == -1)
-                            {
-                                savedTiles[0].setSelect(false);
-                                tiles[savedTiles[0].X, savedTiles[0].Y + 1].setSelect(false);
-
-                                SwitchTiles(tile, savedTiles[0]);
-                                SwitchTiles(tiles[tile.X, tile.Y + 1], tiles[savedTiles[0].X, savedTiles[0].Y + 1]);
-                                savedTiles.Clear();
-
-                                AfterTurnChecks();
-                            } 
-                        }
                     }
 
                     break;
@@ -501,20 +532,6 @@ public class TileManager : MonoBehaviour
                             savedTiles.Add(tile);
                             tile.setSelect(true);
                             tiles[tile.X, tile.Y + 1].setSelect(true);
-                        }
-                        else
-                        {
-                            if(savedTiles[0].X - tile.X == 1)
-                            {
-                                savedTiles[0].setSelect(false);
-                                tiles[savedTiles[0].X, savedTiles[0].Y + 1].setSelect(false);
-
-                                SwitchTiles(tile, savedTiles[0]);
-                                SwitchTiles(tiles[tile.X, tile.Y + 1], tiles[savedTiles[0].X, savedTiles[0].Y + 1]);
-                                savedTiles.Clear();
-
-                                AfterTurnChecks();
-                            } 
                         }
                     }
 
@@ -1048,13 +1065,13 @@ public class TileManager : MonoBehaviour
                     }
                     //tile.setSelect(false);
                 }
-                if(optionSelected.Equals(Options.Move1x3Left))
+                if (optionSelected.Equals(Options.Move1x3Left))
                 {
                     tile.setHover(false);
                     tiles[tile.X, tile.Y + 1].setHover(false);
                     tiles[tile.X, tile.Y + 2].setHover(false);
                 }
-                else if(optionSelected.Equals(Options.Move1x2Right))
+                else if (optionSelected.Equals(Options.Move1x2Right))
                 {
                     tile.setHover(false);
                     tiles[tile.X, tile.Y + 1].setHover(false);

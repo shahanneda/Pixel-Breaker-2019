@@ -94,7 +94,13 @@ public class Tile : MonoBehaviour
     //THEY SHOULD REPORT THAT MESSAGE TO THEIR MANAGER!
     void OnMouseDown()
     {
-        if (!isDead && !isInLoadingArea) manager.HandleTileClick(this);
+        if (!isDead && !isInLoadingArea) StartCoroutine(MouseDownDelay());
+    }
+
+    private IEnumerator MouseDownDelay()
+    {
+        yield return new WaitForSeconds(0.01f); 
+        manager.HandleTileClick(this);
     }
 
     public void OnMouseOver()
