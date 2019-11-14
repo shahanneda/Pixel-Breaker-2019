@@ -10,9 +10,9 @@ public class CardManager : MonoBehaviour
 
     public RectTransform cardsContainer;
 
-    private GameObject previousRotationCard;
-    private GameObject previousTranslationCard;
-    private GameObject previousConversionCard;
+    private int previousRotationIndex = 0;
+    private int previousTranslationIndex = 0;
+    private int previousConversionIndex = 0;
 
     public Transform cancelButton;
 
@@ -81,53 +81,17 @@ public class CardManager : MonoBehaviour
 
     public void PickCards()
     {
-        #region New Rotation Card
-        GameObject newRotationCard = rotationCards[Random.Range(0, rotationCards.Length)];
+        rotationCards[previousRotationIndex].SetActive(false);
+        translationCards[previousTranslationIndex].SetActive(false);
+        conversionCards[previousConversionIndex].SetActive(false);
 
-        if (previousRotationCard != null)
-        {
-            while (previousRotationCard.Equals(newRotationCard))
-            {
-                newRotationCard = rotationCards[Random.Range(0, rotationCards.Length)];
-            }
-        }
+        previousRotationIndex = GetNewCardIndex(rotationCards.Length - 1, previousRotationIndex);
+        previousTranslationIndex = GetNewCardIndex(translationCards.Length - 1, previousTranslationIndex);
+        previousConversionIndex = GetNewCardIndex(conversionCards.Length - 1, previousConversionIndex);
 
-        if (previousRotationCard != null) previousRotationCard.SetActive(false);
-        previousRotationCard = newRotationCard;
-        newRotationCard.SetActive(true);
-        #endregion
-
-        #region New Translation Card
-        GameObject newTranslationCard = translationCards[Random.Range(0, translationCards.Length)];
-
-        if (previousTranslationCard != null)
-        {
-            while (previousTranslationCard.Equals(newTranslationCard))
-            {
-                newTranslationCard = translationCards[Random.Range(0, translationCards.Length)];
-            }
-        }
-
-        if (previousTranslationCard != null) previousTranslationCard.SetActive(false);
-        previousTranslationCard = newTranslationCard;
-        newTranslationCard.SetActive(true);
-        #endregion
-
-        #region New Conversion Card
-        GameObject newConversionCard = conversionCards[Random.Range(0, conversionCards.Length)];
-
-        if (previousConversionCard != null)
-        {
-            while (previousConversionCard.Equals(newConversionCard))
-            {
-                newConversionCard = conversionCards[Random.Range(0, conversionCards.Length)];
-            }
-        }
-
-        if (previousConversionCard != null) previousConversionCard.SetActive(false);
-        previousConversionCard = newConversionCard;
-        newConversionCard.SetActive(true);
-        #endregion
+        rotationCards[previousRotationIndex].SetActive(true);
+        translationCards[previousTranslationIndex].SetActive(true);
+        conversionCards[previousConversionIndex].SetActive(true);
     }
 
     public void CancelCard()
@@ -138,5 +102,17 @@ public class CardManager : MonoBehaviour
 
         Card.DeSelectAll();
         Card.CanSelect(true);
+    }
+
+    private int GetNewCardIndex(int maxIndex, int prevIndex)
+    {
+        int newIndex = prevIndex;
+
+        while (newIndex == prevIndex)
+        {
+            newIndex = Random.Range(0, maxIndex);
+        }
+
+        return newIndex;
     }
 }
