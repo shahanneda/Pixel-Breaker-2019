@@ -111,8 +111,7 @@ public class TileManager : MonoBehaviour
                         SwitchTiles(tiles[x - 1, y + 1], tiles[x, y + 1]);
                         savedTiles.Clear();
 
-                        CanSelectTile = true;
-                        AfterTurnChecksDelayed(0.02f);
+                        AfterTurnChecksDelayed(0.05f);
                     }
                 }
                 else if (optionSelected.Equals(Options.Move1x3Left))
@@ -128,8 +127,7 @@ public class TileManager : MonoBehaviour
                         SwitchTiles(tiles[x - 1, y + 2], tiles[x, y + 2]);
                         savedTiles.Clear();
 
-                        CanSelectTile = true;
-                        AfterTurnChecksDelayed(0.02f);
+                        AfterTurnChecksDelayed(0.05f);
                     }
                 }
                 else if (optionSelected.Equals(Options.Move1x2Right))
@@ -143,8 +141,7 @@ public class TileManager : MonoBehaviour
                         SwitchTiles(tiles[x + 1, y + 1], tiles[x, y + 1]);
                         savedTiles.Clear();
 
-                        CanSelectTile = true;
-                        AfterTurnChecksDelayed(0.02f);
+                        AfterTurnChecksDelayed(0.05f);
                     }
                 }
                 else if (optionSelected.Equals(Options.Move1x3Right))
@@ -160,12 +157,11 @@ public class TileManager : MonoBehaviour
                         SwitchTiles(tiles[x + 1, y + 2], tiles[x, y + 2]);
                         savedTiles.Clear();
 
-                        CanSelectTile = true;
-                        AfterTurnChecksDelayed(0.02f);
+                        AfterTurnChecksDelayed(0.05f);
                     }
                 }
 
-                tileGravity.RunCheckDelayed(0.1f);
+                tileGravity.RunCheckDelayed(0.25f);
             }
         }
     }
@@ -254,16 +250,19 @@ public class TileManager : MonoBehaviour
                     DestroyTile(tile.X, tile.Y, true);
                     break;
                 case Options.DestroyWithColors:
-                    if (addRowReductionCounter == 3 && addRowAction == null)
+                    if (!optionSelected.Equals(Options.Move1x2Left) && !optionSelected.Equals(Options.Move1x2Right) && !optionSelected.Equals(Options.Move1x3Left) && !optionSelected.Equals(Options.Move1x3Right))
                     {
-                        addRowAction += DecreaseActionsBetweenAddRow;
-                    }
-                    else
-                    {
-                        addRowReductionCounter++;
-                    }
+                        if (addRowReductionCounter == 3 && addRowAction == null)
+                        {
+                            addRowAction += DecreaseActionsBetweenAddRow;
+                        }
+                        else
+                        {
+                            addRowReductionCounter++;
+                        }
 
-                    DestroyAllTilesOfSameColorAround(tile.X, tile.Y);
+                        DestroyAllTilesOfSameColorAround(tile.X, tile.Y);
+                    }
                     break;
                 case Options.ThreeByThreeSwitch:
                     ThreeByThreeSwitch(tile.X, tile.Y);
@@ -611,6 +610,8 @@ public class TileManager : MonoBehaviour
     {
         Card.DeSelectAll();
         Card.CanSelect(true);
+
+        CanSelectTile = true;
 
         musicManager.CheckNextSong();
 

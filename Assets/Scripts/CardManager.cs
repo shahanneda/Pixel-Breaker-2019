@@ -99,6 +99,7 @@ public class CardManager : MonoBehaviour
         tileManager.SetOption((int)GlobalEnums.Options.DestroyWithColors);
         tileManager.DeSelectAllTilesInSelectionBuffer();
         tileManager.selectCardColorMenu.SetActive(false);
+        tileManager.CanSelectTile = true;
 
         Card.DeSelectAll();
         Card.CanSelect(true);
