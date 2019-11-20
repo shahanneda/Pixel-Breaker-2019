@@ -100,15 +100,16 @@ public class TileManager : MonoBehaviour
                 float distanceFromTile = mouseX - t.transform.position.x;
                 float distanceY = Mathf.Abs(mouseY - t.transform.position.y);
 
-                if (optionSelected.Equals(Options.Move1x2Left))
+                if (optionSelected.Equals(Options.Move1x2LeftOrRight))
                 {
-                    if (distanceFromTile >= -1.5f && distanceFromTile < -0.5f && distanceY < 0.5f)
+                    if (Mathf.Abs(distanceFromTile) <= 1.5f && Mathf.Abs(distanceFromTile) > 0.5f && distanceY < 0.5f)
                     {
+                        int direction = (distanceFromTile > 0) ? 1 : -1;
                         t.setSelect(false);
                         tiles[x, y + 1].setSelect(false);
 
-                        SwitchTiles(tiles[x - 1, y], t);
-                        SwitchTiles(tiles[x - 1, y + 1], tiles[x, y + 1]);
+                        SwitchTiles(tiles[x + direction, y], t);
+                        SwitchTiles(tiles[x + direction, y + 1], tiles[x, y + 1]);
                         savedTiles.Clear();
 
                         AfterTurnChecksDelayed(0.05f);
@@ -125,20 +126,6 @@ public class TileManager : MonoBehaviour
                         SwitchTiles(tiles[x - 1, y], t);
                         SwitchTiles(tiles[x - 1, y + 1], tiles[x, y + 1]);
                         SwitchTiles(tiles[x - 1, y + 2], tiles[x, y + 2]);
-                        savedTiles.Clear();
-
-                        AfterTurnChecksDelayed(0.05f);
-                    }
-                }
-                else if (optionSelected.Equals(Options.Move1x2Right))
-                {
-                    if (distanceFromTile <= 1.5f && distanceFromTile > 0.5f && distanceY < 0.5f)
-                    {
-                        t.setSelect(false);
-                        tiles[x, y + 1].setSelect(false);
-
-                        SwitchTiles(tiles[x + 1, y], t);
-                        SwitchTiles(tiles[x + 1, y + 1], tiles[x, y + 1]);
                         savedTiles.Clear();
 
                         AfterTurnChecksDelayed(0.05f);
@@ -250,7 +237,7 @@ public class TileManager : MonoBehaviour
                     DestroyTile(tile.X, tile.Y, true);
                     break;
                 case Options.DestroyWithColors:
-                    if (!optionSelected.Equals(Options.Move1x2Left) && !optionSelected.Equals(Options.Move1x2Right) && !optionSelected.Equals(Options.Move1x3Left) && !optionSelected.Equals(Options.Move1x3Right))
+                    if (!optionSelected.Equals(Options.Move1x2LeftOrRight) && !optionSelected.Equals(Options.Move1x3Left) && !optionSelected.Equals(Options.Move1x3Right))
                     {
                         if (addRowReductionCounter == 3 && addRowAction == null)
                         {
@@ -494,19 +481,6 @@ public class TileManager : MonoBehaviour
                     }
                     break;
                 case Options.Move1x3Left:
-                    if (!savedTiles.Contains(tile))
-                    {
-                        if (savedTiles.Count == 0)
-                        {
-                            savedTiles.Add(tile);
-                            tile.setSelect(true);
-                            tiles[tile.X, tile.Y + 1].setSelect(true);
-                            tiles[tile.X, tile.Y + 2].setSelect(true);
-                            CanSelectTile = false;
-                        }
-                    }
-
-                    break;
                 case Options.Move1x3Right:
                     if (!savedTiles.Contains(tile))
                     {
@@ -521,20 +495,7 @@ public class TileManager : MonoBehaviour
                     }
 
                     break;
-                case Options.Move1x2Left:
-                    if (!savedTiles.Contains(tile))
-                    {
-                        if (savedTiles.Count == 0)
-                        {
-                            savedTiles.Add(tile);
-                            tile.setSelect(true);
-                            tiles[tile.X, tile.Y + 1].setSelect(true);
-                            CanSelectTile = false;
-                        }
-                    }
-
-                    break;
-                case Options.Move1x2Right:
+                case Options.Move1x2LeftOrRight:
                     if (!savedTiles.Contains(tile))
                     {
                         if (savedTiles.Count == 0)
@@ -551,7 +512,7 @@ public class TileManager : MonoBehaviour
 
             sfxSource.PlayOneShot(currentTileActionClip);
 
-            if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.SwitchColorOfTwo) && !optionSelected.Equals(Options.SwitchColorOfThree) && !optionSelected.Equals(Options.TranslateOneTile) && !optionSelected.Equals(Options.SwitchAdjacentRows) && !optionSelected.Equals(Options.SwitchAdjacentColumns) && !optionSelected.Equals(Options.SwitchAdjacent2x2) && !optionSelected.Equals(Options.Move3ToTop) && !optionSelected.Equals(Options.Move1x3Left) && !optionSelected.Equals(Options.Move1x3Right) && !optionSelected.Equals(Options.Move1x2Left) && !optionSelected.Equals(Options.Move1x2Right))
+            if (!optionSelected.Equals(Options.SwitchColorOfOne) && !optionSelected.Equals(Options.SwitchColorOfTwo) && !optionSelected.Equals(Options.SwitchColorOfThree) && !optionSelected.Equals(Options.TranslateOneTile) && !optionSelected.Equals(Options.SwitchAdjacentRows) && !optionSelected.Equals(Options.SwitchAdjacentColumns) && !optionSelected.Equals(Options.SwitchAdjacent2x2) && !optionSelected.Equals(Options.Move3ToTop) && !optionSelected.Equals(Options.Move1x3Left) && !optionSelected.Equals(Options.Move1x3Right) && !optionSelected.Equals(Options.Move1x2LeftOrRight))
             {
                 AfterTurnChecks();
             }
@@ -586,7 +547,7 @@ public class TileManager : MonoBehaviour
             case Options.SwitchColorOfThree:
             case Options.Move3ToTop:
             case Options.Move1x3Left:
-            case Options.Move1x2Right:
+            case Options.Move1x2LeftOrRight:
                 currentSelectionMode = SelectionMode.SaveSelection;
                 savedTiles.Clear();
                 SelectedTilesGroupOne.Clear();
@@ -1038,7 +999,13 @@ public class TileManager : MonoBehaviour
                         tiles[tile.X, tile.Y + 1].setHover(true);
                         tiles[tile.X, tile.Y + 2].setHover(true);
                     }
-                    else if (optionSelected.Equals(Options.Move1x2Right))
+                    else if (optionSelected.Equals(Options.Move1x3Right))
+                    {
+                        tile.setHover(true);
+                        tiles[tile.X, tile.Y + 1].setHover(true);
+                        tiles[tile.X, tile.Y + 2].setHover(true);
+                    }
+                    else if (optionSelected.Equals(Options.Move1x2LeftOrRight))
                     {
                         tile.setHover(true);
                         tiles[tile.X, tile.Y + 1].setHover(true);
@@ -1083,13 +1050,13 @@ public class TileManager : MonoBehaviour
                     }
                     //tile.setSelect(false);
                 }
-                if (optionSelected.Equals(Options.Move1x3Left))
+                if (optionSelected.Equals(Options.Move1x3Left) || optionSelected.Equals(Options.Move1x3Right))
                 {
                     tile.setHover(false);
                     tiles[tile.X, tile.Y + 1].setHover(false);
                     tiles[tile.X, tile.Y + 2].setHover(false);
                 }
-                else if (optionSelected.Equals(Options.Move1x2Right))
+                else if (optionSelected.Equals(Options.Move1x2LeftOrRight))
                 {
                     tile.setHover(false);
                     tiles[tile.X, tile.Y + 1].setHover(false);
