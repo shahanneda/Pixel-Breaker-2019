@@ -30,19 +30,24 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        string settingsPath = Application.persistentDataPath + "/Settings.json";
-
-        if (File.Exists(settingsPath))
+        try
         {
-            string json = File.ReadAllText(settingsPath);
-            settingsFile = JsonUtility.FromJson<SettingsFile>(json);
+            settingsFile = new SettingsFile(
+                PlayerPrefs.GetInt("Width"),
+                PlayerPrefs.GetInt("Height"),
+                (PlayerPrefs.GetString("Fullscreen") == "true") ? true : false,
+                PlayerPrefs.GetInt("MusicVolume"),
+                PlayerPrefs.GetInt("SFXVolume"),
+                (PlayerPrefs.GetString("ShowCardText") == "true") ? true : false);
         }
+        finally
+        {
+            tileManager = FindObjectOfType<TileManager>();
+            musicManager = FindObjectOfType<MusicManager>();
+            sceneLoader = FindObjectOfType<SceneLoader>();
 
-        tileManager = FindObjectOfType<TileManager>();
-        musicManager = FindObjectOfType<MusicManager>();
-        sceneLoader = FindObjectOfType<SceneLoader>();
-
-        StartCoroutine(CountTime());
+            StartCoroutine(CountTime());
+        }
     }
 
     private void Update()

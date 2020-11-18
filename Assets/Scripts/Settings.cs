@@ -80,7 +80,8 @@ public class Settings : MonoBehaviour
 
     private void SetUpResolutions()
     {
-        if(Application.platform == RuntimePlatform.WebGLPlayer){
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
             noRes = true;
             resolutionsDropdown.transform.parent.gameObject.SetActive(false);
         }
@@ -171,10 +172,11 @@ public class Settings : MonoBehaviour
 
     private void ApplyResolutionAndFullscreen()
     {
-        if(noRes)
+        if (noRes)
         {
             return;
         }
+
         Resolution newResolution = resolutions[resolutionsDropdown.value];
         Screen.SetResolution(newResolution.width, newResolution.height, fullscreenToggle.isOn);
     }
@@ -192,8 +194,9 @@ public class Settings : MonoBehaviour
     public void SaveSettings()
     {
         settingsFile = new SettingsFile();
-        if(noRes){
-            settingsFile.SetSettings(1000,1000, fullscreenToggle.isOn, (int)musicVolumeSlider.value, (int)sfxVolumeSlider.value, showCardTextToggle.isOn);
+        if (noRes)
+        {
+            settingsFile.SetSettings(1000, 1000, fullscreenToggle.isOn, (int)musicVolumeSlider.value, (int)sfxVolumeSlider.value, showCardTextToggle.isOn);
         }
         else
         {
@@ -212,7 +215,13 @@ public class Settings : MonoBehaviour
     {
         try
         {
-            settingsFile = new SettingsFile(PlayerPrefs.GetInt("Width"), PlayerPrefs.GetInt("Height"), (PlayerPrefs.GetString("Fullscreen") == "true") ? true : false, PlayerPrefs.GetInt("MusicVolume"), PlayerPrefs.GetInt("SFXVolume"), (PlayerPrefs.GetString("ShowCardText") == "true") ? true : false);
+            settingsFile = new SettingsFile(
+                PlayerPrefs.GetInt("Width"), 
+                PlayerPrefs.GetInt("Height"), 
+                (PlayerPrefs.GetString("Fullscreen") == "true") ? true : false, 
+                PlayerPrefs.GetInt("MusicVolume"), 
+                PlayerPrefs.GetInt("SFXVolume"), 
+                (PlayerPrefs.GetString("ShowCardText") == "true") ? true : false);
             settingsFileExists = true;
         }
         catch
@@ -233,7 +242,8 @@ public class Settings : MonoBehaviour
 
     public void ApplySettings()
     {
-        if(!noRes){
+        if (!noRes)
+        {
             ApplyResolutionAndFullscreen();
         }
 
@@ -292,10 +302,10 @@ public class SettingsFile
 
         this.showCardText = showCardText;
     }
-    public void SetSettings( int width, int height, bool fullscreen, int musicVolume, int sfxVolume, bool showCardText)
+    public void SetSettings(int width, int height, bool fullscreen, int musicVolume, int sfxVolume, bool showCardText)
     {
         this.width = width;
-        this.height =height;
+        this.height = height;
 
         this.fullscreen = fullscreen;
 
