@@ -100,6 +100,7 @@ public class CardManager : MonoBehaviour
         rotationCards[previousRotationIndex].SetActive(true);
         translationCards[previousTranslationIndex].SetActive(true);
         conversionCards[previousConversionIndex].SetActive(true);
+        #endregion 
     }
 
     public void CancelCard()
