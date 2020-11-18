@@ -16,7 +16,7 @@ public class CardManager : MonoBehaviour
 
     public Transform cancelButton;
 
-    private bool inAnim = false;
+    private bool inAnim = true;// we want to reset initial positions
     private bool animComingBack = false;
     private float cardAnimationLimit;
     private float cardAnimationSpeed = 0f;
@@ -39,6 +39,7 @@ public class CardManager : MonoBehaviour
         cardAnimationSpeed = 9f * Screen.width / 32f + 80f;
 
         PickCards();
+        PlayCardsAnimation();
     }
 
     private void Update()
@@ -57,7 +58,10 @@ public class CardManager : MonoBehaviour
             else
             {
                 if (cardsContainer.anchoredPosition.x <= cardAnimationLimit)
+                {
+                    print("reseting");
                     cardsContainer.anchoredPosition += new Vector2(cardAnimationSpeed * Time.deltaTime, 0);
+                }
 
                 else
                     animComingBack = true;
@@ -81,6 +85,7 @@ public class CardManager : MonoBehaviour
 
     public void PickCards()
     {
+        print("picking cards");
         #region New Rotation Card
         GameObject newRotationCard = rotationCards[Random.Range(0, rotationCards.Length)];
 
