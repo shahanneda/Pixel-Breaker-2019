@@ -27,14 +27,11 @@ public class CardManager : MonoBehaviour
     {
         tileManager = FindObjectOfType<TileManager>();
 
-        float cardScale = Screen.width / 1500f;
         foreach (Card card in FindObjectsOfType<Card>())
         {
-            card.transform.localScale = new Vector3(cardScale, cardScale, 1);
             card.gameObject.SetActive(false);
         }
 
-        cancelButton.localScale = new Vector3(cardScale, cardScale, 1);
         cardAnimationLimit = Screen.width / 8f;
         cardAnimationSpeed = 9f * Screen.width / 32f + 80f;
 
