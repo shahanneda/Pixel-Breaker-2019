@@ -233,6 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94d97da44fe48af45971cf4e505e26f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settingsMenu: {fileID: 1534239779}
   settingsFile:
     width: 0
     height: 0

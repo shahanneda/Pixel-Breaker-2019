@@ -7,6 +7,10 @@ using UnityEngine.UI;
 
 public class Settings : MonoBehaviour
 {
+    public GameObject settingsMenu;
+
+    [Space]
+
     public SettingsFile settingsFile;
     private bool settingsFileExists = false;
 
@@ -31,7 +35,6 @@ public class Settings : MonoBehaviour
     public float minimumVolume = 40f;
 
     private bool noRes = false;
-    private string filePath;
 
     private void Awake()
     {
@@ -55,8 +58,6 @@ public class Settings : MonoBehaviour
 
     private void Start()
     {
-        filePath = Application.persistentDataPath + "/Settings.json";
-
         SetUp();
     }
 
@@ -183,12 +184,20 @@ public class Settings : MonoBehaviour
 
     private void ApplyMusicVolume()
     {
-        musicMixer.SetFloat("Volume", (musicVolumeSlider.value > 0) ? minimumVolume * (musicVolumeSlider.value - 100f) / 100f : -100f);
+        float musicVolume =
+            (musicVolumeSlider.value > 0) ? minimumVolume * (musicVolumeSlider.value - 100f) / 100f
+            : -100f;
+
+        musicMixer.SetFloat("Volume", musicVolume);
     }
 
     private void ApplySFXVolume()
     {
-        sfxMixer.SetFloat("Volume", (sfxVolumeSlider.value > 0) ? minimumVolume * (sfxVolumeSlider.value - 100f) / 100f : -100f);
+        float sfxVolume =
+            (sfxVolumeSlider.value > 0) ? minimumVolume * (sfxVolumeSlider.value - 100f) / 100f
+            : -100f;
+
+        sfxMixer.SetFloat("Volume", sfxVolume);
     }
 
     public void SaveSettings()
@@ -213,20 +222,25 @@ public class Settings : MonoBehaviour
 
     private void LoadSettings()
     {
-        try
+        settingsFileExists = PlayerPrefs.GetString("SettingsFileExists") == "true";
+
+        if (settingsFileExists)
         {
             settingsFile = new SettingsFile(
-                PlayerPrefs.GetInt("Width"), 
-                PlayerPrefs.GetInt("Height"), 
-                (PlayerPrefs.GetString("Fullscreen") == "true") ? true : false, 
-                PlayerPrefs.GetInt("MusicVolume"), 
-                PlayerPrefs.GetInt("SFXVolume"), 
-                (PlayerPrefs.GetString("ShowCardText") == "true") ? true : false);
-            settingsFileExists = true;
+                            PlayerPrefs.GetInt("Width"),
+                            PlayerPrefs.GetInt("Height"),
+                            PlayerPrefs.GetString("Fullscreen") == "true",
+                            PlayerPrefs.GetInt("MusicVolume"),
+                            PlayerPrefs.GetInt("SFXVolume"),
+                            PlayerPrefs.GetString("ShowCardText") == "true");
         }
-        catch
+        else
         {
-            settingsFileExists = false;
+            settingsFile.musicVolume = 100;
+            settingsFile.sfxVolume = 100;
+
+            ApplyMusicVolume();
+            ApplySFXVolume();
         }
     }
 
