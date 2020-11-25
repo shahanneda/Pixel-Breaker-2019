@@ -237,8 +237,8 @@ MonoBehaviour:
     width: 0
     height: 0
     fullscreen: 0
-    musicVolume: 0
-    sfxVolume: 0
+    musicVolume: 50
+    sfxVolume: 50
     showCardText: 0
   menus:
   - {fileID: 445929250}
@@ -3905,7 +3905,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0, g: 0.11006288, b: 0.2830189, a: 0}
+  m_BackGroundColor: {r: 0.15294118, g: 0.06666667, b: 0.14509805, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
